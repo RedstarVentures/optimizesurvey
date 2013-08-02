@@ -5,5 +5,5 @@ dj-database-url==0.2.1
 gunicorn==17.5
 psycopg2==2.5.1
 wsgiref==0.1.2
--e https://github.com/django/django.git#egg=Django
+-e git+https://github.com/django/django.git#egg=Django
 
