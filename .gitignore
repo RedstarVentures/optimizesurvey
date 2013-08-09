@@ -1,6 +1,7 @@
 *.log
 *.pot
 *.pyc
-local_settings.py
-venv
+settings_local.py
 .DS_Store
+venv
+staticfiles
