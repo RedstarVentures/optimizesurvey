@@ -1,0 +1,228 @@
+{% extends "core/base.html" %}
+{% load staticfiles %}
+
+{% block additional_styles %}
+  <style type="text/css">
+    ul {
+      list-style-type:none;
+    }
+
+    li {
+      margin-right: 10px;
+    }
+
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1><p>Preliminary Questionnaire</p></h1>
+      <h3><p>[1/4] Demographic and Lifestyle</p></h3>
+    </div>
+  </div>
+  
+  <br>
+  {% if form.errors %}
+    <font color="red">Some values are missed.</font>
+  {% endif %}
+  <br>
+  <br>
+
+  <section id="pre-questionnaire">
+  <div class="row">
+    <div class="col-12">
+
+      <form action="{{ app_path }}" method="POST">
+        {% csrf_token %}
+
+        {{ form.user }}
+
+        <div class="form-group">
+          <div class="container">
+          	<label for="id_first_name">1. {{ form.first_name.label }}</label>
+            {% if form.first_name.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %}            
+          </div>
+          <div class="form-control" style="width:130px;">
+            {{ form.first_name}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <div class="container">
+          	<label for="id_last_name">2. {{ form.last_name.label }}</label>
+            {% if form.last_name.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          </div>
+          <div class="form-control" style="width:130px;">
+            {{ form.last_name}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_gender">3. {{ form.gender.label }}</label>
+          {% if form.gender.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control" style="width:100px;">
+            {{ form.gender}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_date_of_birth">4. {{ form.date_of_birth.label }}</label>
+          {% if form.date_of_birth.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control form-inline" style="width:100px;">
+            {{ form.date_of_birth}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_marital_status">5. {{ form.marital_status.label }}</label>
+          {% if form.marital_status.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.marital_status}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_in_person_contact">6. {{ form.in_person_contact.label }}</label>
+          {% if form.in_person_contact.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.in_person_contact}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">7. {{ form.formal_education.label }}</label>
+          {% if form.formal_education.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.formal_education}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">8. {{ form.new_relation.label }}</label>
+          {% if form.new_relation.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.new_relation}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">9. {{ form.cope_stress.label }}</label>
+          {% if form.cope_stress.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.cope_stress}} 
+          </div>
+        </div>    
+        <br>
+
+
+        
+        <div class="form-group">
+          <label for="id_formal_education">10. {{ form.source_of_stress.label }}</label>
+          {% if form.source_of_stress.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.source_of_stress}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">11. {{ form.current_work.label }}</label>
+          {% if form.current_work.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.current_work}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">12. {{ form.work_hour.label }}</label>
+          {% if form.work_hour.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.work_hour}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">13. {{ form.work_week.label }}</label>
+          {% if form.work_week.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.work_week}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">14. {{ form.brain_activity.label }}</label>
+          {% if form.brain_activity.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.brain_activity}} 
+          </div>
+        </div>    
+        <br>
+
+
+        <div class="form-group">
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Next</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  </section>
+</div>
+{% endblock content %}

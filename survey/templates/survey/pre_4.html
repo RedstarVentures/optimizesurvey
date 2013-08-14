@@ -1,0 +1,239 @@
+{% extends "core/base.html" %}
+{% load staticfiles %}
+
+{% block additional_styles %}
+  <style type="text/css">
+    ul {
+      list-style-type:none;
+    }
+
+    li {
+      margin-right: 10px;
+    }
+
+  </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1><p>Preliminary Questionnaire</p></h1>
+      <h3><p>[4/4] Family Medical History</p></h3>
+    </div>
+  </div>
+
+  <br>
+  {% if form.errors %}
+    <font color="red">Some values are missed.</font>
+  {% endif %}
+  <br>
+  <br>
+
+  <section id="pre-questionnaire">
+  <div class="row">
+    <div class="col-12">
+
+      <form action="{{ app_path }}" method="POST">
+        {% csrf_token %}
+        {{ form.user }}
+
+        <div class="form-group">
+          <div class="container">
+            <label for="id_first_name">1. {{ form.immediate_family.label }}</label>
+            {% if form.immediate_family.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %}            
+          </div>
+          <div class="form-control">
+            {{ form.immediate_family}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <div class="container">
+            <label for="id_last_name">2. {{ form.cancer_family.label }}</label>
+            {% if form.cancer_family.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          </div>
+          <div class="form-control">
+            {{ form.cancer_family}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_gender">3. {{ form.mother_alive.label }}</label>
+          {% if form.mother_alive.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.mother_alive}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_date_of_birth">4. {{ form.mother_old.label }}</label>
+          {% if form.mother_old.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.mother_old}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_marital_status">5. {{ form.mother_depend.label }}</label>
+          {% if form.mother_depend.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.mother_depend}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_in_person_contact">6. {{ form.mother_passed_old.label }}</label>
+          {% if form.mother_passed_old.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.mother_passed_old}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">7. {{ form.mother_cause.label }}</label>
+          {% if form.mother_cause.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.mother_cause}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">8. {{ form.father_alive.label }}</label>
+          {% if form.father_alive.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.father_alive}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">9. {{ form.father_old.label }}</label>
+          {% if form.father_old.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.father_old}} 
+          </div>
+        </div>    
+        <br>
+
+
+        
+        <div class="form-group">
+          <label for="id_formal_education">10. {{ form.father_depend.label }}</label>
+          {% if form.father_depend.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.father_depend}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">11. {{ form.father_passed_old.label }}</label>
+          {% if form.father_passed_old.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.father_passed_old}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">12. {{ form.father_cause.label }}</label>
+          {% if form.father_cause.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.father_cause}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">13. {{ form.family_history.label }}</label>
+          {% if form.family_history.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.family_history}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">14. {{ form.long_live.label }}</label>
+          {% if form.long_live.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.long_live}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">15. {{ form.child_old.label }}</label>
+          {% if form.child_old.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.child_old}} 
+          </div>
+        </div>    
+        <br>
+
+
+        <div class="form-group">
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Finish</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  </section>
+</div>
+{% endblock content %}

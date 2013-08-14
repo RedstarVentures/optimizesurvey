@@ -1,10 +1,12 @@
-https://github.com/django/django/archive/1.6b1.zip#egg=Django==1.6b1
 BeautifulSoup==3.2.1
+https://github.com/django/django/archive/1.6b1.zip#egg=Django==1.6b1
 South==0.8.1
 boto==2.9.9
 distribute==0.6.34
 dj-database-url==0.2.2
 dj-static==0.0.5
+django-admin-tools==0.5.1
+django-fluent-dashboard==0.3.5
 django-s3-folder-storage==0.1
 django-storages==1.1.8
 gunicorn==17.5

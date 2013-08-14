@@ -2,7 +2,13 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, Context, Template, loader
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
+from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required, user_passes_test
 from BeautifulSoup import BeautifulSoup
+
+from survey.models import Preliminary1, Preliminary2, Preliminary3, Preliminary4
+from survey.forms import Preliminary_1_Questionnaire, Preliminary_2_Questionnaire, Preliminary_3_Questionnaire, Preliminary_4_Questionnaire
+
 import urllib2, urllib, mechanize, datetime, random
 
 def home(request):
@@ -24,6 +30,111 @@ def calculate_age(month, day, year):
 def pre_start(request):
 	data = {}
 	return render_to_response('survey/pre.html', data, context_instance=RequestContext(request))
+
+@login_required
+def preliminary1(request):
+  u = request.user
+  
+  data = {}
+  try:
+    pre_demo = Preliminary1.objects.get(user=u)
+  except Preliminary1.DoesNotExist:
+    pre_demo = None
+
+  form = Preliminary_1_Questionnaire(request.POST or None, instance=pre_demo)
+
+  if form.is_valid():
+    form.save()
+    return HttpResponseRedirect(reverse('survey.views.preliminary2'))
+
+  if pre_demo is None:
+    form.initial['user'] = u
+
+  data["form"] = form
+
+  return render_to_response("survey/pre_1.html", data,
+                                  context_instance=RequestContext(request))
+
+
+@login_required
+def preliminary2(request):
+  u = request.user
+  
+  data = {}
+  try:
+    pre_demo = Preliminary2.objects.get(user=u)
+  except Preliminary2.DoesNotExist:
+    pre_demo = None
+
+  form = Preliminary_2_Questionnaire(request.POST or None, instance=pre_demo)
+
+  if form.is_valid():
+    form.save()
+    return HttpResponseRedirect(reverse('survey.views.preliminary3'))
+
+  if pre_demo is None:
+    form.initial['user'] = u
+
+  data["form"] = form
+
+  return render_to_response("survey/pre_2.html", data,
+                                  context_instance=RequestContext(request))
+
+@login_required
+def preliminary3(request):
+  u = request.user
+  
+  data = {}
+  try:
+    pre_demo = Preliminary3.objects.get(user=u)
+  except Preliminary3.DoesNotExist:
+    pre_demo = None
+
+  form = Preliminary_3_Questionnaire(request.POST or None, instance=pre_demo)
+
+  if form.is_valid():
+    form.save()
+    return HttpResponseRedirect(reverse('survey.views.preliminary4'))
+
+  if pre_demo is None:
+    form.initial['user'] = u
+
+  data["form"] = form
+  return render_to_response("survey/pre_3.html", data,
+                                  context_instance=RequestContext(request))
+
+@login_required
+def preliminary4(request):
+  u = request.user
+  
+  data = {}
+  try:
+    pre_demo = Preliminary4.objects.get(user=u)
+  except Preliminary4.DoesNotExist:
+    pre_demo = None
+
+  form = Preliminary_4_Questionnaire(request.POST or None, instance=pre_demo)
+
+  if form.is_valid():
+
+    # mother is alive /  mother_passed_old , mother_cause  is all zero
+    # mother passed away , mother_alive=2 or 3 / mother_old is zero
+    #a = request.POST.get('mother_alive','')
+    #if a==1
+
+    form.save()
+    return render_to_response("survey/finish.html", data, context_instance=RequestContext(request))
+
+  if pre_demo is None:
+    form.initial['user'] = u
+
+  data["form"] = form
+
+  return render_to_response("survey/pre_4.html", data,
+                                  context_instance=RequestContext(request))
+
+
+
 
 def getbaseinfo(request):
 	data = {}
