@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from core.models import EmailUser
+from django.contrib.auth.forms import AuthenticationForm
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -53,3 +54,27 @@ class UserChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.cleaned_data["password"]
+
+
+class LoginForm(AuthenticationForm):
+
+  def __init__(self, *args, **kwargs):
+    super(LoginForm, self).__init__(*args, **kwargs)
+
+    self.fields['username'].widget.attrs['class'] = 'span12'
+    self.fields['username'].widget.attrs['placeholder'] = 'E-mail'
+    self.fields['password'].widget.attrs['class'] = 'span12'
+    self.fields['password'].widget.attrs['placeholder'] = 'Password'
+
+
+class SignUpForm(UserCreationForm):
+
+  def __init__(self, *args, **kwargs):
+    super(SignUpForm, self).__init__(*args, **kwargs)
+
+    self.fields['email'].widget.attrs['class'] = 'span12'
+    self.fields['email'].widget.attrs['placeholder'] = 'E-mail address'
+    self.fields['password1'].widget.attrs['class'] = 'span12'
+    self.fields['password1'].widget.attrs['placeholder'] = 'Password'
+    self.fields['password2'].widget.attrs['class'] = 'span12'
+    self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'

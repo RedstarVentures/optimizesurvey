@@ -1,0 +1,114 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html class="login-bg">
+<head>
+    {% block title %}
+    <title>Optimize Me - Sign in</title>
+    {% endblock %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- bootstrap -->
+    <link href="{% static 'theme/css/bootstrap/bootstrap.css' %}" rel="stylesheet" />
+    <link href="{% static 'theme/css/bootstrap/bootstrap-responsive.css' %}" rel="stylesheet" />
+    <link href="{% static 'theme/css/bootstrap/bootstrap-overrides.css' %}" type="text/css" rel="stylesheet" />    
+
+    <!-- global styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'theme/css/layout.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'theme/css/elements.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'theme/css/icons.css' %}">
+
+    <!-- libraries -->
+    <link href="{% static 'theme/css/lib/font-awesome.css' %}" type="text/css" rel="stylesheet" />
+    
+    <!-- this page specific styles -->
+    {% block headcss %}
+    <link rel="stylesheet" href="{% static 'theme/css/compiled/signin.css' %}" type="text/css" media="screen" />
+    {% endblock %}
+    <!-- open sans font -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+  </head>
+  <body>
+    <!-- background switcher -->
+    <div class="bg-switch visible-desktop">
+        <div class="bgs">
+            <a href="#" data-img="optme-bgs1.jpg" class="bg active">
+                <img src="{% static 'theme/img/bgs/optme-bgs1.jpg' %}" />
+            </a>            
+            <a href="#" data-img="optme-bgs2.jpg" class="bg">
+                <img src="{% static 'theme/img/bgs/optme-bgs2.jpg' %}" />
+            </a>            
+        </div>
+    </div>
+
+    <div class="row-fluid login-wrapper">
+        <a href="/">
+            <img class="logo" src="{% static 'theme/img/optmelogo.png' %}">
+        </a>
+
+        {% block content %}
+        {% if user %}
+        <div class="span4 box">
+            <div class="content-wrap">
+                <p>Welcome back {{user}} ! </p>
+                <a href="/">Go to your main page</a>
+            </div>
+        </div>
+        <div class="span4 no-account">
+            <form action="accounts/login" method="post">
+            <input type="submit" name="logout" value="logout" class="btn">
+            </form>
+        </div>
+        <!-- Not Logged in -->  
+        {% else %}
+        <div class="span4 box">
+            <div class="content-wrap">
+                <h6>Log in</h6>
+                <form action="accounts/login" method="post">
+                    <input class="span12" type="text" name="usr" placeholder="Your Username">
+                    <input class="span12" type="password" name="pswd" placeholder="Your password">
+                    <a href="#" class="forgot">Forgot password?</a>
+                    <div class="remember">
+                        <input id="remember-me" type="checkbox">
+                        <label for="remember-me">Remember me</label>
+                    </div>
+                    <input class="btn-glow primary login" type="submit" value="submit">
+                </form>
+            </div>
+        </div>
+        <div class="span4 no-account">
+            <p>Don't have an account?</p>
+            <a href="/signup">Sign up</a>
+        </div>
+        {% endif %}
+        {% endblock %}
+    </div>
+
+    <!-- scripts -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{% static 'theme/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'theme/js/theme.js' %}"></script>
+
+    <!-- pre load bg imgs -->
+    <script type="text/javascript">
+        $(function () {
+            // bg switcher
+            var $btns = $(".bg-switch .bg");
+            $btns.click(function (e) {
+                e.preventDefault();
+                $btns.removeClass("active");
+                $(this).addClass("active");
+                var bg = $(this).data("img");
+                console.log(bg);
+                $("html").css("background-image", "url('/static/theme/img/bgs/" + bg + "')");
+            });
+
+        });
+    </script>    
+</body>
+</html>

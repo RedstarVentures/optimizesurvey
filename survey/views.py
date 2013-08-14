@@ -117,10 +117,31 @@ def preliminary4(request):
 
   if form.is_valid():
 
-    # mother is alive /  mother_passed_old , mother_cause  is all zero
-    # mother passed away , mother_alive=2 or 3 / mother_old is zero
-    #a = request.POST.get('mother_alive','')
-    #if a==1
+    form.save()
+    return render_to_response("survey/finish.html", data, context_instance=RequestContext(request))
+
+  if pre_demo is None:
+    form.initial['user'] = u
+
+  data["form"] = form
+
+  return render_to_response("survey/pre_4.html", data,
+                                  context_instance=RequestContext(request))
+
+
+@login_required
+def onboarding1(request):
+  u = request.user
+  
+  data = {}
+  try:
+    pre_demo = Preliminary4.objects.get(user=u)
+  except Preliminary4.DoesNotExist:
+    pre_demo = None
+
+  form = Preliminary_4_Questionnaire(request.POST or None, instance=pre_demo)
+
+  if form.is_valid():
 
     form.save()
     return render_to_response("survey/finish.html", data, context_instance=RequestContext(request))
@@ -132,6 +153,9 @@ def preliminary4(request):
 
   return render_to_response("survey/pre_4.html", data,
                                   context_instance=RequestContext(request))
+
+
+
 
 
 

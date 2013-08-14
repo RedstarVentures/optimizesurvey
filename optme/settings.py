@@ -136,6 +136,14 @@ STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),
 )
 
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    BASE_DIR + '/templates',
+    #BASE_DIR + "/venv/lib/python2.7/site-packages/debug_toolbar/templates/"
+)
+
 AUTH_USER_MODEL = 'core.EmailUser'
 
 # keep this at the bottom

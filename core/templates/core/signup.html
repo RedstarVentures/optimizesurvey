@@ -1,0 +1,52 @@
+{% extends "core/base_login.html" %}
+{% load staticfiles %}
+
+
+
+{% block title %}
+<title>Optimize Me - Sign up</title>
+{% endblock %}
+
+<!-- this page specific styles -->
+{% block headcss %}
+<link rel="stylesheet" href="{% static 'theme/css/compiled/signin.css' %}" type="text/css" media="screen" />
+<style type="text/css">
+    ul {
+      list-style-type:none;
+
+    }
+
+    li {
+      margin-right: 10px;
+    }
+
+  </style>
+{% endblock %}
+
+    <!-- <div class="row-fluid login-wrapper"> -->
+    {% block content %}
+        <div class="span4 box">
+            <div class="content-wrap">
+                <h6>Sign Up</h6>
+                <form method="POST" action="{% url 'core.views.signup' %}">
+                  {% csrf_token %}
+                  {% if signup_form.errors %}
+                        {{ signup_form.errors }}
+                  {% endif %}
+                  {{ signup_form.email }}
+                  {{ signup_form.password1 }}
+                  {{ signup_form.password2 }}
+
+                  <input class="btn-glow primary signup" type="submit" value="Sign up" />
+                  <input type="hidden" name="next" value="{{ next }}" />
+                </form>
+
+            </div>
+        </div>
+
+        <div class="span4 no-account">
+            <p>Already have an account?</p>
+            <a href="/accounts/signin">Sign in</a>
+        </div>
+    {% endblock %}
+    <!-- </div> -->

@@ -1,0 +1,48 @@
+{% extends "core/base_login.html" %}
+
+
+
+{% block content %}
+  
+
+  {% if user.is_authenticated %}
+    <div class="span4 box">
+        <div class="content-wrap">
+            <p>Welcome back {{user}} ! </p>
+            <a href="/">Go to your main page</a>
+        </div>
+    </div>
+    <div class="span4 no-account">
+        <form action="accounts/logout" method="post">
+        <input type="submit" name="logout" value="logout" class="btn">
+        </form>
+    </div>
+  {% else %}
+    <div class="span4 box">
+        <div class="content-wrap">
+            <h6>Log in</h6>
+            <form action="{% url 'django.contrib.auth.views.login' %}" method="post">
+              {% csrf_token %}
+              {% if form.errors %}
+              <p>Your e-mail and password didn't match. Please try again.</p>
+              {% endif %}
+                {{ form.username }}
+                {{ form.password }}
+                <a href="#" class="forgot">Forgot password?</a>
+                <div class="remember">
+                    <input id="remember-me" type="checkbox">
+                    <label for="remember-me">Remember me</label>
+                </div>
+                <input class="btn-glow primary login" type="submit" value="login">
+                <input type="hidden" name="next" value="{{ next }}" />
+            </form>
+        </div>
+    </div>
+    <div class="span4 no-account">
+        <p>Don't have an account?</p>
+        <a href="/accounts/signup">Sign up</a>
+    </div>
+    
+  {% endif %}
+
+{% endblock %}
