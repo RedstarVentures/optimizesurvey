@@ -37,6 +37,15 @@ class EmailUser(AbstractBaseUser, PermissionsMixin):
   is_active = models.BooleanField(default=True)
   is_staff = models.BooleanField(default=False)
 
+  USER_TYPE = (
+      (1, 'Client'),
+      (2, 'Coach'),
+      (3, 'Admin')
+  )
+  user_type = models.IntegerField(choices=USER_TYPE, default=1, verbose_name='User type')
+
+  coach = models.ForeignKey('self', blank=True, null=True, verbose_name='Coach')
+
   date_joined = models.DateTimeField(auto_now_add=True)
 
   objects = EmailUserManager()
