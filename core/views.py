@@ -18,8 +18,11 @@ def index(request):
 @login_required
 def main(request):
   data={}
+  return render_to_response("core/base_main.html", data, context_instance=RequestContext(request))
 
-  return render_to_response("core/home.html", data, context_instance=RequestContext(request))
+def nutrition(request):
+  data={}
+  return render_to_response("core/nutrition.html", data, context_instance=RequestContext(request))
 
 def signup(request):
   data = {}

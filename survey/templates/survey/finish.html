@@ -1,9 +1,22 @@
-{% extends "core/base.html" %}
+{% extends "core/base_main.html" %}
 {% load staticfiles %}
 
-{% block content %}
+{% block title %}
+<title>Preliminary Questionnaire</title>
+{% endblock %}
 
-<div class="container">
+
+{% block headscript %}
+
+{% endblock %}
+
+
+{% block upperstat %}
+<br>
+{% endblock %}
+
+
+{% block main %}
 	<div class = "row">
 		
 		<h1>Thank you</h1>
@@ -11,6 +24,5 @@
 		<h3>success to submitting your answer.</h3>
 		
 	</div>	
-</div>
 
-{% endblock content %}
+{% endblock %}

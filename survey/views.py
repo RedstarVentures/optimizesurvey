@@ -6,8 +6,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from BeautifulSoup import BeautifulSoup
 
-from survey.models import Preliminary1, Preliminary2, Preliminary3, Preliminary4
-from survey.forms import Preliminary_1_Questionnaire, Preliminary_2_Questionnaire, Preliminary_3_Questionnaire, Preliminary_4_Questionnaire
+from survey.models import Preliminary1, Preliminary2, Preliminary3, Preliminary4, Onboarding1, Onboarding2, Onboarding3, Onboarding4
+from survey.forms import Preliminary_1_Questionnaire, Preliminary_2_Questionnaire, Preliminary_3_Questionnaire, Preliminary_4_Questionnaire, Onboarding_1_Questionnaire, Onboarding_2_Questionnaire, Onboarding_3_Questionnaire, Onboarding_4_Questionnaire
+from core.models import EmailUser
 
 import urllib2, urllib, mechanize, datetime, random
 
@@ -36,6 +37,7 @@ def preliminary1(request):
   u = request.user
   
   data = {}
+  userinfo = EmailUser.objects.get(email=u)
   try:
     pre_demo = Preliminary1.objects.get(user=u)
   except Preliminary1.DoesNotExist:
@@ -44,7 +46,15 @@ def preliminary1(request):
   form = Preliminary_1_Questionnaire(request.POST or None, instance=pre_demo)
 
   if form.is_valid():
+    # form save
     form.save()
+    # sync the table with user information
+    sync_user = Preliminary1.objects.get(user=u)
+    userinfo.first_name = sync_user.first_name
+    userinfo.last_name = sync_user.last_name
+    userinfo.date_of_birth = sync_user.date_of_birth
+    userinfo.save()
+
     return HttpResponseRedirect(reverse('survey.views.preliminary2'))
 
   if pre_demo is None:
@@ -54,7 +64,6 @@ def preliminary1(request):
 
   return render_to_response("survey/pre_1.html", data,
                                   context_instance=RequestContext(request))
-
 
 @login_required
 def preliminary2(request):
@@ -135,11 +144,84 @@ def onboarding1(request):
   
   data = {}
   try:
-    pre_demo = Preliminary4.objects.get(user=u)
-  except Preliminary4.DoesNotExist:
+    pre_demo = Onboarding1.objects.get(user=u)
+  except Onboarding1.DoesNotExist:
     pre_demo = None
 
-  form = Preliminary_4_Questionnaire(request.POST or None, instance=pre_demo)
+  form = Onboarding_1_Questionnaire(request.POST or None, instance=pre_demo)
+
+  if form.is_valid():
+
+    form.save()
+    return HttpResponseRedirect(reverse('survey.views.Onboarding2'))
+
+  if pre_demo is None:
+    form.initial['user'] = u
+
+  data["form"] = form
+
+  return render_to_response("survey/on_1.html", data,
+                                  context_instance=RequestContext(request))
+
+
+@login_required
+def onboarding2(request):
+  u = request.user
+  
+  data = {}
+  try:
+    pre_demo = Onboarding2.objects.get(user=u)
+  except Onboarding2.DoesNotExist:
+    pre_demo = None
+
+  form = Onboarding_2_Questionnaire(request.POST or None, instance=pre_demo)
+
+  if form.is_valid():
+    form.save()
+    return HttpResponseRedirect(reverse('survey.views.Onboarding3'))
+
+  if pre_demo is None:
+    form.initial['user'] = u
+
+  data["form"] = form
+
+  return render_to_response("survey/on_2.html", data,
+                                  context_instance=RequestContext(request))
+
+@login_required
+def onboarding3(request):
+  u = request.user
+  
+  data = {}
+  try:
+    pre_demo = Onboarding3.objects.get(user=u)
+  except Onboarding3.DoesNotExist:
+    pre_demo = None
+
+  form = Onboarding_3_Questionnaire(request.POST or None, instance=pre_demo)
+
+  if form.is_valid():
+    form.save()
+    return HttpResponseRedirect(reverse('survey.views.Onboarding4'))
+
+  if pre_demo is None:
+    form.initial['user'] = u
+
+  data["form"] = form
+  return render_to_response("survey/on_3.html", data,
+                                  context_instance=RequestContext(request))
+
+@login_required
+def onboarding4(request):
+  u = request.user
+  
+  data = {}
+  try:
+    pre_demo = Onboarding4.objects.get(user=u)
+  except Onboarding4.DoesNotExist:
+    pre_demo = None
+
+  form = Onboarding_4_Questionnaire(request.POST or None, instance=pre_demo)
 
   if form.is_valid():
 
@@ -151,14 +233,14 @@ def onboarding1(request):
 
   data["form"] = form
 
-  return render_to_response("survey/pre_4.html", data,
+  return render_to_response("survey/on_4.html", data,
                                   context_instance=RequestContext(request))
 
 
-
-
-
-
+def get_expected_age(request):
+  data = {}
+  data['output'] = 'Your calculated life expectancy is 132. Unbelievable !!'
+  return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))
 
 def getbaseinfo(request):
 	data = {}

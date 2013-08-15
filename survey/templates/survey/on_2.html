@@ -2,9 +2,17 @@
 {% load staticfiles %}
 
 {% block title %}
-<title>Preliminary Questionnaire</title>
+<title>Onboarding Question</title>
 {% endblock %}
 
+
+{% block addtionalstyle %}
+<style>
+    input, textarea, .uneditable-input {
+      width: 100%;
+    }
+</style>
+{% endblock %}
 
 {% block headscript %}
 
@@ -20,11 +28,11 @@
 
   <div class="row">
     <div class="col-12">
-      <h1><p>Preliminary Questionnaire</p></h1><br>
-      <h3><p>[4/4] Family Medical History</p></h3>
+      <h1><p>In-Person Onboarding Visit</p></h1><br>
+      <h3><p>[2/4] Live to 100 and Diet History</p></h3>
     </div>
   </div>
-
+  
   <br>
   {% if form.errors %}
     <font color="red">Some values are missed.</font>
@@ -38,116 +46,116 @@
 
       <form action="{{ app_path }}" method="POST">
         {% csrf_token %}
+
         {{ form.user }}
 
         <div class="form-group">
-          
-          <label for="id_first_name">1. {{ form.immediate_family.label }}</label>
-          {% if form.immediate_family.errors %}
-          <br>
+
+        	<label for="id_first_name">{{ form.regular_exercise.label }}</label>
+          {% if form.regular_exercise.errors %}
             <font color="red">required</font>
           {% endif %}            
-        
+
           <div class="form-control">
-            {{ form.immediate_family}} 
+            {{ form.regular_exercise}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
           
-          <label for="id_last_name">2. {{ form.cancer_family.label }}</label>
-          {% if form.cancer_family.errors %}
-          <br>
+        	<label for="id_last_name">{{ form.many_exercise.label }}</label>
+          {% if form.many_exercise.errors %}
+          
             <font color="red">required</font>
           {% endif %} 
         
-          <div class="form-control">
-            {{ form.cancer_family}} 
+          <div class="form-control" >
+            {{ form.many_exercise}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_gender">3. {{ form.mother_alive.label }}</label>
-          {% if form.mother_alive.errors %}
-            <br>
+          <label for="id_gender">{{ form.leisure.label }}</label>
+          {% if form.leisure.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
-          <div class="form-control">
-            {{ form.mother_alive}} 
+          <div class="form-control" >
+            {{ form.leisure}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_date_of_birth">4. {{ form.mother_old.label }}</label>
-          {% if form.mother_old.errors %}
-            <br>
+          <label for="id_date_of_birth">{{ form.limit_activity.label }}</label>
+          {% if form.limit_activity.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
-          <div class="form-control">
-            {{ form.mother_old}} 
+          <div class="form-control form-inline" >
+            {{ form.limit_activity}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_marital_status">5. {{ form.mother_depend.label }}</label>
-          {% if form.mother_depend.errors %}
-            <br>
+          <label for="id_marital_status">{{ form.limit_activity_explain.label }}</label>
+          {% if form.limit_activity_explain.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.mother_depend}} 
+            {{ form.limit_activity_explain}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_in_person_contact">6. {{ form.mother_passed_old.label }}</label>
-          {% if form.mother_passed_old.errors %}
-            <br>
+          <label for="id_in_person_contact">{{ form.restrict_food.label }}</label>
+          {% if form.restrict_food.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.mother_passed_old}} 
+            {{ form.restrict_food}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">7. {{ form.mother_cause.label }}</label>
-          {% if form.mother_cause.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.restrict_food_explain.label }}</label>
+          {% if form.restrict_food_explain.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.mother_cause}} 
+            {{ form.restrict_food_explain}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">8. {{ form.father_alive.label }}</label>
-          {% if form.father_alive.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.many_meat.label }}</label>
+          {% if form.many_meat.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.father_alive}} 
+            {{ form.many_meat}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">9. {{ form.father_old.label }}</label>
-          {% if form.father_old.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.how_bbq.label }}</label>
+          {% if form.how_bbq.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.father_old}} 
+            {{ form.how_bbq}} 
           </div>
         </div>    
         <br>
@@ -155,73 +163,80 @@
 
         
         <div class="form-group">
-          <label for="id_formal_education">10. {{ form.father_depend.label }}</label>
-          {% if form.father_depend.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.many_dairy.label }}</label>
+          {% if form.many_dairy.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.father_depend}} 
+            {{ form.many_dairy}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">11. {{ form.father_passed_old.label }}</label>
-          {% if form.father_passed_old.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.calcium.label }}</label>
+          {% if form.calcium.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.father_passed_old}} 
+            {{ form.calcium}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">12. {{ form.father_cause.label }}</label>
-          {% if form.father_cause.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.snack.label }}</label>
+          {% if form.snack.errors %}
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.father_cause}} 
+            {{ form.snack}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">13. {{ form.family_history.label }}</label>
-          {% if form.family_history.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.red_meat.label }}</label>
+          {% if form.red_meat.errors %}
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.family_history}} 
+            {{ form.red_meat}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">14. {{ form.long_live.label }}</label>
-          {% if form.long_live.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.carbohydrate.label }}</label>
+          {% if form.carbohydrate.errors %}
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.long_live}} 
+            {{ form.carbohydrate}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">15. {{ form.child_old.label }}</label>
-          {% if form.child_old.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.having_diet.label }}</label>
+          {% if form.having_diet.errors %}
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.child_old}} 
+            {{ form.having_diet}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">{{ form.iron.label }}</label>
+          {% if form.iron.errors %}
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.iron}} 
           </div>
         </div>    
         <br>
@@ -229,7 +244,7 @@
 
         <div class="form-group">
           <div class="form-actions">
-            <button class="btn btn-primary" type="submit">Finish</button>
+            <button class="btn btn-primary" type="submit">Next</button>
           </div>
         </div>
 

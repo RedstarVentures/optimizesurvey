@@ -1,0 +1,142 @@
+{% extends "core/base_main.html" %}
+{% load staticfiles %}
+
+{% block title %}
+<title>Onboarding Question</title>
+{% endblock %}
+
+
+{% block addtionalstyle %}
+<style>
+    input, textarea, .uneditable-input {
+      width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block headscript %}
+
+{% endblock %}
+
+
+{% block upperstat %}
+<br>
+{% endblock %}
+
+
+{% block main %}
+
+  <div class="row">
+    <div class="col-12">
+      <h1><p>In-Person Onboarding Visit</p></h1><br>
+      <h3><p>[4/4] Others</p></h3>
+    </div>
+  </div>
+  
+  <br>
+  {% if form.errors %}
+    <font color="red">Some values are missed.</font>
+  {% endif %}
+  <br>
+  <br>
+
+  <section id="pre-questionnaire">
+  <div class="row">
+    <div class="col-12">
+
+      <form action="{{ app_path }}" method="POST">
+        {% csrf_token %}
+
+        {{ form.user }}
+        <legend>1. Self Monitoring Goals</legend>
+        <div class="form-group">
+
+        	<label for="id_first_name">{{ form.fitbit.label }}</label>
+          {% if form.fitbit.errors %}
+            <font color="red">required</font>
+          {% endif %}            
+
+          <div class="form-control">
+            {{ form.fitbit}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          
+        	<label for="id_last_name">{{ form.my_net_diary.label }}</label>
+          {% if form.my_net_diary.errors %}
+          
+            <font color="red">required</font>
+          {% endif %} 
+        
+          <div class="form-control" >
+            {{ form.my_net_diary}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <label for="id_gender">{{ form.aria_scale.label }}</label>
+          {% if form.aria_scale.errors %}
+            
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control" >
+            {{ form.aria_scale}} 
+          </div>
+        </div>
+        <br>
+
+        <legend>2. Scheduled Diagnostic Visit</legend>
+        <div class="form-group">
+          <label for="id_date_of_birth">{{ form.diag_visit.label }}</label>
+          {% if form.diag_visit.errors %}
+            
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control form-inline" >
+            {{ form.diag_visit}} 
+          </div>
+        </div>
+        <br>
+
+        <legend>3. Frequency of Meetings</legend>
+        <div class="form-group">
+          <label for="id_marital_status">{{ form.freq_meet.label }}</label>
+          {% if form.freq_meet.errors %}
+            
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.freq_meet}} 
+          </div>
+        </div>
+        <br>
+
+        <legend>4. Preferred Communication Methods</legend>
+        <div class="form-group">
+          <label for="id_in_person_contact">{{ form.prefer_method.label }}</label>
+          {% if form.prefer_method.errors %}
+            
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.prefer_method}} 
+          </div>
+        </div>
+        <br>
+
+
+        <div class="form-group">
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Next</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  </section>
+
+{% endblock %}

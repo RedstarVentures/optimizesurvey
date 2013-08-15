@@ -2,12 +2,20 @@
 {% load staticfiles %}
 
 {% block title %}
-<title>Preliminary Questionnaire</title>
+<title>Onboarding Question</title>
 {% endblock %}
 
 
 {% block headscript %}
 
+{% endblock %}
+
+{% block addtionalstyle %}
+<style>
+    input, textarea, .uneditable-input {
+      width: 100%;
+    }
+</style>
 {% endblock %}
 
 
@@ -20,11 +28,11 @@
 
   <div class="row">
     <div class="col-12">
-      <h1><p>Preliminary Questionnaire</p></h1><br>
-      <h3><p>[3/4] Personal Medical History</p></h3>
+      <h1><p>In-Person Onboarding Visit</p></h1><br>
+      <h3><p>[1/4] Motivation for Joining OptMe</p></h3>
     </div>
   </div>
-
+  
   <br>
   {% if form.errors %}
     <font color="red">Some values are missed.</font>
@@ -32,74 +40,62 @@
   <br>
   <br>
 
-  <section id="pre-questionnaire">
+  <section id="onboarding">
   <div class="row">
     <div class="col-12">
 
       <form action="{{ app_path }}" method="POST">
         {% csrf_token %}
+
         {{ form.user }}
 
         <div class="form-group">
           
-          <label for="id_first_name">1. {{ form.bowel_movement.label }}</label>
-          {% if form.bowel_movement.errors %}
-          <br>
+        	<label for="id_first_name">{{ form.choice_reason.label }}</label>
+          {% if form.choice_reason.errors %}
             <font color="red">required</font>
           {% endif %}            
-          
-          <div class="form-control">
-            {{ form.bowel_movement}} 
+        
+          <div class="form-control" >
+            {{ form.choice_reason}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
           
-          <label for="id_last_name">2. {{ form.skin_cancer.label }}</label>
-          {% if form.skin_cancer.errors %}
+        	<label for="id_last_name">{{ form.health_goal.label }}</label>
+          {% if form.health_goal.errors %}
           <br>
             <font color="red">required</font>
           {% endif %} 
         
           <div class="form-control">
-            {{ form.skin_cancer}} 
+            {{ form.health_goal}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_gender">3. {{ form.heart_attack.label }}</label>
-          {% if form.heart_attack.errors %}
+          <label for="id_date_of_birth">{{ form.make_change.label }}</label>
+          {% if form.make_change.errors %}
             <br>
               <font color="red">required</font>
             {% endif %} 
-          <div class="form-control">
-            {{ form.heart_attack}} 
+          <div class="form-control form-inline">
+            {{ form.make_change}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_date_of_birth">4. {{ form.doctor_appointment.label }}</label>
-          {% if form.doctor_appointment.errors %}
+          <label for="id_marital_status">{{ form.motivate_join.label }}</label>
+          {% if form.motivate_join.errors %}
             <br>
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.doctor_appointment}} 
-          </div>
-        </div>
-        <br>
-
-        <div class="form-group">
-          <label for="id_marital_status">5. {{ form.have_disease.label }}</label>
-          {% if form.have_disease.errors %}
-            <br>
-              <font color="red">required</font>
-            {% endif %} 
-          <div class="form-control">
-            {{ form.have_disease}} 
+            {{ form.motivate_join}} 
           </div>
         </div>
         <br>

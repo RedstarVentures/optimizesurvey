@@ -2,9 +2,17 @@
 {% load staticfiles %}
 
 {% block title %}
-<title>Preliminary Questionnaire</title>
+<title>Onboarding Question</title>
 {% endblock %}
 
+
+{% block addtionalstyle %}
+<style>
+    input, textarea, .uneditable-input {
+      width: 100%;
+    }
+</style>
+{% endblock %}
 
 {% block headscript %}
 
@@ -20,11 +28,11 @@
 
   <div class="row">
     <div class="col-12">
-      <h1><p>Preliminary Questionnaire</p></h1><br>
-      <h3><p>[2/4] Environmental Risk Assessment</p></h3>
+      <h1><p>In-Person Onboarding Visit</p></h1><br>
+      <h3><p>[3/4] Physical Measurements</p></h3>
     </div>
   </div>
-
+  
   <br>
   {% if form.errors %}
     <font color="red">Some values are missed.</font>
@@ -38,116 +46,116 @@
 
       <form action="{{ app_path }}" method="POST">
         {% csrf_token %}
+
         {{ form.user }}
 
         <div class="form-group">
-          
-          <label for="id_first_name">1. {{ form.air_pollution.label }}</label>
-          {% if form.air_pollution.errors %}
-          <br>
+
+        	<label for="id_first_name">{{ form.weight_18y.label }}</label>
+          {% if form.weight_18y.errors %}
             <font color="red">required</font>
           {% endif %}            
-        
+
           <div class="form-control">
-            {{ form.air_pollution}} 
+            {{ form.weight_18y}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
           
-          <label for="id_last_name">2. {{ form.seatbelt.label }}</label>
-          {% if form.seatbelt.errors %}
-          <br>
+        	<label for="id_last_name">{{ form.weight_12m.label }}</label>
+          {% if form.weight_12m.errors %}
+          
             <font color="red">required</font>
           {% endif %} 
         
-          <div class="form-control">
-            {{ form.seatbelt}} 
+          <div class="form-control" >
+            {{ form.weight_12m}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_gender">3. {{ form.coffee.label }}</label>
-          {% if form.coffee.errors %}
-            <br>
+          <label for="id_gender">{{ form.weight_change.label }}</label>
+          {% if form.weight_change.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
-          <div class="form-control">
-            {{ form.coffee}} 
+          <div class="form-control" >
+            {{ form.weight_change}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_date_of_birth">4. {{ form.second_smoke.label }}</label>
-          {% if form.second_smoke.errors %}
-            <br>
+          <label for="id_date_of_birth">{{ form.weight_intent.label }}</label>
+          {% if form.weight_intent.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
-          <div class="form-control">
-            {{ form.second_smoke}} 
+          <div class="form-control form-inline" >
+            {{ form.weight_intent}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_marital_status">5. {{ form.often_smoke.label }}</label>
-          {% if form.often_smoke.errors %}
-            <br>
+          <label for="id_marital_status">{{ form.diet_program.label }}</label>
+          {% if form.diet_program.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.often_smoke}} 
+            {{ form.diet_program}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_in_person_contact">6. {{ form.many_smoke.label }}</label>
-          {% if form.many_smoke.errors %}
-            <br>
+          <label for="id_in_person_contact">{{ form.past_diet_program.label }}</label>
+          {% if form.past_diet_program.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.many_smoke}} 
+            {{ form.past_diet_program}} 
           </div>
         </div>
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">7. {{ form.exposure_smoke.label }}</label>
-          {% if form.exposure_smoke.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.how_program.label }}</label>
+          {% if form.how_program.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.exposure_smoke}} 
+            {{ form.how_program}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">8. {{ form.lung_disease.label }}</label>
-          {% if form.lung_disease.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.maintain_weight.label }}</label>
+          {% if form.maintain_weight.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.lung_disease}} 
+            {{ form.maintain_weight}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">9. {{ form.day_alcohol.label }}</label>
-          {% if form.day_alcohol.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.family_weight.label }}</label>
+          {% if form.family_weight.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.day_alcohol}} 
+            {{ form.family_weight}} 
           </div>
         </div>    
         <br>
@@ -155,65 +163,61 @@
 
         
         <div class="form-group">
-          <label for="id_formal_education">10. {{ form.glass_alcohol.label }}</label>
-          {% if form.glass_alcohol.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.height.label }}</label>
+          {% if form.height.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.glass_alcohol}} 
+            {{ form.height}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">11. {{ form.aspirin.label }}</label>
-          {% if form.aspirin.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.weight.label }}</label>
+          {% if form.weight.errors %}
+            
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.aspirin}} 
+            {{ form.weight}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">12. {{ form.floss_teeth.label }}</label>
-          {% if form.floss_teeth.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.percent_fat.label }}</label>
+          {% if form.percent_fat.errors %}
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.floss_teeth}} 
+            {{ form.percent_fat}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">13. {{ form.sunscreen.label }}</label>
-          {% if form.sunscreen.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.heart_rate.label }}</label>
+          {% if form.heart_rate.errors %}
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.sunscreen}} 
+            {{ form.heart_rate}} 
           </div>
         </div>    
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">14. {{ form.body_mass_index.label }}</label>
-          {% if form.body_mass_index.errors %}
-            <br>
+          <label for="id_formal_education">{{ form.blood_pressure.label }}</label>
+          {% if form.blood_pressure.errors %}
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
-            {{ form.body_mass_index}} 
+            {{ form.blood_pressure}} 
           </div>
         </div>    
         <br>
-
 
         <div class="form-group">
           <div class="form-actions">

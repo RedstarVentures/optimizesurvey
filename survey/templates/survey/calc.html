@@ -1,18 +1,33 @@
-{% extends "core/base.html" %}
+{% extends "core/base_main.html" %}
 {% load staticfiles %}
 
-{% block content %}
+{% block title %}
+<title>Aging</title>
+{% endblock %}
 
-<div class="container">
+
+{% block headscript %}
+
+{% endblock %}
+
+
+{% block upperstat %}
+<br>
+{% endblock %}
+
+
+{% block main %}
+
 	<div class = "row">
-		<div class = "offset1 span8">
+		<div class = "span12">
 			<h1>Output</h1>
 		</div>
-		<div class = "offset1 span10">
+    <br>
+		<div class = "span12">
 			<br>
 			<h3>{{output}}</h3><br>
 		</div>
 	</div>	
-</div>
 
-{% endblock content %}
+
+{% endblock %}
