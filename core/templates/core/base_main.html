@@ -113,9 +113,7 @@
 
             {% if user.is_authenticated %}
             <ul class="nav pull-right">                
-                <li class="hidden-phone">
-                    <input class="search" type="text" />
-                </li>
+                
                 <li class="notification-dropdown hidden-phone">
                     <a href="#" class="trigger">
                         <i class="icon-warning-sign"></i>
@@ -202,7 +200,7 @@
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle hidden-phone" data-toggle="dropdown" href="#">
-                        Your account
+                        {{ user }}
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -246,19 +244,42 @@
                     <i class="icon-home"></i>
                     <span>Summary</span>
                 </a>
-            </li>            
+            </li>     
+
+            <!-- client: go input // coach: select -->
+            {% ifequal user_type 1 %}
             <li>
                 <a href="/main/preliminary1/">
                     <i class="icon-signal"></i>
                     <span>Preliminary</span>
                 </a>
-            </li>            
+            </li>        
+            {% endifequal %}
+
+            {% ifequal user_type 2 %}
             <li>
-                <a href="/main/onboarding1/">
+                <a href="/main/manage_client/">
                     <i class="icon-signal"></i>
-                    <span>OnBoarding</span>
+                    <span>Manage</span>
                 </a>
             </li>
+            {% endifequal %}
+
+            {% ifequal user_type 3 %}
+            <li>
+                <a href="/main/preliminary1/">
+                    <i class="icon-signal"></i>
+                    <span>Preliminary</span>
+                </a>
+            </li>      
+            <li>
+                <a href="/main/manage_client/">
+                    <i class="icon-signal"></i>
+                    <span>Manage</span>
+                </a>
+            </li>
+            {% endifequal %}
+
             <li>
                 <a href="/main/nutrition">
                     <i class="icon-code-fork"></i>

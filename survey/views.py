@@ -9,7 +9,7 @@ from BeautifulSoup import BeautifulSoup
 from survey.models import Preliminary1, Preliminary2, Preliminary3, Preliminary4, Onboarding1, Onboarding2, Onboarding3, Onboarding4
 from survey.forms import Preliminary_1_Questionnaire, Preliminary_2_Questionnaire, Preliminary_3_Questionnaire, Preliminary_4_Questionnaire, Onboarding_1_Questionnaire, Onboarding_2_Questionnaire, Onboarding_3_Questionnaire, Onboarding_4_Questionnaire
 from core.models import EmailUser
-
+from core.views import get_user_type
 import urllib2, urllib, mechanize, datetime, random
 
 def home(request):
@@ -33,10 +33,16 @@ def pre_start(request):
 	return render_to_response('survey/pre.html', data, context_instance=RequestContext(request))
 
 @login_required
+def preliminary(request, client_id):
+
+  return
+
+
+@login_required
 def preliminary1(request):
   u = request.user
-  
   data = {}
+  data['user_type'] = get_user_type(u)
   userinfo = EmailUser.objects.get(email=u)
   try:
     pre_demo = Preliminary1.objects.get(user=u)
@@ -70,6 +76,7 @@ def preliminary2(request):
   u = request.user
   
   data = {}
+  data['user_type'] = get_user_type(u)
   try:
     pre_demo = Preliminary2.objects.get(user=u)
   except Preliminary2.DoesNotExist:
@@ -92,8 +99,9 @@ def preliminary2(request):
 @login_required
 def preliminary3(request):
   u = request.user
-  
   data = {}
+  data['user_type'] = get_user_type(u)
+  
   try:
     pre_demo = Preliminary3.objects.get(user=u)
   except Preliminary3.DoesNotExist:
@@ -115,8 +123,8 @@ def preliminary3(request):
 @login_required
 def preliminary4(request):
   u = request.user
-  
   data = {}
+  data['user_type'] = get_user_type(u)
   try:
     pre_demo = Preliminary4.objects.get(user=u)
   except Preliminary4.DoesNotExist:
@@ -137,26 +145,70 @@ def preliminary4(request):
   return render_to_response("survey/pre_4.html", data,
                                   context_instance=RequestContext(request))
 
+@login_required
+def manage_client(request):
+  data = {}
+  coach = request.user
+
+  #is he a real coach?
+  checkinfo = EmailUser.objects.get(email=coach)
+  if checkinfo.user_type >= 2:
+    
+    # search his client
+    client_list = EmailUser.objects.filter(coach=checkinfo.id)
+    not_match_client_list = EmailUser.objects.filter(coach__exact=None, user_type=1)
+    # send it using data
+    data['clients'] = client_list
+    data['not_clients'] = not_match_client_list
+    data['user_type'] = checkinfo.user_type
+
+    return render_to_response('survey/manage_client.html', data, context_instance=RequestContext(request))
+
+  else: # he is not a coach !
+    raise Http404
 
 @login_required
-def onboarding1(request):
-  u = request.user
+def assignment(request, client_id):
+  # client id
+  coach_email = request.user
+  coach = EmailUser.objects.get(email=coach_email)
+  client = EmailUser.objects.get(id=client_id)
+  client.coach = coach
+  client.save()  
+  return HttpResponseRedirect('/main/manage_client/')
+
+@login_required
+def deassignment(request, client_id):
+  # client id
+  client = EmailUser.objects.get(id=client_id)
+  client.coach = None
+  client.save()
+  return HttpResponseRedirect('/main/manage_client/')
+
+@login_required
+def onboarding1(request, client_id):
+  # don't confuse  client and coach
+  coach = request.user
   
+  # if u is null, go 404
+  if client_id =='':
+    raise Http404
+
   data = {}
+  data['user_type'] = get_user_type(coach)
   try:
-    pre_demo = Onboarding1.objects.get(user=u)
+    pre_demo = Onboarding1.objects.get(user=client_id)
   except Onboarding1.DoesNotExist:
     pre_demo = None
 
   form = Onboarding_1_Questionnaire(request.POST or None, instance=pre_demo)
 
   if form.is_valid():
-
     form.save()
     return HttpResponseRedirect(reverse('survey.views.Onboarding2'))
 
   if pre_demo is None:
-    form.initial['user'] = u
+    form.initial['user'] = client_id
 
   data["form"] = form
 
@@ -166,9 +218,13 @@ def onboarding1(request):
 
 @login_required
 def onboarding2(request):
-  u = request.user
-  
+  u = request.POST.get('user','')
+  # if u is null, go 404
+  if u =='':
+    raise Http404
+
   data = {}
+  data['user_type'] = get_user_type(u)
   try:
     pre_demo = Onboarding2.objects.get(user=u)
   except Onboarding2.DoesNotExist:
@@ -190,9 +246,13 @@ def onboarding2(request):
 
 @login_required
 def onboarding3(request):
-  u = request.user
+  u = request.POST.get('user','')
+  # if u is null, go 404
+  if u =='':
+    raise Http404
   
   data = {}
+  data['user_type'] = get_user_type(u)
   try:
     pre_demo = Onboarding3.objects.get(user=u)
   except Onboarding3.DoesNotExist:
@@ -213,9 +273,13 @@ def onboarding3(request):
 
 @login_required
 def onboarding4(request):
-  u = request.user
+  u = request.POST.get('user','')
+  # if u is null, go 404
+  if u =='':
+    raise Http404
   
   data = {}
+  data['user_type'] = get_user_type(u)
   try:
     pre_demo = Onboarding4.objects.get(user=u)
   except Onboarding4.DoesNotExist:
@@ -237,8 +301,17 @@ def onboarding4(request):
                                   context_instance=RequestContext(request))
 
 
-def get_expected_age(request):
+def get_expected_age(request, client_id):
   data = {}
+  # client_id finished pre & onboard ?
+
+  # if not
+
+  # if yes
+    # make a query for sending to livingto100.
+    # get base info
+    # connect - all answer to livingto100
+    #
   data['output'] = 'Your calculated life expectancy is 132. Unbelievable !!'
   return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))
 
@@ -375,7 +448,7 @@ def calculator(request):
 		check = int(resultAge)
 		output = "Your calculated life expectancy is "+ resultAge
 	except ValueError, e:
-		output = "Something wrong with calculating"
+		output = "Something wrong with calculating ! It needs repair"
 	data = {}
 	data['output'] = output
 	return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))

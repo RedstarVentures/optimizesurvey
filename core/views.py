@@ -6,22 +6,22 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from core.forms import LoginForm, SignUpForm
 from django.contrib.auth.decorators import login_required
+from core.models import EmailUser
 
-def index(request):
-
-  data = {}
-  #data["form"] = AuthenticationForm()
-  #data["signup_form"] = UserCreationForm()
-  data["next"] = reverse("index")
-  return render(request, "core/signin.html", data)
+def get_user_type(u):
+  userinfo = EmailUser.objects.get(email=u)
+  return userinfo.user_type
 
 @login_required
 def main(request):
   data={}
+  data['user_type'] = get_user_type(request.user)
+
   return render_to_response("core/base_main.html", data, context_instance=RequestContext(request))
 
 def nutrition(request):
   data={}
+  data['user_type'] = get_user_type(request.user)
   return render_to_response("core/nutrition.html", data, context_instance=RequestContext(request))
 
 def signup(request):

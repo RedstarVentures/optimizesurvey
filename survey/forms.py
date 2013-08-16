@@ -4,6 +4,7 @@ from django.utils.safestring import mark_safe
 from django.forms.extras.widgets import SelectDateWidget
 
 from survey.models import MultipleSelect, Preliminary1, Preliminary2, Preliminary3, Preliminary4, Onboarding1, Onboarding2, Onboarding3, Onboarding4
+from core.models import EmailUser
 import datetime
 
 BIRTH_YEAR_CHOICES = range(1914,2000)

@@ -1,0 +1,86 @@
+{% extends "core/base_main.html" %}
+{% load staticfiles %}
+
+{% block title %}
+<title>Onboarding Question</title>
+{% endblock %}
+
+
+{% block headscript %}
+
+{% endblock %}
+
+{% block addtionalstyle %}
+
+{% endblock %}
+
+
+{% block upperstat %}
+<br>
+{% endblock %}
+
+
+{% block main %}
+
+  <div class="row">
+    <div class="col-12">
+      <h1><p>Client Management Page for Coach</p></h1><br>
+      <h3><p>This page is only for coach !</p></h3>
+    </div>
+  </div>
+  
+  <br>
+  {% if form.errors %}
+    <font color="red">Some values are missed.</font>
+  {% endif %}
+  <br>
+  <br>
+
+  
+  <div class="row">
+    <div class="col-12">
+
+      <label> Your Clients list </label>
+      
+      {% for c in clients %}
+      <div class="col-4">
+        {{ c.email }}   
+      </div>
+      <div class="col-2">
+        <a href="{% url 'survey.views.preliminary' c.id %}">Preliminary</a> 
+      </div>
+      <div class="col-2">
+        <a href="{% url 'survey.views.onboarding1' c.id %}">Onboarding</a>
+      </div>
+      <div class="col-2">
+        <a href="{% url 'survey.views.deassignment' c.id %}">Deassign</a>
+      </div>
+      <div class="col-2">
+        <a href="{% url 'survey.views.get_expected_age' c.id %}">Life expectancy</a>
+      </div>
+       
+      {% endfor %}
+      
+    </div>
+  </div>
+  <br><br>
+  <div class="row">
+    <div class="col-12">
+
+      <label> No assigned Clients (not matched yet) </label>
+      
+      {% for c in not_clients %}
+      <div class="col-4">
+        {{ c.email }}  
+      
+      </div>
+      <div class="col-8">
+        <a href="{% url 'survey.views.assignment' c.id %}">Assign to me</a>
+      </div>
+       
+      {% endfor %}
+      
+    </div>
+  </div>
+
+{% endblock %}

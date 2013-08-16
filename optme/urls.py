@@ -28,15 +28,20 @@ urlpatterns = patterns('',
     url(r'^pre_start/$', 'survey.views.pre_start'),
     url(r'^start_survey/$', 'survey.views.getbaseinfo'),
 
+    url(r'^main/preliminary/(?P<client_id>\d+)$','survey.views.preliminary', name='preliminary'),
     url(r'^main/preliminary1/$','survey.views.preliminary1'),
     url(r'^main/preliminary2/$','survey.views.preliminary2'),
     url(r'^main/preliminary3/$','survey.views.preliminary3'),
     url(r'^main/preliminary4/$','survey.views.preliminary4'),
 
-    url(r'^main/onboarding1/$','survey.views.onboarding1'),
+    url(r'^main/manage_client/$','survey.views.manage_client', name='manage_client'),
+    url(r'^main/assignment/(?P<client_id>\d+)$','survey.views.assignment', name='assignment'),
+    url(r'^main/deassignment/(?P<client_id>\d+)$','survey.views.deassignment', name='deassignment'),
+
+    url(r'^main/onboarding1/(?P<client_id>\d+)$','survey.views.onboarding1', name='onboarding1'),
     url(r'^main/onboarding2/$','survey.views.onboarding2'),
     url(r'^main/onboarding3/$','survey.views.onboarding3'),
     url(r'^main/onboarding4/$','survey.views.onboarding4'),
     
-    url(r'^main/age/$','survey.views.get_expected_age'),
+    url(r'^main/age/(?P<client_id>\d+)$','survey.views.get_expected_age'),
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + staticfiles_urlpatterns()
