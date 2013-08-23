@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '-*rs-1ggtd&v==2sawvw9^nucha!!cx0kqerrr3q3&1brpa0a@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 if 'DEPLOY' in os.environ and os.environ['DEPLOY'] == 'true':
   DEPLOY = True  # only True if production (for mail settings and https)
@@ -57,7 +57,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'survey',
     's3_folder_storage',
-    'core',
+    'core', 
     'south',
     #enable the admin
     'fluent_dashboard',
