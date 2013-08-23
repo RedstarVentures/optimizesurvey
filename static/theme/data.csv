@@ -1,0 +1,41 @@
+State, Under, Slighly Under, Optimal,Slightly Over, Over
+Glucose (mg/dl), 0, 65, 94, 99, 126
+Total Cholesterol (mg/dl), 0, 100, 191, 199, 300
+LDL (mg/dl), -5, 0, 90.3 , 99, 200
+HDL (mg/dl), 40, 60, 100, 130, 150
+Triglycerides (mg/dl), -5, 0, 120.5, 149, 200
+Hemoglobin (g/dl), 0, 39, 60, 200, 250
+Ferritin (ng/mL), 0, 30, 50, 150, 400
+Creatine Kinase (U/l), -50, 0, 204, 1083, 1200
+Calcium (mg/dl),0, 8.7, 9.3, 9.9, 10.2
+Vitamin D,0,30,40,60,100
+Magnesium (mg/dl), 0, 1.6, 1.8, 2.3, 2.6
+Folic Acid (ng/ml), 0, 3.1, 8.0, 15.8, 20
+Vitamin B12,60,80,100,126,150
+Testosterone,60,80,100,126,150
+Potassium,60,80,100,126,150
+Sodium,60,80,100,126,150
+Zinc (ug/dL), 1, 30, 60, 130, 150
+Chromium, 60, 80, 100, 126, 150
+White Blood Count,60,80,100,126,150
+C-Reactive Protein,60,80,100,126,150
+Glu(mg/dl), 0, 65, 94, 99, 126
+Chol(mg/dl), 0, 0, 100, 91, 8, 100
+LDL(mg/dl), -5, 5, 90.3 , 8.7, 100
+HDL(mg/dl), 40, 20, 40, 30, 20
+Tg(mg/dl), -5, 5, 120.5, 24.5, 50
+Hb(g/dl), 0, 39, 21, 140, 50
+Fer(ng/mL), 0, 30, 50, 150, 400
+CK(U/l), -50, 50, 204, 879, 100
+Ca(mg/dl), 0, 8.7, 0.6, 0.6, 0.3
+D,0,30,10,20,40
+Mg(mg/dl), 0, 1.6, 0.2, 0.5, 0.3
+Fol(ng/ml), 0, 3.1, 4.9, 7.8, 4.2
+B12(mg/dl),60,20,20,26,24
+Tes(mg/dl),60,20,20,26,24
+K(mg/dl),60,20,20,26,24
+Na(mg/dl),60,20,20,26,24
+Zn(ug/dL), 1, 29, 30, 70, 20
+Chr(mg/dl),60,20,20,26,24
+WBC,60,20,20,26,24
+CRP,60,20,20,26,24
