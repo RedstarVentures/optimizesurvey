@@ -306,12 +306,15 @@ def get_expected_age(request, client_id):
   # client_id finished pre & onboard ?
 
   # if not
+    # you have to finish pre & onboard.
+    # return
 
   # if yes
     # make a query for sending to livingto100.
     # get base info
     # connect - all answer to livingto100
-    #
+    # return your age
+    
   data['output'] = 'Your calculated life expectancy is 132. Unbelievable !!'
   return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))
 
