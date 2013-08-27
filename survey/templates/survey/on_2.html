@@ -1,4 +1,4 @@
-{% extends "core/base_main.html" %}
+{% extends "core/base_coach.html" %}
 {% load staticfiles %}
 
 {% block title %}
@@ -207,6 +207,18 @@
           </div>
         </div>    
         <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">{{ form.sweet.label }}</label>
+          {% if form.sweet.errors %}
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.sweet}} 
+          </div>
+        </div>    
+        <br>
+
 
         <div class="form-group">
           <label for="id_formal_education">{{ form.carbohydrate.label }}</label>

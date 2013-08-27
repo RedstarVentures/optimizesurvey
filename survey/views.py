@@ -10,12 +10,10 @@ from survey.models import Preliminary1, Preliminary2, Preliminary3, Preliminary4
 from survey.forms import Preliminary_1_Questionnaire, Preliminary_2_Questionnaire, Preliminary_3_Questionnaire, Preliminary_4_Questionnaire, Onboarding_1_Questionnaire, Onboarding_2_Questionnaire, Onboarding_3_Questionnaire, Onboarding_4_Questionnaire
 from core.models import EmailUser
 from core.views import get_user_type
+from django import template
 import urllib2, urllib, mechanize, datetime, random
 
-def home(request):
-	data = {}
-
-	return render_to_response('core/home.html', data, context_instance=RequestContext(request))
+register = template.Library()
 
 
 def calculate_age(month, day, year):
@@ -25,17 +23,43 @@ def calculate_age(month, day, year):
 	if month >= today.month:
 		if day > today.day:
 			age = age-1
-		
 	return age
 
 def pre_start(request):
 	data = {}
 	return render_to_response('survey/pre.html', data, context_instance=RequestContext(request))
 
+
+def get_verbose_name(instance, field_name):
+  return instance._meta.get_field(field_name).verbose_name
+register.filter(get_verbose_name)
+
 @login_required
 def preliminary(request, client_id):
+  # coach want to see preliminary of client_id
+  data = {}
+  # are you coach ?
+  user = request.user
+  try:
+    user = EmailUser.objects.get(email=user)
+  except:
+    raise Http404
+  if user.user_type != 2: # if not coach
+    raise Http404
 
-  return
+  try:
+    user = EmailUser.objects.get(id=client_id)
+  except:
+    raise Http404
+
+  data['client'] = user
+  try:
+    pre1 = Preliminary1.objects.get(user=user)
+  except:
+    raise Http404
+
+  data['pre1'] = pre1
+  return render_to_response('survey/pre.html', data, context_instance=RequestContext(request))
 
 
 @login_required
@@ -59,6 +83,7 @@ def preliminary1(request):
     userinfo.first_name = sync_user.first_name
     userinfo.last_name = sync_user.last_name
     userinfo.date_of_birth = sync_user.date_of_birth
+    userinfo.gender = sync_user.gender
     userinfo.save()
 
     return HttpResponseRedirect(reverse('survey.views.preliminary2'))
@@ -157,9 +182,11 @@ def manage_client(request):
     # search his client
     client_list = EmailUser.objects.filter(coach=checkinfo.id)
     not_match_client_list = EmailUser.objects.filter(coach__exact=None, user_type=1)
+    all_client_list = EmailUser.objects.all()
     # send it using data
     data['clients'] = client_list
     data['not_clients'] = not_match_client_list
+    data['all_clients'] = all_client_list
     data['user_type'] = checkinfo.user_type
 
     return render_to_response('survey/manage_client.html', data, context_instance=RequestContext(request))
@@ -175,7 +202,7 @@ def assignment(request, client_id):
   client = EmailUser.objects.get(id=client_id)
   client.coach = coach
   client.save()  
-  return HttpResponseRedirect('/main/manage_client/')
+  return HttpResponseRedirect(reverse('index'))
 
 @login_required
 def deassignment(request, client_id):
@@ -183,21 +210,25 @@ def deassignment(request, client_id):
   client = EmailUser.objects.get(id=client_id)
   client.coach = None
   client.save()
-  return HttpResponseRedirect('/main/manage_client/')
+  return HttpResponseRedirect(reverse('index'))
+
+
 
 @login_required
 def onboarding1(request, client_id):
   # don't confuse  client and coach
   coach = request.user
   
-  # if u is null, go 404
-  if client_id =='':
+  # if client_id is null, go 404
+  try:
+    client = EmailUser.objects.get(id=client_id)
+  except:
     raise Http404
 
   data = {}
-  data['user_type'] = get_user_type(coach)
+
   try:
-    pre_demo = Onboarding1.objects.get(user=client_id)
+    pre_demo = Onboarding1.objects.get(user=client)
   except Onboarding1.DoesNotExist:
     pre_demo = None
 
@@ -205,10 +236,10 @@ def onboarding1(request, client_id):
 
   if form.is_valid():
     form.save()
-    return HttpResponseRedirect(reverse('survey.views.Onboarding2'))
+    return HttpResponseRedirect(reverse('survey.views.onboarding2', kwargs={'client_id':client_id} ))
 
   if pre_demo is None:
-    form.initial['user'] = client_id
+    form.initial['user'] = client
 
   data["form"] = form
 
@@ -217,16 +248,18 @@ def onboarding1(request, client_id):
 
 
 @login_required
-def onboarding2(request):
-  u = request.POST.get('user','')
-  # if u is null, go 404
-  if u =='':
+def onboarding2(request, client_id):
+  coach = request.user
+  # if client_id is null, go 404
+  try:
+    client = EmailUser.objects.get(id=client_id)
+  except:
     raise Http404
 
   data = {}
-  data['user_type'] = get_user_type(u)
+
   try:
-    pre_demo = Onboarding2.objects.get(user=u)
+    pre_demo = Onboarding2.objects.get(user=client)
   except Onboarding2.DoesNotExist:
     pre_demo = None
 
@@ -234,10 +267,10 @@ def onboarding2(request):
 
   if form.is_valid():
     form.save()
-    return HttpResponseRedirect(reverse('survey.views.Onboarding3'))
+    return HttpResponseRedirect(reverse('survey.views.onboarding3', kwargs={'client_id':client_id} ))
 
   if pre_demo is None:
-    form.initial['user'] = u
+    form.initial['user'] = client
 
   data["form"] = form
 
@@ -245,16 +278,17 @@ def onboarding2(request):
                                   context_instance=RequestContext(request))
 
 @login_required
-def onboarding3(request):
-  u = request.POST.get('user','')
-  # if u is null, go 404
-  if u =='':
-    raise Http404
-  
-  data = {}
-  data['user_type'] = get_user_type(u)
+def onboarding3(request, client_id):
+  coach = request.user
+  # if client_id is null, go 404
   try:
-    pre_demo = Onboarding3.objects.get(user=u)
+    client = EmailUser.objects.get(id=client_id)
+  except:
+    raise Http404
+
+  data = {}
+  try:
+    pre_demo = Onboarding3.objects.get(user=client)
   except Onboarding3.DoesNotExist:
     pre_demo = None
 
@@ -262,26 +296,28 @@ def onboarding3(request):
 
   if form.is_valid():
     form.save()
-    return HttpResponseRedirect(reverse('survey.views.Onboarding4'))
+    return HttpResponseRedirect(reverse('survey.views.onboarding4', kwargs={'client_id':client_id} ))
 
   if pre_demo is None:
-    form.initial['user'] = u
+    form.initial['user'] = client
 
   data["form"] = form
   return render_to_response("survey/on_3.html", data,
                                   context_instance=RequestContext(request))
 
 @login_required
-def onboarding4(request):
-  u = request.POST.get('user','')
-  # if u is null, go 404
-  if u =='':
-    raise Http404
-  
-  data = {}
-  data['user_type'] = get_user_type(u)
+def onboarding4(request, client_id):
+  coach = request.user
+  # if client_id is null, go 404
   try:
-    pre_demo = Onboarding4.objects.get(user=u)
+    client = EmailUser.objects.get(id=client_id)
+  except:
+    raise Http404
+
+  data = {}
+
+  try:
+    pre_demo = Onboarding4.objects.get(user=client)
   except Onboarding4.DoesNotExist:
     pre_demo = None
 
@@ -290,10 +326,13 @@ def onboarding4(request):
   if form.is_valid():
 
     form.save()
-    return render_to_response("survey/finish.html", data, context_instance=RequestContext(request))
+    #
+    # aging calc and save!
+    #
+    return HttpResponseRedirect(reverse('index'))
 
   if pre_demo is None:
-    form.initial['user'] = u
+    form.initial['user'] = client
 
   data["form"] = form
 
@@ -314,28 +353,14 @@ def get_expected_age(request, client_id):
     # get base info
     # connect - all answer to livingto100
     # return your age
-    
-  data['output'] = 'Your calculated life expectancy is 132. Unbelievable !!'
+  try:
+    user = EmailUser.objects.get(id=client_id)
+  except:
+    raise Http404
+
+  data['client'] = user
   return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))
 
-def getbaseinfo(request):
-	data = {}
-	date_month=request.POST.get('date[month]', '')
-	date_day=request.POST.get('date[day]', '')
-	date_year=request.POST.get('date[year]', '')
-	gender=request.POST.get('gender', '')
-	country_id=request.POST.get('country_id', '')
-	zipcode=request.POST.get('zipcode', '')
-	
-	if date_month=='' or date_day=='' or date_year=='' or gender=='' or country_id=='' or zipcode=='':
-		return HttpResponse("error : blank form")
-
-	age = calculate_age(int(date_month), int(date_day), int(date_year))
-	if age < 13 or age > 99:
-		return HttpResponse("unsupporting age : 13~99, your age is %s" % age)
-
-	data['date'] = date_month
-	return render_to_response('survey/question.html', data, context_instance=RequestContext(request))
 
 def calculator(request):	
 
@@ -449,6 +474,9 @@ def calculator(request):
 	resultAge = image_tags[2]['alt']
 	try:
 		check = int(resultAge)
+
+    # save the check to client's lifespan column
+
 		output = "Your calculated life expectancy is "+ resultAge
 	except ValueError, e:
 		output = "Something wrong with calculating ! It needs repair"

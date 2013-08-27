@@ -1,6 +1,6 @@
 {% extends "core/base_client.html" %}
 {% load staticfiles %}
- 
+
 {% block title %}
 <title>Nutrition</title>
 {% endblock %}
@@ -16,6 +16,7 @@
 {% block sidebar %}
 <!-- sidebar -->
 <div id="sidebar-nav">
+{% if user.is_authenticated %}
     <ul id="dashboard-menu">
 
         <li>
@@ -31,7 +32,7 @@
             </a>
         </li>            
         <li>
-            <a href="{% url 'activity' %}">
+            <a href="#">
                 <i class="icon-signal"></i>
                 <span>Activity</span>
             </a>
@@ -41,24 +42,25 @@
                 <div class="arrow"></div>
                 <div class="arrow_border"></div>
             </div>
-            <a href="{% url 'nutrition' %}">
+            <a href="/main/nutrition">
                 <i class="icon-code-fork"></i>
                 <span>Nutrition</span>
             </a>
         </li>
         <li>
-            <a href="{% url 'cvd' %}">
+            <a href="#">
                 <i class="icon-picture"></i>
                 <span>CVD Health</span>
             </a>
         </li>
         <li>
-            <a href="{% url 'bloodwork' %}">
+            <a class="dropdown-toggle" href="#">
                 <i class="icon-group"></i>
                 <span>Blood Work</span>
             </a>
         </li>
     </ul>
+    {% endif %}
 </div>
 <!-- end sidebar -->
 {% endblock %}
@@ -101,32 +103,33 @@
 {% endblock %}
 
 {% block main %}
-<br><br>
-Coach Tip
-<br><br>
+<!--       <div class="span6">  
+        <h4>Current dietary intake</h4>
+        <div id='diet_div' ></div>
+      </div> -->
 
-<div class="span6">
-  <h4>Current dietary intake</h4>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th class="span3">
-          <!--                   <input type="Date"> -->
-          Nutrient
-        </th>
-        <th class="span3">
-          Intake
-        </th>
-        <th class="span3">
-          Need
-        </th>
-        <th class="span3">
-          <span class="line"></span>Difference
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      
-    </tbody>
-  </div>
+      <div class="span6">
+        <h4>Current dietary intake</h4>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="span3">
+                <!--                   <input type="Date"> -->
+                Nutrient
+              </th>
+              <th class="span3">
+                Intake
+              </th>
+              <th class="span3">
+                Need
+              </th>
+              <th class="span3">
+                <span class="line"></span>Difference
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </div>
 {% endblock %} <!-- End graph -->

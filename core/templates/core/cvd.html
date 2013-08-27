@@ -1,6 +1,6 @@
 {% extends "core/base_client.html" %}
 {% load staticfiles %}
- 
+
 {% block title %}
 <title>Nutrition</title>
 {% endblock %}
@@ -36,17 +36,17 @@
                 <span>Activity</span>
             </a>
         </li>
-        <li class="active">
-            <div class="pointer">
-                <div class="arrow"></div>
-                <div class="arrow_border"></div>
-            </div>
+        <li>
             <a href="{% url 'nutrition' %}">
                 <i class="icon-code-fork"></i>
                 <span>Nutrition</span>
             </a>
         </li>
-        <li>
+        <li class="active">
+          <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div>
             <a href="{% url 'cvd' %}">
                 <i class="icon-picture"></i>
                 <span>CVD Health</span>
@@ -68,33 +68,26 @@
 <!-- upper main stats -->
 <div id="main-stats">
   <div class="row-fluid stats-row">
-    <div class="span3 stat">
+    <div class="span4 stat">
       <div class="data">
-        <span class="number">x (g)</span>
-        Less Calories
+        <span class="number">{% if lifespan %} {{lifespan}} {% else %} ?? {% endif %} years</span>
+        Expected Life Span
       </div>
-      <span class="date">Today</span>
+      <span class="date"></span>
     </div>
-    <div class="span3 stat">
+    <div class="span4 stat">
       <div class="data">
-        <span class="number">x (g)</span>
-        Less Saturated Fat
+        <span class="number">120 | 90 mmHg</span>
+        Blood Pressure
       </div>
       <span class="date">This week</span>
     </div>
-    <div class="span3 stat">
+    <div class="span4 stat">
       <div class="data">
-        <span class="number">x (mg)</span>
-        Less Sodium
+        <span class="number">240 mg/dL</span>
+        Total Cholesterol
       </div>
-      <span class="date">a month ago</span>
-    </div>
-    <div class="span3 stat last">
-      <div class="data">
-        <span class="number">x (g)</span>
-        More Fiber
-      </div>
-      <span class="date">last six months</span>
+      <span class="date">This month</span>
     </div>
   </div>
 </div><!-- end upper main stats -->
@@ -102,31 +95,16 @@
 
 {% block main %}
 <br><br>
-Coach Tip
-<br><br>
+{% ifequal lifespan 0 %}
+You have to finish all questionnaires for getting expected life span.
 
-<div class="span6">
-  <h4>Current dietary intake</h4>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th class="span3">
-          <!--                   <input type="Date"> -->
-          Nutrient
-        </th>
-        <th class="span3">
-          Intake
-        </th>
-        <th class="span3">
-          Need
-        </th>
-        <th class="span3">
-          <span class="line"></span>Difference
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      
-    </tbody>
-  </div>
+{% else %}
+
+Your expected life span is {{lifespan}}.
+
+{% endifequal %}
+<br><br>
+Full CVD BMI graph
+<br><br>
+Coach Tip
 {% endblock %} <!-- End graph -->

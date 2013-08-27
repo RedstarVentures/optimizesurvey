@@ -1,0 +1,134 @@
+{% extends "core/base_client.html" %}
+{% load staticfiles %}
+
+{% block title %}
+<title>Personal</title>
+{% endblock %}
+
+
+{% block sidebar %}
+<!-- sidebar -->
+<div id="sidebar-nav">
+    <ul id="dashboard-menu">
+
+        <li>
+            <a href="{% url 'main' %}">
+                <i class="icon-home"></i>
+                <span>Welcome</span>
+            </a>
+        </li>            
+        <li>
+            <a href="{% url 'physical' %}">
+                <i class="icon-signal"></i>
+                <span>Measurements</span>
+            </a>
+        </li>            
+        <li>
+            <a href="{% url 'activity' %}">
+                <i class="icon-signal"></i>
+                <span>Activity</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'nutrition' %}">
+                <i class="icon-code-fork"></i>
+                <span>Nutrition</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'cvd' %}">
+                <i class="icon-picture"></i>
+                <span>CVD Health</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'bloodwork' %}">
+                <i class="icon-group"></i>
+                <span>Blood Work</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- end sidebar -->
+{% endblock %}
+
+
+{% block upperstat %}
+
+{% endblock %}
+
+{% block main %}
+<br><br>
+
+<div class="row">
+  <div class="col-12">
+    <h1><p>Account settings</p></h1><br>
+  </div>
+</div>
+
+<br>
+<br>
+
+
+<div class="row">
+  <div class="col-9">
+
+    <label> {{client.first_name}}&nbsp;{{client.last_name}} </label>
+    
+  </div>
+  <div class="col-3">
+
+    <label> Your Personal Coach</label>
+    
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    Age : {{age}}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    Gender : {% ifequal client.gender 1 %} Male {% else %} Female {% endifequal %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    Email address : {{client.email}}
+  </div>
+</div>
+
+<br><br>
+
+<div class="row">
+  <div class="col-12">
+    <br>
+    <label> Update Questionnaire Responses </label>
+    <br>
+    
+    
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-9">
+      
+      {{last_submit}}
+      
+  </div>
+  <div class="col-3">
+    {{client.coach}}
+  </div>
+</div>
+
+<br><br>
+
+<div class="row">
+  <div class ="col-12">
+    <a href = "{% url 'preliminary1' %}">Re-take the Questionnaire</a>
+  </div>
+</div>
+{% endblock %} <!-- End graph -->

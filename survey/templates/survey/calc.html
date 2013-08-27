@@ -1,4 +1,4 @@
-{% extends "core/base_main.html" %}
+{% extends "core/base_coach.html" %}
 {% load staticfiles %}
 
 {% block title %}
@@ -20,12 +20,22 @@
 
 	<div class = "row">
 		<div class = "span12">
-			<h1>Output</h1>
+			<h1>Output of {{client.email}}</h1>
 		</div>
     <br>
 		<div class = "span12">
 			<br>
-			<h3>{{output}}</h3><br>
+			<h3>
+			{% ifequal client.lifespan 0 %}
+			You have to finish all questionnaires.
+
+			{% else %}
+
+			Your expected life span is {{client.lifespan}}.
+			
+			{% endifequal %}
+
+			</h3><br>
 		</div>
 	</div>	
 

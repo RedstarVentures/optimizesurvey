@@ -14,34 +14,46 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin_tools/', include('admin_tools.urls')),
 
+    # account
     (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'core/signin.html' , 'authentication_form' : LoginForm}),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-
     url(r'^accounts/signup/$', 'core.views.signup', name='signup'),
     url(r'^accounts/signin/$', 'core.views.signin', name='signin'),
 
-    url(r'^main/$', 'core.views.main'),
-    url(r'^main/nutrition$', 'core.views.nutrition'),
-    url(r'^home/$', 'survey.views.home'),
+    # main and sidebar
+    url(r'^main/$', 'core.views.main', name='main'),
+    url(r'^physical/$', 'core.views.physical', name='physical'),
+    url(r'^activity/$', 'core.views.activity', name='activity'),
+    url(r'^nutrition/$', 'core.views.nutrition', name='nutrition'),
+    url(r'^cvd/$', 'core.views.cvd', name='cvd'),
+    url(r'^bloodwork/$', 'core.views.bloodwork', name='bloodwork'),
+
+    # top nav bar
+    url(r'^personal/$', 'core.views.personal', name='personal'),
+
 
     url(r'^calculator/', 'survey.views.calculator'),
     url(r'^pre_start/$', 'survey.views.pre_start'),
-    url(r'^start_survey/$', 'survey.views.getbaseinfo'),
+    
 
-    url(r'^main/preliminary/(?P<client_id>\d+)$','survey.views.preliminary', name='preliminary'),
-    url(r'^main/preliminary1/$','survey.views.preliminary1'),
+    # questionnaire
+    url(r'^main/(?P<client_id>\d+)/preliminary$','survey.views.preliminary', name='preliminary'),
+    url(r'^main/preliminary1/$','survey.views.preliminary1', name='preliminary1'),
     url(r'^main/preliminary2/$','survey.views.preliminary2'),
     url(r'^main/preliminary3/$','survey.views.preliminary3'),
     url(r'^main/preliminary4/$','survey.views.preliminary4'),
 
+    # coach view
     url(r'^main/manage_client/$','survey.views.manage_client', name='manage_client'),
     url(r'^main/assignment/(?P<client_id>\d+)$','survey.views.assignment', name='assignment'),
     url(r'^main/deassignment/(?P<client_id>\d+)$','survey.views.deassignment', name='deassignment'),
 
-    url(r'^main/onboarding1/(?P<client_id>\d+)$','survey.views.onboarding1', name='onboarding1'),
-    url(r'^main/onboarding2/$','survey.views.onboarding2'),
-    url(r'^main/onboarding3/$','survey.views.onboarding3'),
-    url(r'^main/onboarding4/$','survey.views.onboarding4'),
+    url(r'^main/(?P<client_id>\d+)/onboarding1/$','survey.views.onboarding1', name='onboarding1'),
+    url(r'^main/(?P<client_id>\d+)/onboarding2/$','survey.views.onboarding2'),
+    url(r'^main/(?P<client_id>\d+)/onboarding3/$','survey.views.onboarding3'),
+    url(r'^main/(?P<client_id>\d+)/onboarding4/$','survey.views.onboarding4'),
     
     url(r'^main/age/(?P<client_id>\d+)$','survey.views.get_expected_age'),
+
+
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + staticfiles_urlpatterns()

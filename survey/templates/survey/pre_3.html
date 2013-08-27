@@ -1,4 +1,4 @@
-{% extends "core/base_main.html" %}
+{% extends "core/base_client.html" %}
 {% load staticfiles %}
 
 {% block title %}
@@ -15,6 +15,51 @@
 <br>
 {% endblock %}
 
+{% block sidebar %}
+<!-- sidebar -->
+<div id="sidebar-nav">
+    <ul id="dashboard-menu">
+
+        <li>
+            <a href="{% url 'main' %}">
+                <i class="icon-home"></i>
+                <span>Welcome</span>
+            </a>
+        </li>            
+        <li>
+            <a href="{% url 'physical' %}">
+                <i class="icon-signal"></i>
+                <span>Measurements</span>
+            </a>
+        </li>            
+        <li>
+            <a href="{% url 'activity' %}">
+                <i class="icon-signal"></i>
+                <span>Activity</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'nutrition' %}">
+                <i class="icon-code-fork"></i>
+                <span>Nutrition</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'cvd' %}">
+                <i class="icon-picture"></i>
+                <span>CVD Health</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'bloodwork' %}">
+                <i class="icon-group"></i>
+                <span>Blood Work</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- end sidebar -->
+{% endblock %}
 
 {% block main %}
 

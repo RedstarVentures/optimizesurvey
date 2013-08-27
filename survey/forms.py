@@ -135,7 +135,7 @@ class Onboarding_2_Questionnaire(forms.ModelForm):
     self.fields['regular_exercise'].widget = forms.RadioSelect(choices=Onboarding2.YESNO_CHOICES)
     self.fields['many_exercise'].widget = forms.RadioSelect(choices=Onboarding2.MANY_EXERCISE_CHOICES)
     self.fields['leisure'].widget = forms.RadioSelect(choices=Onboarding2.LEISURE_CHOICES)
-    self.fields['restrict_food'].widget = forms.RadioSelect(choices=Onboarding2.LEISURE_CHOICES)
+    self.fields['restrict_food'].widget = forms.RadioSelect(choices=Onboarding2.YESNO_CHOICES)
     self.fields['many_meat'].widget = forms.RadioSelect(choices=Onboarding2.MANY_MEAT_CHOICES)
     self.fields['how_bbq'].widget = forms.RadioSelect(choices=Onboarding2.HOW_BBQ_CHOICES) 
     self.fields['many_dairy'].widget = forms.RadioSelect(choices=Onboarding2.DAIRY_CHOICES) 

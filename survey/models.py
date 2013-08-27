@@ -21,7 +21,7 @@ class Preliminary1(models.Model):
 
   #setting custom user model
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
+  last_submit_time = models.DateTimeField(auto_now_add=True)
   # question 1
   first_name = models.CharField(max_length=32, verbose_name="First name")
   # question 2
@@ -126,6 +126,8 @@ class Preliminary1(models.Model):
 
   brain_activity = models.IntegerField(choices=BRAIN_CHOICES, verbose_name='Do you regularly engage in brain activities that are both new and challenging to you (e.g. learning a new subject, playing someone in a hard game such as chess or scrabble, solving crossword or Sudoku puzzles)?')
 
+  def meta(self):
+    return self._meta
 
 class Preliminary2(models.Model):
   """
@@ -134,7 +136,7 @@ class Preliminary2(models.Model):
 
   #setting custom user model
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
+  last_submit_time = models.DateTimeField(auto_now_add=True)
   # frequency choice
   YESNO_CHOICES = (
       (1, 'Yes'),
@@ -257,7 +259,7 @@ class Preliminary3(models.Model):
 
   #setting custom user model
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
+  last_submit_time = models.DateTimeField(auto_now_add=True)
   # frequency choice
   YESNO_CHOICES = (
       (1, 'Yes'),
@@ -298,6 +300,7 @@ class Preliminary4(models.Model):
 
   #setting custom user model
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
+  last_submit_time = models.DateTimeField(auto_now_add=True)
 
   # frequency choice
   YESNO_CHOICES = (
@@ -344,6 +347,7 @@ class Preliminary4(models.Model):
   mother_passed_old = models.IntegerField(choices=OLD_CHOICES, verbose_name='How old was your mother when she passed away?')
 
   CAUSE_CHOICES = (
+      (0, 'N/A'),
       (1, "Smoking related illness (cancer, heart attack, emphysema)"),
       (2, 'Trauma prior to age 80'),
       (3, 'Trauma after age 80'),
@@ -388,7 +392,8 @@ class Preliminary4(models.Model):
   
   #q15
   CHILD_CHOICES = (
-      (1, 'I have not had nay children'),
+      (0, 'N/A'),
+      (1, 'I have not had any children'),
       (2, 'Younger than 34'),
       (3, '35 - 39'),
       (4, '40 - 44'),
@@ -404,7 +409,7 @@ class Onboarding1(models.Model):
   """
   #setting custom user model
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
+  last_submit_time = models.DateTimeField(auto_now_add=True)
   # question 1
   choice_reason = models.TextField(verbose_name="1. Can you briefly explain why you chose to join OptMe?")
   # question 2
@@ -422,7 +427,7 @@ class Onboarding2(models.Model):
 
   #setting custom user model
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
+  last_submit_time = models.DateTimeField(auto_now_add=True)
   # frequency choice
   YESNO_CHOICES = (
       (1, 'Yes'),
@@ -548,7 +553,7 @@ class Onboarding3(models.Model):
 
   #setting custom user model
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
+  last_submit_time = models.DateTimeField(auto_now_add=True)
   # frequency choice
   YESNO_CHOICES = (
       (1, 'Yes'),
@@ -586,7 +591,7 @@ class Onboarding3(models.Model):
   family_weight = models.TextField(verbose_name='6. What is your family history surrounding weight - are your parents overweight?')
   
   height = models.CharField(max_length=20, verbose_name='Self-Reported Height (in inches, 12in per ft)')
-  weight = models.CharField(max_length=20, verbose_name='Weight')
+  weight = models.CharField(max_length=20, verbose_name='Weight (lbs)')
   percent_fat = models.CharField(max_length=20, verbose_name='Percent body fat')
   heart_rate = models.CharField(max_length=20, verbose_name='Resting Heart Rate (Beats per Minute)')
   blood_pressure = models.CharField(max_length=20, verbose_name='Resting Blood Pressure (Systolic/Diastolic)')
@@ -599,7 +604,7 @@ class Onboarding4(models.Model):
 
   #setting custom user model
   user = models.ForeignKey(settings.AUTH_USER_MODEL)
-
+  last_submit_time = models.DateTimeField(auto_now_add=True)
   # question 1
   fitbit = models.TextField(null=True, blank=True, verbose_name="FitBit")
   my_net_diary = models.TextField(null=True, blank=True, verbose_name="My Net Diary")

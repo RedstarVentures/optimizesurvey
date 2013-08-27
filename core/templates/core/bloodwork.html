@@ -1,6 +1,6 @@
 {% extends "core/base_client.html" %}
 {% load staticfiles %}
- 
+
 {% block title %}
 <title>Nutrition</title>
 {% endblock %}
@@ -36,11 +36,7 @@
                 <span>Activity</span>
             </a>
         </li>
-        <li class="active">
-            <div class="pointer">
-                <div class="arrow"></div>
-                <div class="arrow_border"></div>
-            </div>
+        <li>
             <a href="{% url 'nutrition' %}">
                 <i class="icon-code-fork"></i>
                 <span>Nutrition</span>
@@ -52,7 +48,11 @@
                 <span>CVD Health</span>
             </a>
         </li>
-        <li>
+        <li class = "active">
+          <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div>
             <a href="{% url 'bloodwork' %}">
                 <i class="icon-group"></i>
                 <span>Blood Work</span>
@@ -65,68 +65,12 @@
 
 
 {% block upperstat %}
-<!-- upper main stats -->
-<div id="main-stats">
-  <div class="row-fluid stats-row">
-    <div class="span3 stat">
-      <div class="data">
-        <span class="number">x (g)</span>
-        Less Calories
-      </div>
-      <span class="date">Today</span>
-    </div>
-    <div class="span3 stat">
-      <div class="data">
-        <span class="number">x (g)</span>
-        Less Saturated Fat
-      </div>
-      <span class="date">This week</span>
-    </div>
-    <div class="span3 stat">
-      <div class="data">
-        <span class="number">x (mg)</span>
-        Less Sodium
-      </div>
-      <span class="date">a month ago</span>
-    </div>
-    <div class="span3 stat last">
-      <div class="data">
-        <span class="number">x (g)</span>
-        More Fiber
-      </div>
-      <span class="date">last six months</span>
-    </div>
-  </div>
-</div><!-- end upper main stats -->
+
 {% endblock %}
 
 {% block main %}
 <br><br>
-Coach Tip
+Total Cholesterol Graph and LDL graph
 <br><br>
-
-<div class="span6">
-  <h4>Current dietary intake</h4>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th class="span3">
-          <!--                   <input type="Date"> -->
-          Nutrient
-        </th>
-        <th class="span3">
-          Intake
-        </th>
-        <th class="span3">
-          Need
-        </th>
-        <th class="span3">
-          <span class="line"></span>Difference
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      
-    </tbody>
-  </div>
+Coach Tip
 {% endblock %} <!-- End graph -->

@@ -34,6 +34,11 @@ class EmailUser(AbstractBaseUser, PermissionsMixin):
   first_name = models.CharField(max_length=36, blank=True, null=True)
   last_name = models.CharField(max_length=36, blank=True, null=True)
   date_of_birth = models.DateField(blank=True, null=True)
+  GENDER_TYPE = (
+      (1, 'Male'),
+      (2, 'Female')
+    )
+  gender = models.IntegerField(choices=GENDER_TYPE, default=1, verbose_name = 'Gender')
   is_active = models.BooleanField(default=True)
   is_staff = models.BooleanField(default=False)
 
@@ -43,7 +48,7 @@ class EmailUser(AbstractBaseUser, PermissionsMixin):
       (3, 'Admin')
   )
   user_type = models.IntegerField(choices=USER_TYPE, default=1, verbose_name='User type')
-
+  lifespan = models.IntegerField(default=0)
   coach = models.ForeignKey('self', blank=True, null=True, verbose_name='Coach')
 
   date_joined = models.DateTimeField(auto_now_add=True)
