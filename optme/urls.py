@@ -32,7 +32,7 @@ urlpatterns = patterns('',
     url(r'^personal/$', 'core.views.personal', name='personal'),
 
 
-    url(r'^calculator/', 'survey.views.calculator'),
+    
     url(r'^pre_start/$', 'survey.views.pre_start'),
     
 
@@ -53,7 +53,9 @@ urlpatterns = patterns('',
     url(r'^main/(?P<client_id>\d+)/onboarding3/$','survey.views.onboarding3'),
     url(r'^main/(?P<client_id>\d+)/onboarding4/$','survey.views.onboarding4'),
     
-    url(r'^main/age/(?P<client_id>\d+)$','survey.views.get_expected_age'),
+    url(r'^main/(?P<client_id>\d+)/age/$','survey.views.get_expected_age'),
 
+    # test
+    url(r'^main/(?P<client_id>\d+)/calculator/$', 'survey.views.calculator'),
 
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + staticfiles_urlpatterns()

@@ -260,13 +260,37 @@
         <br>
 
         <div class="form-group">
-          <label for="id_formal_education">15. {{ form.child_old.label }}</label>
+          <label for="id_formal_education">15. {{ form.fertility.label }}</label>
+          {% if form.fertility.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.fertility}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">16. {{ form.child_old.label }}</label>
           {% if form.child_old.errors %}
             <br>
               <font color="red">required</font>
             {% endif %} 
           <div class="form-control">
             {{ form.child_old}} 
+          </div>
+        </div>    
+        <br>
+
+        <div class="form-group">
+          <label for="id_formal_education">17. {{ form.period.label }}</label>
+          {% if form.period.errors %}
+            <br>
+              <font color="red">required</font>
+            {% endif %} 
+          <div class="form-control">
+            {{ form.period}} 
           </div>
         </div>    
         <br>

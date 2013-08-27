@@ -1,6 +1,6 @@
 {% extends "core/base_client.html" %}
 {% load staticfiles %}
-
+{% load humanize %}
 {% block title %}
 <title>Personal</title>
 {% endblock %}
@@ -116,7 +116,12 @@
 <div class="row">
   <div class="col-9">
       
-      {{last_submit}}
+      {% if last_submit %}
+        Last submitted on {{ last_submit|timesince }} ago
+      {% else %}
+        You did not finsh the questionnaire yet.
+      {% endif %}
+      
       
   </div>
   <div class="col-3">

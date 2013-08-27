@@ -97,9 +97,10 @@ class Preliminary_4_Questionnaire(forms.ModelForm):
     self.fields['father_passed_old'].widget = forms.RadioSelect(choices=Preliminary4.OLD_CHOICES) 
     self.fields['father_cause'].widget = forms.RadioSelect(choices=Preliminary4.CAUSE_CHOICES)
     self.fields['family_history'].widget = forms.RadioSelect(choices=Preliminary4.HISTORY_CHOICES)
-    self.fields['long_live'].widget = forms.RadioSelect(choices=Preliminary4.YESNO_CHOICES) 
+    self.fields['long_live'].widget = forms.RadioSelect(choices=Preliminary4.YESNO_CHOICES)
+    self.fields['fertility'].widget = forms.RadioSelect(choices=Preliminary4.FER_CHOICES) 
     self.fields['child_old'].widget = forms.RadioSelect(choices=Preliminary4.CHILD_CHOICES) 
-
+    self.fields['period'].widget = forms.RadioSelect(choices=Preliminary4.PERIOD_CHOICES) 
 
 class Onboarding_1_Questionnaire(forms.ModelForm):
 

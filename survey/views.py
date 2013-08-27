@@ -17,17 +17,17 @@ register = template.Library()
 
 
 def calculate_age(month, day, year):
-	today=datetime.date.today()
-	age = today.year - year
-	# unpassed more minus 1
-	if month >= today.month:
-		if day > today.day:
-			age = age-1
-	return age
+  today=datetime.date.today()
+  age = today.year - year
+  # unpassed more minus 1
+  if month >= today.month:
+    if day > today.day:
+      age = age-1
+  return age
 
 def pre_start(request):
-	data = {}
-	return render_to_response('survey/pre.html', data, context_instance=RequestContext(request))
+  data = {}
+  return render_to_response('survey/pre.html', data, context_instance=RequestContext(request))
 
 
 def get_verbose_name(instance, field_name):
@@ -353,6 +353,7 @@ def get_expected_age(request, client_id):
     # get base info
     # connect - all answer to livingto100
     # return your age
+
   try:
     user = EmailUser.objects.get(id=client_id)
   except:
@@ -362,124 +363,357 @@ def get_expected_age(request, client_id):
   return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))
 
 
-def calculator(request):	
+def calculator(request, client_id): 
 
-	# receive user's data from DB
-	# be careful of sequence
-	dateMonth = ['6']
-	dateDay = ['10']
-	dateYear = ['1987']
-	gender = ['M']
-	country_id = ['230']
-	zipcode = '02215'
-	accept= ['1']
+  # get client's information
+  try:
+    client = EmailUser.objects.get(id=client_id)
+  except:
+    raise Http404
 
-	# user's answer
-	# At the moment, Random variable!!
-	# Todo : Called from DB
+  # check all data are received successfully.
+  try:
+    pre1 = Preliminary1.objects.get(user=client)
+    pre2 = Preliminary2.objects.get(user=client)
+    pre3 = Preliminary3.objects.get(user=client)
+    pre4 = Preliminary4.objects.get(user=client)
+    on1 = Onboarding1.objects.get(user=client)
+    on2 = Onboarding2.objects.get(user=client)
+    on3 = Onboarding3.objects.get(user=client)
+    on4 = Onboarding4.objects.get(user=client)
 
-	# check all data are received successfully.
+  except: # some questionnaire wasn't finished.
+    raise Http404
 
-	# calculate the User Age
-	age = calculate_age(int(dateMonth[0]), int(dateDay[0]), int(dateYear[0]))
-	# external
-	if age < 13 or age > 99:
-		assert "unsupported age"
-
-	# Target site
-	br = mechanize.Browser()
-	url = 'https://livingto100.com'
-
-	br.open(url+'/calculator')
-	br.form = list(br.forms())[0]
-	br.form['date[month]'] = dateMonth
-	br.form['date[day]'] = dateDay
-	br.form['date[year]'] = dateYear
-	br.form['gender'] = gender
-	br.form['country_id'] = country_id
-	br.form['zipcode'] = zipcode
-	br.form['accept'] = accept
-	br.submit()
-
-	flag=0
-	br.form = list(br.forms())[0]
-	# branch 4 - way
-	if age > 38:
-		if gender[0] == 'M':
-			# /start/1
-			for x in range(1, 94, 2):
-				if x != 7 and x != 55:
-					#this is for normal radiocontrol and selectcontrol
-					ran = random.sample(br.form.find_control(str(x)).items, 1)
-					br.form[str(x)] = [ran[0].name] # warning of list
-				elif x==7:
-					#this is for checkbox control
-					br.form['7[23]'] = ['E']
-					# for until 7[45]
-				else:
-					#another checkbox control
-					br.form['55[401]'] = ['I']
-					# for until 55[410]
-		else:
-			# /start/2
-			for x in range(2, 95, 2)+[95, 96, 97]:
-				if x != 8 and x != 56:
-					ran = random.sample(br.form.find_control(str(x)).items, 1)
-					br.form[str(x)] = [ran[0].name] # warning of list
-				elif x==8:
-					br.form['8[46]'] = ['E']
-					#for until 8[68]
-				else:
-					br.form['56[411]'] = ['I']
-					#for until 56[420]
-	else:
-		if gender[0] =='M':
-			# /start/3 (99~205)
-			for x in range(99,206,2):
-				if x == 161:
-					br.form['161[1000]'] = ['F']
-					#for until 161[1008]
-				else:
-					ran = random.sample(br.form.find_control(str(x)).items, 1)
-					br.form[str(x)] = [ran[0].name] # warning of list
-		else:
-			# /start/4
-			for x in range(98, 207, 2):
-				if x == 160:
-					br.form['160[991]'] = ['F']
-					#for until 160[999]
-				else:
-					ran = random.sample(br.form.find_control(str(x)).items, 1)
-					br.form[str(x)] = [ran[0].name] # warning of list
+  # user's answer matching!!
 
 
-	br.submit()
-	# usage of mechanize
-	# len(br.form.find_control('190').items)
-	# br.form.find_control('190').items[0].name
-	# a = random.sample(br.form.find_control('190').items, 1)
-	# a[0].name
-	
-	# Temporary login module to livingto100
-	br.open(url+'/users/sign_in')
-	br.form = list(br.forms())[0]
-	br.form['user[email]'] = 'optme@optme.com'
-	br.form['user[password]'] = 'redstar123'
-	submitLogin = br.submit()
-	
-	# Result Analysis start
-	soup = BeautifulSoup(submitLogin)
-	image_tags = soup.findAll('img')
 
-	resultAge = image_tags[2]['alt']
-	try:
-		check = int(resultAge)
+
+  # receive client's data from DB
+
+  dateMonth = [str(client.date_of_birth.month)]
+  dateDay = [str(client.date_of_birth.day)]
+  dateYear = [str(client.date_of_birth.year)]
+  gender = ['M']
+  if client.gender == 2:
+    gender = ['F']
+
+  # base value
+  country_id = ['230']
+  zipcode = '02215'
+  accept= ['1']
+
+  age = datetime.date.today().year - client.date_of_birth.year
+  # unpassed more minus 1
+  if client.date_of_birth.month >= datetime.date.today().month:
+    if client.date_of_birth.day > datetime.date.today().day:
+      age = age-1
+
+  
+  # Target site
+  br = mechanize.Browser()
+  url = 'https://livingto100.com'
+
+  br.open(url+'/calculator')
+  br.form = list(br.forms())[0]
+  br.form['date[month]'] = dateMonth
+  br.form['date[day]'] = dateDay
+  br.form['date[year]'] = dateYear
+  br.form['gender'] = gender
+  br.form['country_id'] = country_id
+  br.form['zipcode'] = zipcode
+  br.form['accept'] = accept
+  br.submit()
+
+  flag=0
+  br.form = list(br.forms())[0]
+  # branch 4 - way
+  if age > 38:
+    if gender[0] == 'M':
+      # /start/1
+      list_sequence = [pre1.marital_status,
+                      pre1.new_relation,
+                      pre1.cope_stress,
+                      pre1.source_of_stress, # manytomany
+                      # sleep question!!!
+                      pre1.formal_education,
+                      pre1.work_hour,
+                      # optimistic !!!
+                      pre1.brain_activity,
+                      pre2.air_pollution,
+                      pre2.coffee,
+                      # cups of tea
+                      pre2.often_smoke,
+                      pre2.many_smoke,
+                      pre2.second_smoke,
+                      pre2.lung_disease,
+                      pre2.day_alcohol,
+                      pre2.glass_alcohol,
+                      pre2.aspirin,
+                      pre2.sunscreen,
+                      pre2.floss_teeth,
+                      # weight on3 weight
+                      # tall on3 height
+                      pre2.body_mass_index,
+                      on2.many_dairy,
+                      on2.calcium,
+                      on2.snack, # manyto many
+                      on2.red_meat,
+                      on2.sweet,
+                      on2.carbohydrate,
+                      on2.having_diet,
+                      on2.iron,
+                      on2.many_exercise,
+                      on2.leisure,
+                      pre3.bowel_movement,
+                      pre3.skin_cancer,
+                      # cholesterol (good cholesterol)
+                      # cholesterol (bad cholesterol)
+                      # on3 : blood_pressure (Systolic) // choice is different male, female
+                      # on3 : blood_pressure (Diastolic)
+                      # fasting blood sugar level
+                      pre3.heart_attack,
+                      pre3.doctor_appointment,
+                      pre4.immediate_family,
+                      pre4.cancer_family,
+                      pre4.family_history
+                      ]
+      for x in range(1, 94, 2):
+        if x != 7 and x != 55:
+          #this is for normal radiocontrol and selectcontrol
+          ran = random.sample(br.form.find_control(str(x)).items, 1)
+          br.form[str(x)] = [ran[0].name] # warning of list
+        elif x==7:
+          #this is for checkbox control
+          br.form['7[23]'] = ['E']
+          # for until 7[45]
+        else:
+          #another checkbox control
+          br.form['55[401]'] = ['I']
+          # for until 55[410]
+    else:
+      # /start/2
+      list_sequence = [pre1.marital_status,
+                      pre1.new_relation,
+                      pre1.cope_stress,
+                      pre1.source_of_stress, # manytomany
+                      # sleep question!!!
+                      pre1.formal_education,
+                      pre1.work_hour,
+                      # optimistic !!!
+                      pre1.brain_activity,
+                      pre2.air_pollution,
+                      pre2.coffee,
+                      # cups of tea
+                      pre2.often_smoke,
+                      pre2.many_smoke,
+                      pre2.second_smoke,
+                      pre2.lung_disease,
+                      pre2.day_alcohol,
+                      pre2.glass_alcohol,
+                      pre2.aspirin,
+                      pre2.sunscreen,
+                      pre2.floss_teeth,
+                      # weight on3 weight
+                      # tall on3 height
+                      pre2.body_mass_index,
+                      on2.many_dairy,
+                      on2.calcium,
+                      on2.snack, # manyto many
+                      on2.red_meat,
+                      on2.sweet,
+                      on2.carbohydrate,
+                      on2.having_diet,
+                      on2.iron,
+                      on2.many_exercise,
+                      on2.leisure,
+                      pre3.bowel_movement,
+                      pre3.skin_cancer,
+                      # cholesterol (good cholesterol)
+                      # cholesterol (bad cholesterol)
+                      # on3 : blood_pressure (Systolic) // choice is different male, female
+                      # on3 : blood_pressure (Diastolic)
+                      # fasting blood sugar level
+                      pre3.heart_attack,
+                      pre3.doctor_appointment,
+                      pre4.immediate_family,
+                      pre4.cancer_family,
+                      pre4.family_history,
+                      pre4.fertility,
+                      pre4.child_old,
+                      pre4.period
+                      ]
+      for x in range(2, 95, 2)+[95, 96, 97]:
+        if x != 8 and x != 56:
+          ran = random.sample(br.form.find_control(str(x)).items, 1)
+          br.form[str(x)] = [ran[0].name] # warning of list
+        elif x==8:
+          br.form['8[46]'] = ['E']
+          #for until 8[68]
+        else:
+          br.form['56[411]'] = ['I']
+          #for until 56[420]
+  else:
+    if gender[0] =='M':
+      # /start/3 (99~205)
+      list_sequence = [pre1.marital_status,
+                      pre1.in_person_contact,
+                      # how do you evaluate your current stress level
+                      pre1.cope_stress,
+                      # sleep question!!!
+                      pre1.formal_education,
+                      pre1.work_hour,
+                      pre1.work_week,
+                      # optimistic !!!
+                      pre2.air_pollution,
+                      pre2.seatbelt,
+                      pre2.coffee,
+                      # cups of tea
+                      pre2.second_smoke,
+                      pre2.often_smoke,
+                      pre2.many_smoke,
+                      pre2.exposure_smoke,
+                      pre2.lung_disease,
+                      pre2.day_alcohol,
+                      pre2.glass_alcohol,
+                      pre2.aspirin,
+                      pre2.sunscreen,
+                      # risky sexual behavior and illegal drug
+                      pre2.floss_teeth,
+                      # weight on3 weight
+                      # tall on3 height
+                      pre2.body_mass_index,
+                      on2.many_meat,
+                      on2.how_bbq,
+                      on2.many_dairy,
+                      on2.calcium,
+                      on2.snack, # manyto many
+                      on2.red_meat,
+                      on2.sweet,
+                      on2.carbohydrate,
+                      on2.having_diet,
+                      on2.iron,
+                      on2.many_exercise,
+                      on2.leisure,
+                      pre3.bowel_movement,
+                      pre3.skin_cancer,
+                      # cholesterol (good cholesterol)
+                      # cholesterol (bad cholesterol)
+                      # total cholesterol level
+                      # on3 : blood_pressure (Systolic)
+                      # on3 : blood_pressure (Diastolic)
+                      # fasting blood sugar level
+                      pre3.heart_attack,
+                      pre3.doctor_appointment,
+                      pre4.immediate_family,
+                      pre4.cancer_family,
+                      # complex question (how old and how healthy is/was your mother)
+                      # complex question (how old and how healthy is/was your father)
+                      pre4.long_live
+                      ]
+      
+      for x in range(99,206,2):
+        if x == 161:
+          br.form['161[1000]'] = ['F']
+          #for until 161[1008]
+        else:
+          ran = random.sample(br.form.find_control(str(x)).items, 1)
+          br.form[str(x)] = [ran[0].name] # warning of list
+    else:
+      # /start/4
+      list_sequence = [pre1.marital_status,
+                      pre1.in_person_contact,
+                      # how do you evaluate your current stress level
+                      pre1.cope_stress,
+                      # sleep question!!!
+                      pre1.formal_education,
+                      pre1.work_hour,
+                      pre1.work_week,
+                      # optimistic !!!
+                      pre2.air_pollution,
+                      pre2.seatbelt,
+                      pre2.coffee,
+                      # cups of tea
+                      pre2.second_smoke,
+                      pre2.often_smoke,
+                      pre2.many_smoke,
+                      pre2.exposure_smoke,
+                      pre2.lung_disease,
+                      pre2.day_alcohol,
+                      pre2.glass_alcohol,
+                      pre2.aspirin,
+                      pre2.sunscreen,
+                      # risky sexual behavior and illegal drug
+                      pre2.floss_teeth,
+                      # weight on3 weight
+                      # tall on3 height
+                      pre2.body_mass_index,
+                      on2.many_meat,
+                      on2.how_bbq,
+                      on2.many_dairy,
+                      on2.calcium,
+                      on2.snack, # manyto many
+                      on2.red_meat,
+                      on2.sweet,
+                      on2.carbohydrate,
+                      on2.having_diet,
+                      on2.iron,
+                      on2.many_exercise,
+                      on2.leisure,
+                      pre3.bowel_movement,
+                      pre3.skin_cancer,
+                      # cholesterol (good cholesterol)
+                      # cholesterol (bad cholesterol)
+                      # total cholesterol level
+                      # on3 : blood_pressure (Systolic)
+                      # on3 : blood_pressure (Diastolic)
+                      # fasting blood sugar level
+                      pre3.heart_attack,
+                      pre3.doctor_appointment,
+                      pre4.immediate_family,
+                      pre4.cancer_family,
+                      # complex question (how old and how healthy is/was your mother)
+                      # complex question (how old and how healthy is/was your father)
+                      pre4.long_live,
+                      pre4.child_old
+                      ]
+      for x in range(98, 207, 2):
+        if x == 160:
+          br.form['160[991]'] = ['F']
+          #for until 160[999]
+        else:
+          ran = random.sample(br.form.find_control(str(x)).items, 1)
+          br.form[str(x)] = [ran[0].name] # warning of list
+
+
+  br.submit()
+  # usage of mechanize
+  # len(br.form.find_control('190').items)
+  # br.form.find_control('190').items[0].name
+  # a = random.sample(br.form.find_control('190').items, 1)
+  # a[0].name
+
+  # Temporary login module to livingto100
+  br.open(url+'/users/sign_in')
+  br.form = list(br.forms())[0]
+  br.form['user[email]'] = 'optme@optme.com'
+  br.form['user[password]'] = 'redstar123'
+  submitLogin = br.submit()
+
+  # Result Analysis start
+  soup = BeautifulSoup(submitLogin)
+  image_tags = soup.findAll('img')
+
+  resultAge = image_tags[2]['alt']
+  try:
+    check = int(resultAge)
 
     # save the check to client's lifespan column
 
-		output = "Your calculated life expectancy is "+ resultAge
-	except ValueError, e:
-		output = "Something wrong with calculating ! It needs repair"
-	data = {}
-	data['output'] = output
-	return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))
+    output = "Your calculated life expectancy is "+ resultAge
+  except ValueError, e:
+    output = "Something wrong with calculating ! It needs repair"
+  data = {}
+  data['output'] = output
+  return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))

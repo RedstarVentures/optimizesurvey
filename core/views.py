@@ -79,9 +79,9 @@ def personal(request):
 
   try:
     last_answer = Preliminary4.objects.get(user=client.id)
-    data['last_submit'] = "Last submitted on %s" % last_answer.last_submit_time
+    data['last_submit'] = last_answer.last_submit_time
   except:
-    data['last_submit'] = 'You have not finished yet !'
+    data['last_submit'] = ''
     pass
 
   # calculator age module

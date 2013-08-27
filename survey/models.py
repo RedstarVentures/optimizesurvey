@@ -390,7 +390,14 @@ class Preliminary4(models.Model):
   #q14
   long_live = models.IntegerField(choices=YESNO_CHOICES, verbose_name='Did any of your grandparents or great-grandparents live to age 98 years or older?')
   
-  #q15
+  # q15
+  FER_CHOICES = (
+      (0, 'N/A'),
+      (1, 'Yes'),
+      (2, 'No')
+    )
+  fertility = models.IntegerField(choices=FER_CHOICES, verbose_name='Have you had any children without fertility technology assistance?')
+  #  q16
   CHILD_CHOICES = (
       (0, 'N/A'),
       (1, 'I have not had any children'),
@@ -400,6 +407,17 @@ class Preliminary4(models.Model):
       (5, 'Older than 45')
     )
   child_old = models.IntegerField(choices=CHILD_CHOICES, verbose_name='How old were you when you last had a child without fertility technology assistance?')
+
+  # q17
+  PERIOD_CHOICES = (
+      (0, 'N/A'),
+      (1, 'I am still having my periods'),
+      (2, '39 or Younger'),
+      (3, '40 - 55'),
+      (4, '56 - 59'),
+      (5, '60 or Older')
+    )
+  period = models.IntegerField(choices=PERIOD_CHOICES, verbose_name='How old were you when you had your last period (or had a hysterectomy)?')
 
 
 # 
