@@ -59,7 +59,15 @@ def nutrition(request):
 @login_required
 def cvd(request):
   data={}
-  data['lifespan'] = 0
+  user = request.user
+  try:
+    client = EmailUser.objects.get(email=user)
+    data['lifespan'] = client.lifespan
+  except:
+    data['lifespan'] = 0
+    pass
+
+
 
   # if expected_life exist
   # return
