@@ -159,25 +159,10 @@
   
 
 {% block main %}
-<div id="pad-wrapper">
-
-  <p>Welcome back, Eric! Here’s message from your coach..</p>
-
-    
-
-    <!-- statistics chart built with jQuery Flot -->
-  <div class="row-fluid chart">
-    <h4>
-        Your Progress
-         <div class="btn-group pull-right">
-            <button class="glow left">DAY</button>
-            <button class="glow middle active">MONTH</button>
-            <button class="glow right">YEAR</button>
-        </div>
-    </h4>
-    <div class="span12">
-        <div id="statsChart"></div>
-    </div> 
-  </div>
+<br><br>
+<h4>Welcome back, {{client.first_name}}!  &nbsp;&nbsp;&nbsp;&nbsp;Here’s message from your coach..</h4>
+<br>
+<div>
+    <img src="{% static 'img/main_welcome.png' %}" class="img-responsive" alt="Responsive image">
 </div>
 {% endblock %}

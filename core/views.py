@@ -21,6 +21,7 @@ def main(request):
   userinfo = EmailUser.objects.get(email=user)
   
   if userinfo.user_type == 1: # client
+    data['client']=userinfo
     return render_to_response("core/base_client.html", data, context_instance=RequestContext(request))
   
   else: # coach

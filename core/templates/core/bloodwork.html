@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-<title>Nutrition</title>
+<title>Blood work</title>
 {% endblock %}
 
 {% block additionalstyle %}
@@ -69,8 +69,9 @@
 {% endblock %}
 
 {% block main %}
-<br><br>
-Total Cholesterol Graph and LDL graph
-<br><br>
-Coach Tip
+
+<div>
+    <br><br>
+    <img src="{% static 'img/main_blood.png' %}" class="img-responsive" alt="Responsive image">
+</div>
 {% endblock %} <!-- End graph -->

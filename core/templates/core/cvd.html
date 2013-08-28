@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title %}
-<title>Nutrition</title>
+<title>CVD Health</title>
 {% endblock %}
 
 {% block additionalstyle %}
@@ -94,7 +94,7 @@
 {% endblock %}
 
 {% block main %}
-<br><br>
+<br>
 {% ifequal lifespan 0 %}
 You have to finish all questionnaires for getting expected life span.
 
@@ -103,8 +103,7 @@ You have to finish all questionnaires for getting expected life span.
 Your expected life span is {{lifespan}}.
 
 {% endifequal %}
-<br><br>
-Full CVD BMI graph
-<br><br>
-Coach Tip
+<div>
+    <img src="{% static 'img/main_cvd.png' %}" class="img-responsive" alt="Responsive image">
+</div>
 {% endblock %} <!-- End graph -->

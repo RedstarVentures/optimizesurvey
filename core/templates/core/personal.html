@@ -71,69 +71,45 @@
 
 
 <div class="row">
-  <div class="col-9">
-
-    <label> {{client.first_name}}&nbsp;{{client.last_name}} </label>
-    
-  </div>
-  <div class="col-3">
-
-    <label> Your Personal Coach</label>
-    
-  </div>
-</div>
-
-<div class="row">
   <div class="col-6">
-    Age : {{age}}
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-6">
-    Gender : {% ifequal client.gender 1 %} Male {% else %} Female {% endifequal %}
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-6">
+    <h3> {{client.first_name}}&nbsp;{{client.last_name}} </h3> <br><br>
+    Age : {{age}} <br><br>
+    Gender : {% ifequal client.gender 1 %} Male {% else %} Female {% endifequal %} <br><br>
     Email address : {{client.email}}
   </div>
+  <div class="col-6">
+
+    <h3> Your Personal Coach</h3><br>
+    <div class = "row">
+      <div class = "col-4">
+        <img src="{% static 'img/personal_coach.png' %}" class="img-responsive" alt="Responsive image"><br>
+      </div>
+      <div class = "col-8">
+        Dr. Whitney Evans, RD., PhD.<br>
+        {{client.coach}}<br><br>
+        Whitney has been a professional nutritionist for 15 years. She is a Registered Dietician (RD) and Licenced Dietician/Nutritionist. Whitney holds a Ph.D in Nutritional Epidemiology from Tufts University, and a Masters in Clinical Nutrition from Boston University. Whitney has been published 16 academic journals and textbooks.
+      </div>
+    </div>
+    
+  </div>
 </div>
 
-<br><br>
+<br>
 
 <div class="row">
   <div class="col-12">
     <br>
-    <label> Update Questionnaire Responses </label>
-    <br>
-    
-    
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-9">
-      
+    <h3> Update Questionnaire Responses </h3><br><br>
       {% if last_submit %}
         Last submitted on {{ last_submit|timesince }} ago
       {% else %}
         You did not finsh the questionnaire yet.
       {% endif %}
-      
-      
-  </div>
-  <div class="col-3">
-    {{client.coach}}
+      <br><br>
+      <a href = "{% url 'preliminary1' %}">Re-take the Questionnaire</a>
+    
   </div>
 </div>
 
-<br><br>
-
-<div class="row">
-  <div class ="col-12">
-    <a href = "{% url 'preliminary1' %}">Re-take the Questionnaire</a>
-  </div>
-</div>
 {% endblock %} <!-- End graph -->
