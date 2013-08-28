@@ -73,7 +73,19 @@
 <div class="row">
   <div class="col-6">
 
-    <h3> {{client.first_name}}&nbsp;{{client.last_name}} </h3> <br><br>
+    <h3>
+      {% if client.first_name %}
+        {{client.first_name}}
+      {% else %}
+        Please Start the questionnaire
+      {% endif %}
+      &nbsp;
+      {% if client.last_name %}
+        {{client.last_name}}
+      {% else %}
+        
+      {% endif %}
+    </h3> <br><br>
     Age : {{age}} <br><br>
     Gender : {% ifequal client.gender 1 %} Male {% else %} Female {% endifequal %} <br><br>
     Email address : {{client.email}}
@@ -103,11 +115,14 @@
     <h3> Update Questionnaire Responses </h3><br><br>
       {% if last_submit %}
         Last submitted on {{ last_submit|timesince }} ago
+        <br><br>
+      <a href = "{% url 'preliminary1' %}">Re-take the Questionnaire</a>
       {% else %}
         You did not finsh the questionnaire yet.
+        <br><br>
+      <a href = "{% url 'preliminary1' %}">Start the Questionnaire</a>
       {% endif %}
-      <br><br>
-      <a href = "{% url 'preliminary1' %}">Re-take the Questionnaire</a>
+      
     
   </div>
 </div>

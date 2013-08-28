@@ -86,13 +86,16 @@ def personal(request):
     pass
 
   # calculator age module
-  today=datetime.date.today()
-  age = today.year - client.date_of_birth.year
-  # unpassed more minus 1
-  if client.date_of_birth.month >= today.month:
-    if client.date_of_birth.day > today.day:
-      age = age-1
-  data['age'] = age
+  try:
+    today=datetime.date.today()
+    age = today.year - client.date_of_birth.year
+    # unpassed more minus 1
+    if client.date_of_birth.month >= today.month:
+      if client.date_of_birth.day > today.day:
+        age = age-1
+    data['age'] = age
+  except:
+    data['age'] = '?'
 
   return render_to_response("core/personal.html", data, context_instance=RequestContext(request))
 

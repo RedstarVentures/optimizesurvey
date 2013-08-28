@@ -17,7 +17,7 @@ class EmailUserAdmin(UserAdmin):
     list_display = ('email', 'first_name', 'last_name','gender', 'date_of_birth', 'lifespan', 'user_type', 'is_superuser', 'date_joined', 'coach',)
     list_filter = ('is_superuser',)
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'user_type', 'coach', 'lifespan' )}),
+        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'gender','user_type', 'coach', 'lifespan' )}),
         ('Personal info', {'fields': ('date_of_birth', )}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', )}),
     )
