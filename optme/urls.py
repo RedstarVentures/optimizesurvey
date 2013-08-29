@@ -32,10 +32,6 @@ urlpatterns = patterns('',
     url(r'^personal/$', 'core.views.personal', name='personal'),
 
 
-    
-    url(r'^pre_start/$', 'survey.views.pre_start'),
-    
-
     # questionnaire
     url(r'^main/(?P<client_id>\d+)/preliminary$','survey.views.preliminary', name='preliminary'),
     url(r'^main/preliminary1/$','survey.views.preliminary1', name='preliminary1'),
@@ -44,9 +40,8 @@ urlpatterns = patterns('',
     url(r'^main/preliminary4/$','survey.views.preliminary4'),
 
     # coach view
-    url(r'^main/manage_client/$','survey.views.manage_client', name='manage_client'),
     url(r'^main/assignment/(?P<client_id>\d+)$','survey.views.assignment', name='assignment'),
-    url(r'^main/deassignment/(?P<client_id>\d+)$','survey.views.deassignment', name='deassignment'),
+    url(r'^main/unassignment/(?P<client_id>\d+)$','survey.views.unassignment', name='unassignment'),
 
     url(r'^main/(?P<client_id>\d+)/onboarding1/$','survey.views.onboarding1', name='onboarding1'),
     url(r'^main/(?P<client_id>\d+)/onboarding2/$','survey.views.onboarding2'),

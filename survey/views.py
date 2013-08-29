@@ -25,11 +25,6 @@ def calculate_age(month, day, year):
       age = age-1
   return age
 
-def pre_start(request):
-  data = {}
-  return render_to_response('survey/pre.html', data, context_instance=RequestContext(request))
-
-
 def get_verbose_name(instance, field_name):
   return instance._meta.get_field(field_name).verbose_name
 register.filter(get_verbose_name)
@@ -170,29 +165,6 @@ def preliminary4(request):
   return render_to_response("survey/pre_4.html", data,
                                   context_instance=RequestContext(request))
 
-@login_required
-def manage_client(request):
-  data = {}
-  coach = request.user
-
-  #is he a real coach?
-  checkinfo = EmailUser.objects.get(email=coach)
-  if checkinfo.user_type >= 2:
-    
-    # search his client
-    client_list = EmailUser.objects.filter(coach=checkinfo.id)
-    not_match_client_list = EmailUser.objects.filter(coach__exact=None, user_type=1)
-    all_client_list = EmailUser.objects.all()
-    # send it using data
-    data['clients'] = client_list
-    data['not_clients'] = not_match_client_list
-    data['all_clients'] = all_client_list
-    data['user_type'] = checkinfo.user_type
-
-    return render_to_response('survey/manage_client.html', data, context_instance=RequestContext(request))
-
-  else: # he is not a coach !
-    raise Http404
 
 @login_required
 def assignment(request, client_id):
@@ -205,7 +177,7 @@ def assignment(request, client_id):
   return HttpResponseRedirect(reverse('index'))
 
 @login_required
-def deassignment(request, client_id):
+def unassignment(request, client_id):
   # client id
   client = EmailUser.objects.get(id=client_id)
   client.coach = None
@@ -391,7 +363,6 @@ def calculator(request, client_id):
 
 
   # receive client's data from DB
-
   dateMonth = [str(client.date_of_birth.month)]
   dateDay = [str(client.date_of_birth.day)]
   dateYear = [str(client.date_of_birth.year)]
@@ -399,18 +370,17 @@ def calculator(request, client_id):
   if client.gender == 2:
     gender = ['F']
 
-  # base value
+  # base value 
   country_id = ['230']
   zipcode = '02215'
   accept= ['1']
 
+  # get the age for branch
   age = datetime.date.today().year - client.date_of_birth.year
-  # unpassed more minus 1
   if client.date_of_birth.month >= datetime.date.today().month:
     if client.date_of_birth.day > datetime.date.today().day:
       age = age-1
 
-  
   # Target site
   br = mechanize.Browser()
   url = 'https://livingto100.com'
@@ -425,38 +395,38 @@ def calculator(request, client_id):
   br.form['zipcode'] = zipcode
   br.form['accept'] = accept
   br.submit()
-
-  flag=0
   br.form = list(br.forms())[0]
+  
   # branch 4 - way
   if age > 38:
     if gender[0] == 'M':
-      # /start/1
+      # /start/1 , over 38 and male
       list_sequence = [pre1.marital_status,
                       pre1.new_relation,
                       pre1.cope_stress,
                       pre1.source_of_stress, # manytomany
-                      # sleep question!!!
+                      -1,# sleep question!!!
                       pre1.formal_education,
-                      pre1.work_hour,
-                      # optimistic !!!
+                      pre1.work_week,
+                      -1,# optimistic !!!
                       pre1.brain_activity,
                       pre2.air_pollution,
-                      pre2.coffee,
-                      # cups of tea
+                      pre2.coffee, #21
+                      -1,# cups of tea
                       pre2.often_smoke,
                       pre2.many_smoke,
-                      pre2.second_smoke,
-                      pre2.lung_disease,
+                      pre2.exposure_smoke,
+                      pre2.lung_disease, #31
                       pre2.day_alcohol,
                       pre2.glass_alcohol,
                       pre2.aspirin,
                       pre2.sunscreen,
                       pre2.floss_teeth,
-                      # weight on3 weight
-                      # tall on3 height
+                      -1,# weight on3 weight
+                      -1,# tall on3 height
                       pre2.body_mass_index,
-                      on2.many_dairy,
+                      on2.many_meat,
+                      on2.many_dairy, #51
                       on2.calcium,
                       on2.snack, # manyto many
                       on2.red_meat,
@@ -466,32 +436,51 @@ def calculator(request, client_id):
                       on2.iron,
                       on2.many_exercise,
                       on2.leisure,
-                      pre3.bowel_movement,
+                      pre3.bowel_movement,#71
                       pre3.skin_cancer,
-                      # cholesterol (good cholesterol)
-                      # cholesterol (bad cholesterol)
-                      # on3 : blood_pressure (Systolic) // choice is different male, female
-                      # on3 : blood_pressure (Diastolic)
-                      # fasting blood sugar level
+                      -1,# cholesterol (good cholesterol)
+                      -1,# cholesterol (bad cholesterol)
+                      -1,# on3 : blood_pressure (Systolic) // choice is different male, female
+                      -1,# on3 : blood_pressure (Diastolic)
+                      -1,# fasting blood sugar level
                       pre3.heart_attack,
                       pre3.doctor_appointment,
                       pre4.immediate_family,
-                      pre4.cancer_family,
-                      pre4.family_history
+                      pre4.cancer_family, #91
+                      pre4.family_history #93
                       ]
+      idx = 0
       for x in range(1, 94, 2):
-        if x != 7 and x != 55:
-          #this is for normal radiocontrol and selectcontrol
+        if list_sequence[idx] == -1: # not decided question.
           ran = random.sample(br.form.find_control(str(x)).items, 1)
-          br.form[str(x)] = [ran[0].name] # warning of list
-        elif x==7:
+          br.form[str(x)] = [ran[0].name]
+        elif x==17:
+          if list_sequence[idx] == 6:
+            list_sequence[idx] = 1 # there is no choice at livingto100
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==25:
+          if list_sequence[idx] > 2:
+            list_sequence[idx]-=1
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==31:
+          list_sequence[idx]+=1
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==67:
+          if list_sequence[idx] > 4:
+            list_sequence[idx]-=1
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==7: # source_of_stress : manytomany
           #this is for checkbox control
           br.form['7[23]'] = ['E']
           # for until 7[45]
-        else:
+        elif x==55: ## 55 snack : manytomany
           #another checkbox control
           br.form['55[401]'] = ['I']
           # for until 55[410]
+        else: #this is for normal radiocontrol and selectcontrol          
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        idx += 1
+
     else:
       # /start/2
       list_sequence = [pre1.marital_status,
@@ -500,7 +489,7 @@ def calculator(request, client_id):
                       pre1.source_of_stress, # manytomany
                       # sleep question!!!
                       pre1.formal_education,
-                      pre1.work_hour,
+                      pre1.work_week,
                       # optimistic !!!
                       pre1.brain_activity,
                       pre2.air_pollution,
@@ -508,7 +497,7 @@ def calculator(request, client_id):
                       # cups of tea
                       pre2.often_smoke,
                       pre2.many_smoke,
-                      pre2.second_smoke,
+                      pre2.exposure_smoke,
                       pre2.lung_disease,
                       pre2.day_alcohol,
                       pre2.glass_alcohol,
@@ -518,6 +507,7 @@ def calculator(request, client_id):
                       # weight on3 weight
                       # tall on3 height
                       pre2.body_mass_index,
+                      on2.many_meat,
                       on2.many_dairy,
                       on2.calcium,
                       on2.snack, # manyto many
@@ -688,11 +678,6 @@ def calculator(request, client_id):
 
 
   br.submit()
-  # usage of mechanize
-  # len(br.form.find_control('190').items)
-  # br.form.find_control('190').items[0].name
-  # a = random.sample(br.form.find_control('190').items, 1)
-  # a[0].name
 
   # Temporary login module to livingto100
   br.open(url+'/users/sign_in')
@@ -704,16 +689,14 @@ def calculator(request, client_id):
   # Result Analysis start
   soup = BeautifulSoup(submitLogin)
   image_tags = soup.findAll('img')
-
   resultAge = image_tags[2]['alt']
+
   try:
-    check = int(resultAge)
-
-    # save the check to client's lifespan column
-
-    output = "Your calculated life expectancy is "+ resultAge
+    client.lifespan = int(resultAge)
+    client.save()
   except ValueError, e:
-    output = "Something wrong with calculating ! It needs repair"
+    raise Http404
+
   data = {}
-  data['output'] = output
+  data['client'] = client
   return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))

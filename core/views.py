@@ -67,11 +67,6 @@ def cvd(request):
     data['lifespan'] = 0
     pass
 
-
-
-  # if expected_life exist
-  # return
-  # else send a msg to client
   return render_to_response("core/cvd.html", data, context_instance=RequestContext(request))
 
 @login_required

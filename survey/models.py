@@ -118,10 +118,10 @@ class Preliminary1(models.Model):
   BRAIN_CHOICES = (
       (1, 'At least 2 times a week'),
       (2, 'Once a week'),
-      (3, '7 days'),
-      (4, 'Between once a week and once a month'),
-      (5, 'Rarely'),
-      (6, 'Not at all')
+      (3, 'Between once a week and once a month'),
+      (4, 'Rarely'),
+      (5, 'Not at all'),
+      (6, '7 days')
     )
 
   brain_activity = models.IntegerField(choices=BRAIN_CHOICES, verbose_name='Do you regularly engage in brain activities that are both new and challenging to you (e.g. learning a new subject, playing someone in a hard game such as chess or scrabble, solving crossword or Sudoku puzzles)?')
@@ -463,8 +463,8 @@ class Onboarding2(models.Model):
       (5, '3'),
       (6, '2'),
       (7, '1'),
-      (8, 'I get the equivalent of 30 or more minutes of exercise that significantly raises my heart rate through my job'),
-      (9, 'I don\'t exercise')
+      (8, 'I don\'t exercise'),
+      (9, 'I get the equivalent of 30 or more minutes of exercise that significantly raises my heart rate through my job'),
 
   )
   many_exercise = models.IntegerField(choices=MANY_EXERCISE_CHOICES, verbose_name='2. How many days a week do you exercise (strength training, aerobic exercises or activities such as swimming, running, strenuous walking and biking) for at least 30 minutes a day?')

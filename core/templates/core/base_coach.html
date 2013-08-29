@@ -149,19 +149,22 @@
     <label> Your Clients list </label>
     
     {% for c in clients %}
-    <div class="col-4">
+    <div class="col-2">
       {{ c.email }}   
     </div>
-    <div class="col-2">
+    <div class="col-2" align="center">
       <a href="{% url 'survey.views.preliminary' c.id %}">Preliminary</a> 
     </div>
-    <div class="col-2">
+    <div class="col-2" align="center">
       <a href="{% url 'survey.views.onboarding1' c.id %}">Onboarding</a>
     </div>
-    <div class="col-2">
-      <a href="{% url 'survey.views.deassignment' c.id %}">Unassign</a>
+    <div class="col-2" align="center">
+      <a href="{% url 'survey.views.preliminary' c.id %}">Export data</a> 
     </div>
-    <div class="col-2">
+    <div class="col-2" align="center">
+      <a href="{% url 'survey.views.unassignment' c.id %}">Unassign</a>
+    </div>
+    <div class="col-2" align="center">
       <a href="{% url 'survey.views.get_expected_age' c.id %}">Expected Life Span</a>
     </div>
      
