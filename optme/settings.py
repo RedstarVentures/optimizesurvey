@@ -124,6 +124,15 @@ STATIC_ROOT = '/%s/' % STATIC_S3_PATH
 STATIC_URL = '//s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
+if DEPLOY:
+  # for handling https static file serving
+  from boto.s3.connection import OrdinaryCallingFormat
+  AWS_S3_CALLING_FORMAT = OrdinaryCallingFormat()
+else:
+  # for static files to serve from http
+  AWS_S3_SECURE_URLS = False
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 STATICFILES_FINDERS = (

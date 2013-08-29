@@ -399,56 +399,59 @@ def calculator(request, client_id):
   
   # branch 4 - way
   if age > 38:
+
+    list_sequence = [pre1.marital_status,
+                    pre1.new_relation,
+                    pre1.cope_stress,
+                    pre1.source_of_stress, # manytomany
+                    -1,# sleep question!!!
+                    pre1.formal_education,
+                    pre1.work_week,
+                    -1,# optimistic !!!
+                    pre1.brain_activity,
+                    pre2.air_pollution,
+                    pre2.coffee, #21
+                    -1,# cups of tea
+                    pre2.often_smoke,
+                    pre2.many_smoke,
+                    pre2.exposure_smoke,
+                    pre2.lung_disease, #31
+                    pre2.day_alcohol,
+                    pre2.glass_alcohol,
+                    pre2.aspirin,
+                    pre2.sunscreen,
+                    pre2.floss_teeth,
+                    -1,# weight on3 weight
+                    -1,# tall on3 height
+                    pre2.body_mass_index,
+                    on2.many_meat,
+                    on2.many_dairy, #51
+                    on2.calcium,
+                    on2.snack, # manyto many
+                    on2.red_meat,
+                    on2.sweet,
+                    on2.carbohydrate,
+                    on2.having_diet,
+                    on2.iron,
+                    on2.many_exercise,
+                    on2.leisure,
+                    pre3.bowel_movement,#71
+                    pre3.skin_cancer,
+                    -1,# cholesterol (good cholesterol)
+                    -1,# cholesterol (bad cholesterol)
+                    -1,# on3 : blood_pressure (Systolic) // choice is different male, female
+                    -1,# on3 : blood_pressure (Diastolic)
+                    -1,# fasting blood sugar level
+                    pre3.heart_attack,
+                    pre3.doctor_appointment,
+                    pre4.immediate_family,
+                    pre4.cancer_family, #91
+                    pre4.family_history #93
+                    ]
+
     if gender[0] == 'M':
       # /start/1 , over 38 and male
-      list_sequence = [pre1.marital_status,
-                      pre1.new_relation,
-                      pre1.cope_stress,
-                      pre1.source_of_stress, # manytomany
-                      -1,# sleep question!!!
-                      pre1.formal_education,
-                      pre1.work_week,
-                      -1,# optimistic !!!
-                      pre1.brain_activity,
-                      pre2.air_pollution,
-                      pre2.coffee, #21
-                      -1,# cups of tea
-                      pre2.often_smoke,
-                      pre2.many_smoke,
-                      pre2.exposure_smoke,
-                      pre2.lung_disease, #31
-                      pre2.day_alcohol,
-                      pre2.glass_alcohol,
-                      pre2.aspirin,
-                      pre2.sunscreen,
-                      pre2.floss_teeth,
-                      -1,# weight on3 weight
-                      -1,# tall on3 height
-                      pre2.body_mass_index,
-                      on2.many_meat,
-                      on2.many_dairy, #51
-                      on2.calcium,
-                      on2.snack, # manyto many
-                      on2.red_meat,
-                      on2.sweet,
-                      on2.carbohydrate,
-                      on2.having_diet,
-                      on2.iron,
-                      on2.many_exercise,
-                      on2.leisure,
-                      pre3.bowel_movement,#71
-                      pre3.skin_cancer,
-                      -1,# cholesterol (good cholesterol)
-                      -1,# cholesterol (bad cholesterol)
-                      -1,# on3 : blood_pressure (Systolic) // choice is different male, female
-                      -1,# on3 : blood_pressure (Diastolic)
-                      -1,# fasting blood sugar level
-                      pre3.heart_attack,
-                      pre3.doctor_appointment,
-                      pre4.immediate_family,
-                      pre4.cancer_family, #91
-                      pre4.family_history #93
-                      ]
+    
       idx = 0
       for x in range(1, 94, 2):
         if list_sequence[idx] == -1: # not decided question.
@@ -470,71 +473,61 @@ def calculator(request, client_id):
             list_sequence[idx]-=1
           br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
         elif x==7: # source_of_stress : manytomany
-          #this is for checkbox control
-          br.form['7[23]'] = ['E']
-          # for until 7[45]
+          for checked_box in pre1.source_of_stress.values_list():
+            checked_val = '7[' + str(checked_box[0]+22) + ']'
+            br.form[checked_val] = [br.form.find_control(checked_val).items[0].name]
         elif x==55: ## 55 snack : manytomany
-          #another checkbox control
-          br.form['55[401]'] = ['I']
-          # for until 55[410]
+          for checked_box in on2.snack.values_list():
+            checked_id = checked_box[0]
+            if checked_id > 44: # except popcorns
+              checked_id += 1
+            checked_val = '55[' + str(checked_id+363) + ']'
+            br.form[checked_val] = [br.form.find_control(checked_val).items[0].name]
         else: #this is for normal radiocontrol and selectcontrol          
           br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
         idx += 1
 
     else:
       # /start/2
-      list_sequence = [pre1.marital_status,
-                      pre1.new_relation,
-                      pre1.cope_stress,
-                      pre1.source_of_stress, # manytomany
-                      # sleep question!!!
-                      pre1.formal_education,
-                      pre1.work_week,
-                      # optimistic !!!
-                      pre1.brain_activity,
-                      pre2.air_pollution,
-                      pre2.coffee,
-                      # cups of tea
-                      pre2.often_smoke,
-                      pre2.many_smoke,
-                      pre2.exposure_smoke,
-                      pre2.lung_disease,
-                      pre2.day_alcohol,
-                      pre2.glass_alcohol,
-                      pre2.aspirin,
-                      pre2.sunscreen,
-                      pre2.floss_teeth,
-                      # weight on3 weight
-                      # tall on3 height
-                      pre2.body_mass_index,
-                      on2.many_meat,
-                      on2.many_dairy,
-                      on2.calcium,
-                      on2.snack, # manyto many
-                      on2.red_meat,
-                      on2.sweet,
-                      on2.carbohydrate,
-                      on2.having_diet,
-                      on2.iron,
-                      on2.many_exercise,
-                      on2.leisure,
-                      pre3.bowel_movement,
-                      pre3.skin_cancer,
-                      # cholesterol (good cholesterol)
-                      # cholesterol (bad cholesterol)
-                      # on3 : blood_pressure (Systolic) // choice is different male, female
-                      # on3 : blood_pressure (Diastolic)
-                      # fasting blood sugar level
-                      pre3.heart_attack,
-                      pre3.doctor_appointment,
-                      pre4.immediate_family,
-                      pre4.cancer_family,
-                      pre4.family_history,
+      list_sequence += [
                       pre4.fertility,
                       pre4.child_old,
                       pre4.period
                       ]
+      idx = 0
       for x in range(2, 95, 2)+[95, 96, 97]:
+        if list_sequence[idx] == -1: # not decided question.
+          ran = random.sample(br.form.find_control(str(x)).items, 1)
+          br.form[str(x)] = [ran[0].name]
+        elif x==17:
+          if list_sequence[idx] == 6:
+            list_sequence[idx] = 1 # there is no choice at livingto100
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==25:
+          if list_sequence[idx] > 2:
+            list_sequence[idx]-=1
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==31:
+          list_sequence[idx]+=1
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==67:
+          if list_sequence[idx] > 4:
+            list_sequence[idx]-=1
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==7: # source_of_stress : manytomany
+          for checked_box in pre1.source_of_stress.values_list():
+            checked_val = '7[' + str(checked_box[0]+22) + ']'
+            br.form[checked_val] = [br.form.find_control(checked_val).items[0].name]
+        elif x==55: ## 55 snack : manytomany
+          for checked_box in on2.snack.values_list():
+            checked_id = checked_box[0]
+            if checked_id > 44: # except popcorns
+              checked_id += 1
+            checked_val = '55[' + str(checked_id+363) + ']'
+            br.form[checked_val] = [br.form.find_control(checked_val).items[0].name]
+        else: #this is for normal radiocontrol and selectcontrol          
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        
         if x != 8 and x != 56:
           ran = random.sample(br.form.find_control(str(x)).items, 1)
           br.form[str(x)] = [ran[0].name] # warning of list
@@ -544,6 +537,8 @@ def calculator(request, client_id):
         else:
           br.form['56[411]'] = ['I']
           #for until 56[420]
+
+      idx += 1
   else:
     if gender[0] =='M':
       # /start/3 (99~205)
