@@ -50,7 +50,4 @@ urlpatterns = patterns('',
     
     url(r'^main/(?P<client_id>\d+)/age/$','survey.views.get_expected_age'),
 
-    # test
-    url(r'^main/(?P<client_id>\d+)/calculator/$', 'survey.views.calculator'),
-
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + staticfiles_urlpatterns()

@@ -300,7 +300,7 @@ def onboarding4(request, client_id):
     form.save()
     #
     # aging calc and save!
-    #
+    calculator(client_id)
     return HttpResponseRedirect(reverse('index'))
 
   if pre_demo is None:
@@ -335,7 +335,7 @@ def get_expected_age(request, client_id):
   return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))
 
 
-def calculator(request, client_id): 
+def calculator(client_id): 
 
   # get client's information
   try:
@@ -476,7 +476,7 @@ def calculator(request, client_id):
           for checked_box in pre1.source_of_stress.values_list():
             checked_val = '7[' + str(checked_box[0]+22) + ']'
             br.form[checked_val] = [br.form.find_control(checked_val).items[0].name]
-        elif x==55: ## 55 snack : manytomany
+        elif x==55: ## 55 snack : manytomany (401-410) 39
           for checked_box in on2.snack.values_list():
             checked_id = checked_box[0]
             if checked_id > 44: # except popcorns
@@ -514,164 +514,289 @@ def calculator(request, client_id):
           if list_sequence[idx] > 4:
             list_sequence[idx]-=1
           br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
-        elif x==7: # source_of_stress : manytomany
+        elif x==8: # source_of_stress : manytomany
           for checked_box in pre1.source_of_stress.values_list():
-            checked_val = '7[' + str(checked_box[0]+22) + ']'
+            checked_val = '8[' + str(checked_box[0]+45) + ']'
             br.form[checked_val] = [br.form.find_control(checked_val).items[0].name]
-        elif x==55: ## 55 snack : manytomany
+        elif x==56: ## 55 snack : manytomany
           for checked_box in on2.snack.values_list():
             checked_id = checked_box[0]
             if checked_id > 44: # except popcorns
               checked_id += 1
-            checked_val = '55[' + str(checked_id+363) + ']'
+            checked_val = '56[' + str(checked_id+373) + ']'
+            br.form[checked_val] = [br.form.find_control(checked_val).items[0].name]
+        else: #this is for normal radiocontrol and selectcontrol          
+          try:
+            br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+          except:
+            pass
+        idx += 1
+  else:
+    list_sequence = [pre1.marital_status, # 99
+                      pre1.in_person_contact,
+                      -1,# how do you evaluate your current stress level
+                      pre1.cope_stress,
+                      -1,# sleep question!!!
+                      pre1.formal_education,
+                      pre1.work_hour,
+                      pre1.work_week,
+                      -1,# optimistic !!!
+                      pre2.air_pollution,
+                      pre2.seatbelt,
+                      pre2.coffee, # 121
+                      -1,# cups of tea
+                      pre2.second_smoke,
+                      pre2.often_smoke,
+                      pre2.many_smoke,
+                      pre2.exposure_smoke,
+                      pre2.lung_disease,
+                      pre2.day_alcohol,
+                      pre2.glass_alcohol,
+                      pre2.aspirin,
+                      pre2.sunscreen,# 141
+                      -1,# risky sexual behavior and illegal drug
+                      pre2.floss_teeth,
+                      -1,# weight on3 weight
+                      -1,# tall on3 height
+                      pre2.body_mass_index,
+                      on2.many_meat,
+                      on2.how_bbq,
+                      on2.many_dairy,
+                      on2.calcium,
+                      on2.snack, # manyto many 161
+                      on2.red_meat,
+                      on2.sweet,
+                      on2.carbohydrate,
+                      on2.having_diet,
+                      on2.iron,
+                      on2.many_exercise, # different
+                      on2.leisure,
+                      pre3.bowel_movement,
+                      pre3.skin_cancer,
+                      -1,# cholesterol (good cholesterol)  # 181
+                      -1,# cholesterol (bad cholesterol)
+                      -1,# total cholesterol level
+                      -1,# on3 : blood_pressure (Systolic)
+                      -1,# on3 : blood_pressure (Diastolic)
+                      -1,# fasting blood sugar level
+                      pre3.heart_attack,
+                      pre3.doctor_appointment,
+                      pre4.immediate_family,
+                      pre4.cancer_family,
+                      -2,# complex question (how old and how healthy is/was your mother)
+                      -3,# complex question (how old and how healthy is/was your father)
+                      pre4.long_live
+                      ]
+
+    if gender[0] =='M':
+      # /start/3 (99~205)
+      idx = 0
+      for x in range(99,206,2):
+        if list_sequence[idx] == -1: # not decided question.
+          ran = random.sample(br.form.find_control(str(x)).items, 1)
+          br.form[str(x)] = [ran[0].name]
+        elif list_sequence[idx] == -2: # complex mother
+          if pre4.mother_alive == 1: # live
+            if pre4.mother_depend == 1: # depend yes
+              if pre4.mother_old == 1: # under 80
+                br.form[str(x)] = ['7']
+              elif pre4.mother_old ==2:
+                br.form[str(x)] = ['8']
+              elif pre4.mother_old ==3:
+                br.form[str(x)] = ['9']
+              elif pre4.mother_old ==4:
+                br.form[str(x)] = ['4']
+              elif pre4.mother_old ==5:
+                br.form[str(x)] = ['5']
+            else: #no depend
+              if pre4.mother_old == 1: # under 80
+                br.form[str(x)] = ['1']
+              elif pre4.mother_old ==2:
+                br.form[str(x)] = ['2']
+              elif pre4.mother_old ==3:
+                br.form[str(x)] = ['3']
+              elif pre4.mother_old ==4:
+                br.form[str(x)] = ['4']
+              elif pre4.mother_old ==5:
+                br.form[str(x)] = ['5']
+          elif pre4.mother_alive == 2: # pass away
+            if pre4.mother_cause == 1 or pre4.mother_cause == 2:
+              br.form[str(x)] = ['6']
+            elif pre4.mother_passed_old ==1:
+              br.form[str(x)] = ['10']
+            elif pre4.mother_passed_old ==2:
+              br.form[str(x)] = ['11']
+            elif pre4.mother_passed_old ==3:
+              br.form[str(x)] = ['12']
+            elif pre4.mother_passed_old ==4:
+              br.form[str(x)] = ['13']
+            elif pre4.mother_passed_old ==5:
+              br.form[str(x)] = ['14']
+          else: # adopt
+            br.form[str(x)] = ['15']
+
+        elif list_sequence[idx] == -3: # complex father
+          if pre4.father_alive == 1: # live
+            if pre4.father_depend == 1: # depend yes
+              if pre4.father_old == 1: # under 80
+                br.form[str(x)] = ['7']
+              elif pre4.father_old ==2:
+                br.form[str(x)] = ['8']
+              elif pre4.father_old ==3:
+                br.form[str(x)] = ['9']
+              elif pre4.father_old ==4:
+                br.form[str(x)] = ['4']
+              elif pre4.father_old ==5:
+                br.form[str(x)] = ['5']
+            else: #no depend
+              if pre4.father_old == 1: # under 80
+                br.form[str(x)] = ['1']
+              elif pre4.father_old ==2:
+                br.form[str(x)] = ['2']
+              elif pre4.father_old ==3:
+                br.form[str(x)] = ['3']
+              elif pre4.father_old ==4:
+                br.form[str(x)] = ['4']
+              elif pre4.father_old ==5:
+                br.form[str(x)] = ['5']
+          elif pre4.father_alive == 2: # pass away
+            if pre4.father_cause == 1 or pre4.father_cause == 2:
+              br.form[str(x)] = ['6']
+            elif pre4.father_passed_old ==1:
+              br.form[str(x)] = ['10']
+            elif pre4.father_passed_old ==2:
+              br.form[str(x)] = ['11']
+            elif pre4.father_passed_old ==3:
+              br.form[str(x)] = ['12']
+            elif pre4.father_passed_old ==4:
+              br.form[str(x)] = ['13']
+            elif pre4.father_passed_old ==5:
+              br.form[str(x)] = ['14']
+          else: # adopt
+            br.form[str(x)] = ['15']
+
+        elif x==173: # many_exercise
+          if list_sequence[idx] == 8: # swap 8, 9
+            list_sequence[idx] = 10
+          elif list_sequence[idx] > 8:
+            list_sequence[idx] -= 1
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==161: ## 161 snack : manytomany (1000-1008) 39
+          for checked_box in on2.snack.values_list():
+            checked_id = checked_box[0]
+            if checked_id > 44: # except popcorns
+              checked_id += 1
+            checked_val = '161[' + str(checked_id+961) + ']'
             br.form[checked_val] = [br.form.find_control(checked_val).items[0].name]
         else: #this is for normal radiocontrol and selectcontrol          
           br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
-        
-        if x != 8 and x != 56:
-          ran = random.sample(br.form.find_control(str(x)).items, 1)
-          br.form[str(x)] = [ran[0].name] # warning of list
-        elif x==8:
-          br.form['8[46]'] = ['E']
-          #for until 8[68]
-        else:
-          br.form['56[411]'] = ['I']
-          #for until 56[420]
+        idx += 1
 
-      idx += 1
-  else:
-    if gender[0] =='M':
-      # /start/3 (99~205)
-      list_sequence = [pre1.marital_status,
-                      pre1.in_person_contact,
-                      # how do you evaluate your current stress level
-                      pre1.cope_stress,
-                      # sleep question!!!
-                      pre1.formal_education,
-                      pre1.work_hour,
-                      pre1.work_week,
-                      # optimistic !!!
-                      pre2.air_pollution,
-                      pre2.seatbelt,
-                      pre2.coffee,
-                      # cups of tea
-                      pre2.second_smoke,
-                      pre2.often_smoke,
-                      pre2.many_smoke,
-                      pre2.exposure_smoke,
-                      pre2.lung_disease,
-                      pre2.day_alcohol,
-                      pre2.glass_alcohol,
-                      pre2.aspirin,
-                      pre2.sunscreen,
-                      # risky sexual behavior and illegal drug
-                      pre2.floss_teeth,
-                      # weight on3 weight
-                      # tall on3 height
-                      pre2.body_mass_index,
-                      on2.many_meat,
-                      on2.how_bbq,
-                      on2.many_dairy,
-                      on2.calcium,
-                      on2.snack, # manyto many
-                      on2.red_meat,
-                      on2.sweet,
-                      on2.carbohydrate,
-                      on2.having_diet,
-                      on2.iron,
-                      on2.many_exercise,
-                      on2.leisure,
-                      pre3.bowel_movement,
-                      pre3.skin_cancer,
-                      # cholesterol (good cholesterol)
-                      # cholesterol (bad cholesterol)
-                      # total cholesterol level
-                      # on3 : blood_pressure (Systolic)
-                      # on3 : blood_pressure (Diastolic)
-                      # fasting blood sugar level
-                      pre3.heart_attack,
-                      pre3.doctor_appointment,
-                      pre4.immediate_family,
-                      pre4.cancer_family,
-                      # complex question (how old and how healthy is/was your mother)
-                      # complex question (how old and how healthy is/was your father)
-                      pre4.long_live
-                      ]
-      
-      for x in range(99,206,2):
-        if x == 161:
-          br.form['161[1000]'] = ['F']
-          #for until 161[1008]
-        else:
-          ran = random.sample(br.form.find_control(str(x)).items, 1)
-          br.form[str(x)] = [ran[0].name] # warning of list
     else:
       # /start/4
-      list_sequence = [pre1.marital_status,
-                      pre1.in_person_contact,
-                      # how do you evaluate your current stress level
-                      pre1.cope_stress,
-                      # sleep question!!!
-                      pre1.formal_education,
-                      pre1.work_hour,
-                      pre1.work_week,
-                      # optimistic !!!
-                      pre2.air_pollution,
-                      pre2.seatbelt,
-                      pre2.coffee,
-                      # cups of tea
-                      pre2.second_smoke,
-                      pre2.often_smoke,
-                      pre2.many_smoke,
-                      pre2.exposure_smoke,
-                      pre2.lung_disease,
-                      pre2.day_alcohol,
-                      pre2.glass_alcohol,
-                      pre2.aspirin,
-                      pre2.sunscreen,
-                      # risky sexual behavior and illegal drug
-                      pre2.floss_teeth,
-                      # weight on3 weight
-                      # tall on3 height
-                      pre2.body_mass_index,
-                      on2.many_meat,
-                      on2.how_bbq,
-                      on2.many_dairy,
-                      on2.calcium,
-                      on2.snack, # manyto many
-                      on2.red_meat,
-                      on2.sweet,
-                      on2.carbohydrate,
-                      on2.having_diet,
-                      on2.iron,
-                      on2.many_exercise,
-                      on2.leisure,
-                      pre3.bowel_movement,
-                      pre3.skin_cancer,
-                      # cholesterol (good cholesterol)
-                      # cholesterol (bad cholesterol)
-                      # total cholesterol level
-                      # on3 : blood_pressure (Systolic)
-                      # on3 : blood_pressure (Diastolic)
-                      # fasting blood sugar level
-                      pre3.heart_attack,
-                      pre3.doctor_appointment,
-                      pre4.immediate_family,
-                      pre4.cancer_family,
-                      # complex question (how old and how healthy is/was your mother)
-                      # complex question (how old and how healthy is/was your father)
-                      pre4.long_live,
-                      pre4.child_old
-                      ]
+      list_sequence += [pre4.child_old]
+      idx = 0
       for x in range(98, 207, 2):
-        if x == 160:
-          br.form['160[991]'] = ['F']
-          #for until 160[999]
-        else:
+        if list_sequence[idx] == -1: # not decided question.
           ran = random.sample(br.form.find_control(str(x)).items, 1)
-          br.form[str(x)] = [ran[0].name] # warning of list
+          br.form[str(x)] = [ran[0].name]
+        elif list_sequence[idx] == -2: # complex mother
+          if pre4.mother_alive == 1: # live
+            if pre4.mother_depend == 1: # depend yes
+              if pre4.mother_old == 1: # under 80
+                br.form[str(x)] = ['7']
+              elif pre4.mother_old ==2:
+                br.form[str(x)] = ['8']
+              elif pre4.mother_old ==3:
+                br.form[str(x)] = ['9']
+              elif pre4.mother_old ==4:
+                br.form[str(x)] = ['4']
+              elif pre4.mother_old ==5:
+                br.form[str(x)] = ['5']
+            else: #no depend
+              if pre4.mother_old == 1: # under 80
+                br.form[str(x)] = ['1']
+              elif pre4.mother_old ==2:
+                br.form[str(x)] = ['2']
+              elif pre4.mother_old ==3:
+                br.form[str(x)] = ['3']
+              elif pre4.mother_old ==4:
+                br.form[str(x)] = ['4']
+              elif pre4.mother_old ==5:
+                br.form[str(x)] = ['5']
+          elif pre4.mother_alive == 2: # pass away
+            if pre4.mother_cause == 1 or pre4.mother_cause == 2:
+              br.form[str(x)] = ['6']
+            elif pre4.mother_passed_old ==1:
+              br.form[str(x)] = ['10']
+            elif pre4.mother_passed_old ==2:
+              br.form[str(x)] = ['11']
+            elif pre4.mother_passed_old ==3:
+              br.form[str(x)] = ['12']
+            elif pre4.mother_passed_old ==4:
+              br.form[str(x)] = ['13']
+            elif pre4.mother_passed_old ==5:
+              br.form[str(x)] = ['14']
+          else: # adopt
+            br.form[str(x)] = ['15']
 
+        elif list_sequence[idx] == -3: # complex father
+          if pre4.father_alive == 1: # live
+            if pre4.father_depend == 1: # depend yes
+              if pre4.father_old == 1: # under 80
+                br.form[str(x)] = ['7']
+              elif pre4.father_old ==2:
+                br.form[str(x)] = ['8']
+              elif pre4.father_old ==3:
+                br.form[str(x)] = ['9']
+              elif pre4.father_old ==4:
+                br.form[str(x)] = ['4']
+              elif pre4.father_old ==5:
+                br.form[str(x)] = ['5']
+            else: #no depend
+              if pre4.father_old == 1: # under 80
+                br.form[str(x)] = ['1']
+              elif pre4.father_old ==2:
+                br.form[str(x)] = ['2']
+              elif pre4.father_old ==3:
+                br.form[str(x)] = ['3']
+              elif pre4.father_old ==4:
+                br.form[str(x)] = ['4']
+              elif pre4.father_old ==5:
+                br.form[str(x)] = ['5']
+          elif pre4.father_alive == 2: # pass away
+            if pre4.father_cause == 1 or pre4.father_cause == 2:
+              br.form[str(x)] = ['6']
+            elif pre4.father_passed_old ==1:
+              br.form[str(x)] = ['10']
+            elif pre4.father_passed_old ==2:
+              br.form[str(x)] = ['11']
+            elif pre4.father_passed_old ==3:
+              br.form[str(x)] = ['12']
+            elif pre4.father_passed_old ==4:
+              br.form[str(x)] = ['13']
+            elif pre4.father_passed_old ==5:
+              br.form[str(x)] = ['14']
+          else: # adopt
+            br.form[str(x)] = ['15']
 
+        elif x==172: # many_exercise
+          if list_sequence[idx] == 8: # swap 8, 9
+            list_sequence[idx] = 10
+          elif list_sequence[idx] > 8:
+            list_sequence[idx] -= 1
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        elif x==160: ## 160 snack : manytomany (1000-1008) 39
+          for checked_box in on2.snack.values_list():
+            checked_id = checked_box[0]
+            if checked_id > 44: # except popcorns
+              checked_id += 1
+            checked_val = '161[' + str(checked_id+952) + ']'
+            br.form[checked_val] = [br.form.find_control(checked_val).items[0].name]
+        else: #this is for normal radiocontrol and selectcontrol          
+          br.form[str(x)] = [br.form.find_control(str(x)).items[list_sequence[idx]-1].name]
+        idx += 1
+    #end for
   br.submit()
 
   # Temporary login module to livingto100
@@ -692,6 +817,4 @@ def calculator(request, client_id):
   except ValueError, e:
     raise Http404
 
-  data = {}
-  data['client'] = client
-  return render_to_response('survey/calc.html', data, context_instance=RequestContext(request))
+  return int(resultAge)

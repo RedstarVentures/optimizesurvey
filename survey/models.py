@@ -400,11 +400,11 @@ class Preliminary4(models.Model):
   #  q16
   CHILD_CHOICES = (
       (0, 'N/A'),
-      (1, 'I have not had any children'),
-      (2, 'Younger than 34'),
-      (3, '35 - 39'),
-      (4, '40 - 44'),
-      (5, 'Older than 45')
+      (1, 'Younger than 34'),
+      (2, '35 - 39'),
+      (3, '40 - 44'),
+      (4, 'Older than 45'),
+      (5, 'I have not had any children')
     )
   child_old = models.IntegerField(choices=CHILD_CHOICES, verbose_name='How old were you when you last had a child without fertility technology assistance?')
 
