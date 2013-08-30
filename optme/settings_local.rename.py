@@ -2,6 +2,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 USE_CELERY = False
+DEBUG = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = BASE_DIR + '/emails/'
@@ -17,7 +18,7 @@ EMAIL_FILE_PATH = BASE_DIR + '/emails/'
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-import dj_database_url
+import dj_database_url 
 DATABASES = {'default': dj_database_url.config(default='postgres://vinely:winedora@localhost:5432/optme')}
 
 MIDDLEWARE_CLASSES = (
@@ -29,7 +30,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
@@ -40,15 +41,17 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'survey',
     's3_folder_storage',
     'core',
-    #enable the admin
-    # 'fluent_dashboard',
-    # 'admin_tools',
-    # 'admin_tools.theming',
-    # 'admin_tools.menu',
-    # 'admin_tools.dashboard',
+    'south',
+    # enable the admin
+    'fluent_dashboard',
+    'admin_tools',
+    'admin_tools.theming',
+    'admin_tools.menu',
+    'admin_tools.dashboard',
     'django.contrib.admin',
 )
 
@@ -58,7 +61,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     BASE_DIR + '/templates',
-    BASE_DIR + "/venv/lib/python2.7/site-packages/debug_toolbar/templates/"
+    #BASE_DIR + "/venv/lib/python2.7/site-packages/debug_toolbar/templates/"
 )
 
 

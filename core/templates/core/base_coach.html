@@ -36,7 +36,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'personal' %}">Account Settings</a></li>
                     <li><a href="#">Schedule your next appointment</a></li>
-                    <li><a href="#">Export your data</a></li>
+                    <li><a href="{% url 'survey.views.export_csv' %}">Export your client's data</a></li>
                     <li><a href="/accounts/logout">Log out</a></li>
                 </ul>
             </li>
@@ -149,7 +149,7 @@
     <label> Your Clients list </label>
     
     {% for c in clients %}
-    <div class="col-2">
+    <div class="col-4">
       {{ c.email }}   
     </div>
     <div class="col-2" align="center">
@@ -157,9 +157,6 @@
     </div>
     <div class="col-2" align="center">
       <a href="{% url 'survey.views.onboarding1' c.id %}">Onboarding</a>
-    </div>
-    <div class="col-2" align="center">
-      <a href="{% url 'survey.views.preliminary' c.id %}">Export data</a> 
     </div>
     <div class="col-2" align="center">
       <a href="{% url 'survey.views.unassignment' c.id %}">Unassign</a>

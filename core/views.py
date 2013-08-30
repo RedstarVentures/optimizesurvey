@@ -37,7 +37,6 @@ def main(request):
     
 
     return render_to_response("core/base_coach.html", data, context_instance=RequestContext(request))    
-
     
 
 @login_required

@@ -11,7 +11,7 @@ from survey.forms import Preliminary_1_Questionnaire, Preliminary_2_Questionnair
 from core.models import EmailUser
 from core.views import get_user_type
 from django import template
-import urllib2, urllib, mechanize, datetime, random
+import urllib2, urllib, mechanize, datetime, random, csv
 
 register = template.Library()
 
@@ -28,6 +28,122 @@ def calculate_age(month, day, year):
 def get_verbose_name(instance, field_name):
   return instance._meta.get_field(field_name).verbose_name
 register.filter(get_verbose_name)
+
+def export_csv(request):
+  
+  coach_email = request.user
+  coach = EmailUser.objects.get(email=coach_email)
+  client_list = EmailUser.objects.filter(coach=coach.id)
+
+
+  response = HttpResponse(content_type='text/csv')
+  response['Content-Disposition'] = 'attachment; filename="export.csv"'
+  writer = csv.writer(response)
+
+  #question list
+  
+  flag = 0
+  #answer list
+  for client in client_list:
+    try:
+      pre1 = Preliminary1.objects.get(user=client)
+      pre2 = Preliminary2.objects.get(user=client)
+      pre3 = Preliminary3.objects.get(user=client)
+      pre4 = Preliminary4.objects.get(user=client)
+      on1 = Onboarding1.objects.get(user=client)
+      on2 = Onboarding2.objects.get(user=client)
+      on3 = Onboarding3.objects.get(user=client)
+      on4 = Onboarding4.objects.get(user=client)
+    except: # some questionnaire wasn't finished.
+      continue
+    
+    if flag ==0: # the first line of csv file.
+      temp_output = []    
+      #pre1
+      temp_output.append(pre1._meta.get_field("user").verbose_name)
+      temp_output.append(pre4._meta.get_field("last_submit_time").verbose_name)
+      temp_output.append(pre1._meta.get_field("first_name").verbose_name) 
+      temp_output.append(pre1._meta.get_field("last_name").verbose_name)
+      temp_output.append(pre1._meta.get_field("gender").verbose_name)
+      temp_output.append(pre1._meta.get_field("date_of_birth").verbose_name)
+      temp_output.append(pre1._meta.get_field("marital_status").verbose_name)
+      temp_output.append(pre1._meta.get_field("in_person_contact").verbose_name)
+      temp_output.append(pre1._meta.get_field("formal_education").verbose_name)
+      temp_output.append(pre1._meta.get_field("new_relation").verbose_name)
+      temp_output.append(pre1._meta.get_field("cope_stress").verbose_name)
+      temp_output.append(pre1._meta.get_field("source_of_stress").verbose_name)
+      temp_output.append(pre1._meta.get_field("current_work").verbose_name)
+      temp_output.append(pre1._meta.get_field("work_hour").verbose_name)
+      temp_output.append(pre1._meta.get_field("work_week").verbose_name)
+      temp_output.append(pre1._meta.get_field("brain_activity").verbose_name)
+      #pre2
+      temp_output.append(pre2._meta.get_field("air_pollution").verbose_name)
+      temp_output.append(pre2._meta.get_field("seatbelt").verbose_name)
+      temp_output.append(pre2._meta.get_field("coffee").verbose_name)
+      temp_output.append(pre2._meta.get_field("second_smoke").verbose_name)
+      temp_output.append(pre2._meta.get_field("often_smoke").verbose_name)
+      temp_output.append(pre2._meta.get_field("many_smoke").verbose_name)
+      temp_output.append(pre2._meta.get_field("exposure_smoke").verbose_name)
+      temp_output.append(pre2._meta.get_field("lung_disease").verbose_name)
+      temp_output.append(pre2._meta.get_field("day_alcohol").verbose_name)
+      temp_output.append(pre2._meta.get_field("glass_alcohol").verbose_name)
+      temp_output.append(pre2._meta.get_field("aspirin").verbose_name)
+      temp_output.append(pre2._meta.get_field("floss_teeth").verbose_name)
+      temp_output.append(pre2._meta.get_field("sunscreen").verbose_name)
+      temp_output.append(pre2._meta.get_field("body_mass_index").verbose_name)
+      #pre3
+
+      #pre4
+
+
+      writer.writerow(temp_output)
+
+    flag = 1 # finish the first line
+    
+    # detailed contents (client's answer)
+    temp_output=[]
+    # pre1
+    temp_output.append(getattr(pre1,"user"))
+    temp_output.append(getattr(pre4,"last_submit_time"))
+    temp_output.append(getattr(pre1,"first_name"))
+    temp_output.append(getattr(pre1,"last_name"))
+    temp_output.append(pre1._meta.get_field("gender").choices[pre1.gender-1][1])
+    temp_output.append(getattr(pre1,"date_of_birth"))
+    temp_output.append(pre1._meta.get_field("marital_status").choices[pre1.marital_status-1][1])
+    temp_output.append(pre1._meta.get_field("in_person_contact").choices[pre1.in_person_contact-1][1])
+    temp_output.append(pre1._meta.get_field("formal_education").choices[pre1.formal_education-1][1])
+    temp_output.append(pre1._meta.get_field("new_relation").choices[pre1.new_relation-1][1])
+    temp_output.append(pre1._meta.get_field("cope_stress").choices[pre1.cope_stress-1][1])
+    text = ""
+    for m2m_item in on2.snack.values():
+      text += m2m_item['name']+ ", "
+    temp_output.append(text)
+    temp_output.append(pre1._meta.get_field("current_work").choices[pre1.current_work-1][1])
+    temp_output.append(pre1._meta.get_field("work_hour").choices[pre1.work_hour-1][1])
+    temp_output.append(pre1._meta.get_field("work_week").choices[pre1.work_week-1][1])
+    temp_output.append(pre1._meta.get_field("brain_activity").choices[pre1.brain_activity-1][1])
+    #pre2
+    temp_output.append(pre2._meta.get_field("air_pollution").choices[pre2.air_pollution-1][1])
+    temp_output.append(pre2._meta.get_field("seatbelt").choices[pre2.seatbelt-1][1])
+    temp_output.append(pre2._meta.get_field("coffee").choices[pre2.coffee-1][1])
+    temp_output.append(pre2._meta.get_field("second_smoke").choices[pre2.second_smoke-1][1])
+    temp_output.append(pre2._meta.get_field("often_smoke").choices[pre2.often_smoke-1][1])
+    temp_output.append(pre2._meta.get_field("many_smoke").choices[pre2.many_smoke-1][1])
+    temp_output.append(pre2._meta.get_field("exposure_smoke").choices[pre2.exposure_smoke-1][1])
+    temp_output.append(pre2._meta.get_field("lung_disease").choices[pre2.lung_disease-1][1])
+    temp_output.append(pre2._meta.get_field("day_alcohol").choices[pre2.day_alcohol-1][1])
+    temp_output.append(pre2._meta.get_field("glass_alcohol").choices[pre2.glass_alcohol-1][1])
+    temp_output.append(pre2._meta.get_field("aspirin").choices[pre2.aspirin-1][1])
+    temp_output.append(pre2._meta.get_field("floss_teeth").choices[pre2.floss_teeth-1][1])
+    temp_output.append(pre2._meta.get_field("sunscreen").choices[pre2.sunscreen-1][1])
+    temp_output.append(pre2._meta.get_field("body_mass_index").choices[pre2.body_mass_index-1][1])
+    #pre3
+
+    #pre4
+
+    writer.writerow(temp_output)
+
+  return response
 
 @login_required
 def preliminary(request, client_id):

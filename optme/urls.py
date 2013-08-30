@@ -30,7 +30,8 @@ urlpatterns = patterns('',
 
     # top nav bar
     url(r'^personal/$', 'core.views.personal', name='personal'),
-
+    url(r'^export/$', 'survey.views.export_csv', name='export_csv'),
+    
 
     # questionnaire
     url(r'^main/(?P<client_id>\d+)/preliminary$','survey.views.preliminary', name='preliminary'),
