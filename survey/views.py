@@ -6,14 +6,45 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from BeautifulSoup import BeautifulSoup
 
-from survey.models import Preliminary1, Preliminary2, Preliminary3, Preliminary4, Onboarding1, Onboarding2, Onboarding3, Onboarding4
-from survey.forms import Preliminary_1_Questionnaire, Preliminary_2_Questionnaire, Preliminary_3_Questionnaire, Preliminary_4_Questionnaire, Onboarding_1_Questionnaire, Onboarding_2_Questionnaire, Onboarding_3_Questionnaire, Onboarding_4_Questionnaire
+from survey.models import PreAdd, JoyModel1, Preliminary1, Preliminary2, Preliminary3, Preliminary4, Onboarding1, Onboarding2, Onboarding3, Onboarding4
+from survey.forms import PreAdd_Questionnaire, JoyForm, Preliminary_1_Questionnaire, Preliminary_2_Questionnaire, Preliminary_3_Questionnaire, Preliminary_4_Questionnaire, Onboarding_1_Questionnaire, Onboarding_2_Questionnaire, Onboarding_3_Questionnaire, Onboarding_4_Questionnaire
 from core.models import EmailUser
 from core.views import get_user_type
 from django import template
 import urllib2, urllib, mechanize, datetime, random
 
 register = template.Library()
+
+def preaddq(request):
+  data = {}
+  form = PreAdd_Questionnaire(request.POST or None, instance=None)
+  
+  if form.is_valid():
+    # form save
+    form.save()
+    # sync table with user info
+    return render_to_response("survey/finish.html", data, context_instance=RequestContext(request))
+
+  data["form"] = form
+  return render_to_response("survey/preadd.html", data, context_instance=RequestContext(request))
+
+
+def joy(request):
+  data = {}
+
+  form = JoyForm(request.POST or None, instance=None)
+
+  if form.is_valid():
+    # form save
+    form.save()
+    # sync the table with user information
+    return render_to_response("survey/finish.html", data,
+                                  context_instance=RequestContext(request))
+
+  data["form"] = form
+
+  return render_to_response("survey/joy.html", data,
+                                  context_instance=RequestContext(request))
 
 
 def calculate_age(month, day, year):
@@ -534,7 +565,7 @@ def calculator(client_id):
   else:
     list_sequence = [pre1.marital_status, # 99
                       pre1.in_person_contact,
-                      -1,# how do you evaluate your current stress level
+                      -1,# how many new relationship
                       pre1.cope_stress,
                       -1,# sleep question!!!
                       pre1.formal_education,

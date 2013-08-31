@@ -105,23 +105,18 @@
     <!-- sidebar -->
 <div id="sidebar-nav">
     <ul id="dashboard-menu">
-
+            <a href="{% url 'index' %}">
+                <i class="icon-home"></i>
+                <span>Manage</span>
+            </a>
         <li class="active">
           <div class="pointer">
                 <div class="arrow"></div>
                 <div class="arrow_border"></div>
             </div>
-            <a href="{% url 'index' %}">
-                <i class="icon-home"></i>
-                <span>Manage</span>
-            </a>
             <a href="{% url 'joypage' %}">
                 <i class="icon-home"></i>
                 <span>Joy's attempt</span>
-            </a>
-            <a href="{% url 'preaddpage' %}">
-                <i class="icon-home"></i>
-                <span>Additional Living to 100</span>
             </a>
         </li>
     </ul>
@@ -138,8 +133,7 @@
 {% block main %}
 <div class="row">
   <div class="col-12">
-    <h1><p>Client Management Page for Coach</p></h1><br>
-    <h3><p>This page is only for coach !</p></h3>
+  <img src = "{% static, 'img/test-coach.png'%}" class="img-responsive" alt="Joy">
   </div>
 </div>
 

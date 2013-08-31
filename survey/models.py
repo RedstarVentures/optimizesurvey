@@ -1,6 +1,56 @@
 from django.db import models
 from optme import settings
 
+class PreAdd(models.Model):
+  """
+  Coach input after diagnostic visit for living to 100 form
+  """
+### Page 1: Living-to-100 ###
+  # question 1 (2 of LV2-100 list)
+  # RELATIONSHIP_CHOICES = (
+  #   (1, '7 or more'),
+  #   (2, '4-6'),
+  #   (3, '1-3'),
+  #   (4, '0')
+  #   )
+  # relationship_val = models.IntegerField(choices=RELATIONSHIP_CHOICES, verbose_name='How many new relationships/friendships have you developed over the last 12 months? (Relationship defined as contact with someone regularly- a minimum of once a week)')
+
+  # question 2 (5 of LV2-100 list)
+
+  SLEEP_CHOICES = (
+    (1, 'Very good! I get enough sleep.'),
+    (2, 'It varies. Once in awhile I do not get enough sleep.'),
+    (3, 'It could be better. I frequently do not feel well rested.'),
+    (4, 'Very bad! Every night I have problems falling asleep or staying asleep.')
+    )
+  sleep_val = models.IntegerField(choices=SLEEP_CHOICES, verbose_name='How would you characterize your sleep habits?')
+
+  # question 3
+  OPTIMISM_CHOICES = (
+    (1, 'I feel I am aging well and that my older years will be fulfilling ones'),
+    (2, ' I am dreading my older years'),
+    (3, 'Something in between the above two options')
+    )
+  optimism_val = models.IntegerField(choices=OPTIMISM_CHOICES, verbose_name='Are you optimistic about your aging, or, pessimistic?')
+
+  def __unicode__(self):
+    pass
+  def meta(self):
+    return self._meta
+
+
+class JoyModel1(models.Model):
+  STAGES_CHOICES = (
+    (0, 'Preboarding'), 
+    (1, 'Diagnostic Visit'), 
+    (2, 'Follow-up Meeting1'), 
+    (3, 'Follow-up Meeting2')
+    );
+  stages = models.IntegerField(choices=STAGES_CHOICES, default=STAGES_CHOICES[0][0], verbose_name="Stages question")
+  def __unicode__(self):
+    pass
+
+
 class MultipleSelect(models.Model):
 
   name = models.CharField(max_length=150)

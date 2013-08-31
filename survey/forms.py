@@ -3,11 +3,29 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.forms.extras.widgets import SelectDateWidget
 
-from survey.models import MultipleSelect, Preliminary1, Preliminary2, Preliminary3, Preliminary4, Onboarding1, Onboarding2, Onboarding3, Onboarding4
+from survey.models import PreAdd, JoyModel1, MultipleSelect, Preliminary1, Preliminary2, Preliminary3, Preliminary4, Onboarding1, Onboarding2, Onboarding3, Onboarding4
 from core.models import EmailUser
 import datetime
 
 BIRTH_YEAR_CHOICES = range(1914,2000)
+
+class PreAdd_Questionnaire(forms.ModelForm):
+  class Meta:
+    model = PreAdd
+
+  def __init__(self, *args, **kwargs):
+    super(PreAdd_Questionnaire, self).__init__(*args, **kwargs)
+    self.fields['sleep_val'].widget = forms.RadioSelect(choices=PreAdd.SLEEP_CHOICES)
+    self.fields['optimism_val'].widget = forms.RadioSelect(choices=PreAdd.OPTIMISM_CHOICES)
+
+class JoyForm(forms.ModelForm):
+
+  class Meta: 
+    model = JoyModel1
+
+  def __init__(self, *args, **kwargs):
+    super(JoyForm, self).__init__(*args, **kwargs)
+    self.fields['stages'].widget = forms.RadioSelect(choices=JoyModel1.STAGES_CHOICES)
 
 class Preliminary_1_Questionnaire(forms.ModelForm):
 
@@ -81,7 +99,7 @@ class Preliminary_4_Questionnaire(forms.ModelForm):
   class Meta:
     model = Preliminary4
 
-  def __init__(self, *args, **kwargs):
+  def __init__(self, *args, **kwargs):     
     super(Preliminary_4_Questionnaire, self).__init__(*args, **kwargs)
     self.fields['user'].widget = forms.HiddenInput()
     self.fields['immediate_family'].widget = forms.RadioSelect(choices=Preliminary4.MANY_CHOICES)

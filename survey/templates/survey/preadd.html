@@ -1,0 +1,93 @@
+{% extends "core/base_coach.html" %}
+{% load staticfiles %}
+
+{% block title %}
+<title>Additional Living to 100 Questions</title>
+{% endblock %}
+
+
+{% block headscript %}
+
+{% endblock %}
+
+{% block upperstat %}
+<br>
+{% endblock %}
+
+{% block sidebar %}
+<!-- sidebar -->
+<div id="sidebar-nav">
+    <ul id="dashboard-menu">
+        <li class="active">
+            <a href="{% url 'index' %}">
+                <i class="icon-home"></i>
+                <span>Manage</span>
+            </a>
+            <a href="{% url 'joypage' %}">
+                <i class="icon-home"></i>
+                <span>Joy's attempt</span>
+            </a>
+            <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div>
+            <a href="{% url 'preaddpage' %}">
+                <i class="icon-home"></i>
+                <span>Additional Living to 100</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- end sidebar -->
+{% endblock %}
+
+{% block main %}
+
+  <div class="row">
+    <div class="col-12">
+      <h1><p>Addition Living to 100 Questions</p></h1><br>
+      <h3><p>[1/4] Demographic and Lifestyle</p></h3>
+    </div>
+  </div>
+  
+  <br>
+  {% if form.errors %}
+    <font color="red">Some values are missed.</font>
+  {% endif %}
+  <br>
+  <br>
+
+  <section id="preadd-questions">
+  <div class="row">
+    <div class="col-12">
+
+      <form action="{{ app_path }}" method="POST">
+        {% csrf_token %}
+        {{ form.user }}
+
+        <div class="form-group">
+            <label for="id_sleep">1. {{ form.sleep_val.label }}</label>
+          {% if form.sleep_val.errors %}
+            <font color="red">required</font>
+          {% endif %}            
+          <div class="form-control" style="width:400px;">
+            {{ form.sleep_val}} 
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="id_optimism">2. {{ form.optimism_val.label }}</label>
+          {% if form.optimism_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:400px;">
+            {{ form.optimism_val}} 
+          </div>
+        </div>
+        <br>
+  </section>
+
+{% endblock %}
