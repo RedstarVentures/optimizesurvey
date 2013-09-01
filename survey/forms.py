@@ -17,6 +17,15 @@ class PreAdd_Questionnaire(forms.ModelForm):
     super(PreAdd_Questionnaire, self).__init__(*args, **kwargs)
     self.fields['sleep_val'].widget = forms.RadioSelect(choices=PreAdd.SLEEP_CHOICES)
     self.fields['optimism_val'].widget = forms.RadioSelect(choices=PreAdd.OPTIMISM_CHOICES)
+    self.fields['tea_val'].widget = forms.RadioSelect(choices=PreAdd.TEA_CHOICES)
+    self.fields['sexdrug_val'].widget = forms.RadioSelect(choices=PreAdd.SEXDRUG_CHOICES)
+    self.fields['hdl_val'].widget = forms.RadioSelect(choices=PreAdd.HDL_CHOICES)
+    self.fields['ldl_val'].widget = forms.RadioSelect(choices=PreAdd.LDL_CHOICES)
+    self.fields['totchol_val'].widget = forms.RadioSelect(choices=PreAdd.TOTCHOL_CHOICES)
+    self.fields['sysbp_val'].widget = forms.RadioSelect(choices=PreAdd.SYSBP_CHOICES)
+    self.fields['diasbp_val'].widget = forms.RadioSelect(choices=PreAdd.DIASBP_CHOICES)
+    self.fields['glu_val'].widget = forms.RadioSelect(choices=PreAdd.GLU_CHOICES)
+
 
 class JoyForm(forms.ModelForm):
 

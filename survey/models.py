@@ -33,11 +33,96 @@ class PreAdd(models.Model):
     )
   optimism_val = models.IntegerField(choices=OPTIMISM_CHOICES, verbose_name='Are you optimistic about your aging, or, pessimistic?')
 
+### Page 2: Living-to-100 ###
+  # question 4 (12 in LV-2-100 list)
+  TEA_CHOICES = (
+      (1, 'None'),
+      (2, '1 - 2 cups per day'),
+      (3, '3 - 5 cups per day'),
+      (4, '6 - 10 cups per day'),
+      (5, 'Greater than 10 cups per day')
+    )
+  tea_val = models.IntegerField(choices=TEA_CHOICES, verbose_name='How many cups of tea do you drink per day?')
+
+  # question 5 (22 in LV-2-100 list)
+#question 5 (conditional on age (male < 38))
+  SEXDRUG_CHOICES = (
+      (1, 'Never'),
+      (2, 'Rarely (once a year or less)'),
+      (3, 'Sometimes (few times a year)'),
+      (4, 'Often (every few months)'),
+      (5, 'Very often (once or more a month)')
+    )
+  sexdrug_val = models.IntegerField(choices=SEXDRUG_CHOICES, verbose_name='Do you engage in risky sexual (unprotected) behavior and/or do you inject illegal drugs?')
+
+### Page 4: Medical ###
+#question 8 (41 on LV-2-100 list)
+  HDL_CHOICES = (
+      (1, 'Lower than 40 mg/dl (1.0 mmol/L)'),
+      (2, 'Higher than 40 mg/dl (1.0 mmol/L)'),
+      (3, 'I haven\'t checked it in the last 3 years'),
+      (4, 'I have had the test done within the past 3 years but don\'t remember the results')
+    )
+  hdl_val = models.IntegerField(choices=HDL_CHOICES, verbose_name='What is your HDL cholesterol (good cholesterol):')
+
+#question 9 (42 on LV-2-100 list)
+  LDL_CHOICES = (
+      (1, 'Lower than 100 mg/dl (3.4 mmol/L)'),
+      (2, 'Higher than 100 mg/dl (3.4 mmol/L)'),
+      (3, 'I haven\'t checked it in the last 3 years'),
+      (4, 'I have had the test done within the past 3 years but don\'t remember the results')
+    )
+  ldl_val = models.IntegerField(choices=LDL_CHOICES, verbose_name='What is your LDL cholesterol (bad cholesterol):')
+
+#question 10 (43 on LV-2-100 list)
+  TOTCHOL_CHOICES = (
+      (1, 'Lower than 180 mg/dl (5 mmol/L)'),
+      (2, 'Higher than 180 mg/dl (5 mmol/L)'),
+      (3, 'I haven\'t checked it in the last 3 years'),
+      (4, 'I have had the test done within the past 3 years but don\'t remember the results')
+    )
+  totchol_val = models.IntegerField(choices=TOTCHOL_CHOICES, verbose_name='What is your total cholesterol level:')
+
+#question 11 (44 on LV-2-100 list)
+  SYSBP_CHOICES = (
+      (1, 'Lower than 85'),
+      (2, '86-100'),
+      (3, '101-119'),
+      (4, '120-129'),
+      (5, '130-139'),
+      (6, '140-189'),
+      (7, 'Higher than 230'),
+      (8, 'I don\'t remember or haven\'t had it checked in the past year'),
+      (9, '211-230')
+    )
+  sysbp_val = models.IntegerField(choices=SYSBP_CHOICES, verbose_name='What is your systolic blood pressure (the number stated first and the higher value):')
+
+#question 12 (45 on LV-2-100 list)
+  DIASBP_CHOICES = (
+      (1, 'Lower than 80'),
+      (2, '80-89'),
+      (3, '90-105'),
+      (4, '106-115'),
+      (5, 'Higher than 116'),
+      (6, 'I don\'t remember or haven\'t had it checked in the past year')
+    )
+  diasbp_val = models.IntegerField(choices=DIASBP_CHOICES, verbose_name='What is your diastolic blood pressure (the number stated second and the lower value):')
+
+#question 13 (46 on LV-2-100 list)
+  GLU_CHOICES = (
+      (1, 'I have not had it checked in the past 3 years'),
+      (2, 'No diabetes (<120)'),
+      (3, '120-200'),
+      (4, '>200'),
+      (5, 'Higher than 116'),
+      (6, 'I don\'t remember or haven\'t had it checked in the past year')
+    )
+  glu_val = models.IntegerField(choices=GLU_CHOICES, verbose_name='Do you know whether you have diabetes? What is your fasting blood sugar level?')
+
   def __unicode__(self):
     pass
   def meta(self):
     return self._meta
-
 
 class JoyModel1(models.Model):
   STAGES_CHOICES = (

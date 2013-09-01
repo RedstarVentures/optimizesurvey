@@ -384,6 +384,7 @@ def calculator(client_id):
     on2 = Onboarding2.objects.get(user=client)
     on3 = Onboarding3.objects.get(user=client)
     on4 = Onboarding4.objects.get(user=client)
+    preadd = PreAdd.objects.get(user=client)
 
   except: # some questionnaire wasn't finished.
     raise Http404
@@ -435,14 +436,14 @@ def calculator(client_id):
                     pre1.new_relation,
                     pre1.cope_stress,
                     pre1.source_of_stress, # manytomany
-                    -1,# sleep question!!!
+                    preadd.sleep_val,# sleep question!!!
                     pre1.formal_education,
                     pre1.work_week,
-                    -1,# optimistic !!!
+                    preadd.optimism_val,# optimistic !!!
                     pre1.brain_activity,
                     pre2.air_pollution,
                     pre2.coffee, #21
-                    -1,# cups of tea
+                    preadd.tea_val,# cups of tea
                     pre2.often_smoke,
                     pre2.many_smoke,
                     pre2.exposure_smoke,
@@ -468,11 +469,11 @@ def calculator(client_id):
                     on2.leisure,
                     pre3.bowel_movement,#71
                     pre3.skin_cancer,
-                    -1,# cholesterol (good cholesterol)
-                    -1,# cholesterol (bad cholesterol)
-                    -1,# on3 : blood_pressure (Systolic) // choice is different male, female
-                    -1,# on3 : blood_pressure (Diastolic)
-                    -1,# fasting blood sugar level
+                    preadd.hdl_val,# cholesterol (good cholesterol)
+                    preadd.ldl_val,# cholesterol (bad cholesterol)
+                    preadd.sysbp_val,# on3 : blood_pressure (Systolic) // choice is different male, female
+                    preadd.diasbp_val,# on3 : blood_pressure (Diastolic)
+                    preadd.glu_val,# fasting blood sugar level
                     pre3.heart_attack,
                     pre3.doctor_appointment,
                     pre4.immediate_family,
@@ -567,15 +568,15 @@ def calculator(client_id):
                       pre1.in_person_contact,
                       -1,# how many new relationship
                       pre1.cope_stress,
-                      -1,# sleep question!!!
+                      preadd.sleep_val,# sleep question!!!
                       pre1.formal_education,
                       pre1.work_hour,
                       pre1.work_week,
-                      -1,# optimistic !!!
+                      preadd.sleep_val,# optimistic !!!
                       pre2.air_pollution,
                       pre2.seatbelt,
                       pre2.coffee, # 121
-                      -1,# cups of tea
+                      preadd.tea_val,# cups of tea
                       pre2.second_smoke,
                       pre2.often_smoke,
                       pre2.many_smoke,
@@ -585,7 +586,7 @@ def calculator(client_id):
                       pre2.glass_alcohol,
                       pre2.aspirin,
                       pre2.sunscreen,# 141
-                      -1,# risky sexual behavior and illegal drug
+                      preadd.sexdrug_val,# risky sexual behavior and illegal drug
                       pre2.floss_teeth,
                       -1,# weight on3 weight
                       -1,# tall on3 height
@@ -604,12 +605,12 @@ def calculator(client_id):
                       on2.leisure,
                       pre3.bowel_movement,
                       pre3.skin_cancer,
-                      -1,# cholesterol (good cholesterol)  # 181
-                      -1,# cholesterol (bad cholesterol)
-                      -1,# total cholesterol level
-                      -1,# on3 : blood_pressure (Systolic)
-                      -1,# on3 : blood_pressure (Diastolic)
-                      -1,# fasting blood sugar level
+                      preadd.hdl_val,# cholesterol (good cholesterol)  # 181
+                      preadd.ldl_val,# cholesterol (bad cholesterol)
+                      preadd.totchol_val,# total cholesterol level
+                      preadd.sysbp_val,# on3 : blood_pressure (Systolic)
+                      preadd.diasbp_val,# on3 : blood_pressure (Diastolic)
+                      preadd.glu_val,# fasting blood sugar level
                       pre3.heart_attack,
                       pre3.doctor_appointment,
                       pre4.immediate_family,
