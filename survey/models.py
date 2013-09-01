@@ -55,6 +55,63 @@ class PreAdd(models.Model):
     )
   sexdrug_val = models.IntegerField(choices=SEXDRUG_CHOICES, verbose_name='Do you engage in risky sexual (unprotected) behavior and/or do you inject illegal drugs?')
 
+### Page 3: Nutrition ###
+  # question 6 
+  WEIGHT_CHOICES = (
+      (1, 'Under 75 lb -- 34 kg'),
+      (2, '75lb--34kg 80lb--36kg'),
+      (3, '85lb--38kg 90lb--40kg'),
+      (4, '95 lb -- 43 kg 100 lb -- 45 kg'),
+      (5, '105 lb -- 47 kg 110 lb -- 49 kg'),
+      (6, '115 lb -- 52 kg 120 lb -- 54 kg'),
+      (7, '125 lb -- 56 kg 130 lb -- 59 kg'),
+      (8, '135 lb -- 61 kg 140 lb -- 63 kg'),
+      (9, '145 lb -- 65 kg 150 lb -- 68 kg'),
+      (10,'155 lb -- 70 kg 160 lb -- 72 kg'),
+      (11,'165 lb -- 75 kg 170 lb -- 77 kg'),
+      (12,'175 lb -- 79 kg 180 lb -- 81 kg'),
+      (13,'185 lb -- 84 kg 190 lb -- 86 kg'),
+      (14,'195 lb -- 88 kg 200 lb -- 90 kg'),
+      (15,'205 lb -- 93 kg 210 lb -- 95 kg'),
+      (16,'215 lb -- 97 kg 220 lb -- 99 kg'),
+      (17,'225 lb -- 102 kg 230 lb -- 104 kg'),
+      (18,'235 lb -- 106 kg 240 lb -- 109 kg'),
+      (19,'245 lb -- 111 kg 250 lb -- 113 kg'),
+      (20,'255 lb -- 115 kg 260 lb -- 118 kg'),
+      (21,'265 lb -- 120 kg 270 lb -- 122 kg'),
+      (22,'275 lb -- 124 kg 280 lb -- 127 kg'),
+      (23,'285 lb -- 129 kg 290 lb -- 131 kg'),
+      (24,'295 lb -- 134 kg 300 lb -- 136 kg'),
+      (25,'Over 300 lb -- 136 kg')
+  )
+  weight_val = models.IntegerField(choices=WEIGHT_CHOICES, default=0, verbose_name='What is your weight?')
+
+#question 7 (height)
+  HEIGHT_CHOICES = (
+      (1, 'Under 4 ft -- 1.20 m'),  (2, '4\' 0" -- 1.22 m'),
+      (3, '4\' 1" -- 1.24 m'),      (4, '4\' 2" -- 1.27 m'),
+      (5, '4\' 3" -- 1.30 m'),      (6, '4\' 4" -- 1.32 m'),
+      (7, '4\' 5" -- 1.35 m'),      (8, '4\' 6" -- 1.37 m'),
+      (9, '4\' 7" -- 1.40 m'),      (10,'4\' 8" -- 1.42 m'),
+      (11,'4\' 9" -- 1.45 m'),      (12,'4\'10" -- 1.47 m'),
+      (13,'4\'11" -- 1.50 m'),      (14,'5\' 0" -- 1.52 m'),
+      (15,'5\' 1" -- 1.55 m'),      (16,'5\' 2" -- 1.57 m'),
+      (17,'5\' 3" -- 1.60 m'),      (18,'5\' 4" -- 1.63 m'),
+      (19,'5\' 5" -- 1.65 m'),      (20,'5\' 6" -- 1.68 m'),
+      (21,'5\' 7" -- 1.70 m'),      (22,'5\' 8" -- 1.73 m'),
+      (23,'5\' 9" -- 1.75 m'),      (24,'5\'10" -- 1.78 m'),
+      (25,'5\'11" -- 1.80 m'),      (26,'6\' 0" -- 1.83 m'),
+      (27,'6\' 1" -- 1.85 m'),      (28,'6\' 2" -- 1.88 m'),
+      (29,'6\' 3" -- 1.91 m'),      (30,'6\' 4" -- 1.93 m'),
+      (31,'6\' 5" -- 1.96 m'),      (32,'6\' 6" -- 1.98 m'),
+      (33,'6\' 7" -- 2.01 m'),      (34,'6\' 8" -- 2.03 m'),
+      (35,'6\' 9" -- 2.06 m'),      (36,'6\'10" -- 2.08 m'),
+      (37,'6\'11" -- 2.11 m'),      (38,'7\' 0" -- 2.13 m'),
+      (39,'Over 7 ft -- 2.15 m')
+)
+
+  height_val = models.IntegerField(choices=HEIGHT_CHOICES, default=0, verbose_name='What is your height?')
+
 ### Page 4: Medical ###
 #question 8 (41 on LV-2-100 list)
   HDL_CHOICES = (

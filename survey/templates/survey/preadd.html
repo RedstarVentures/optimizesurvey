@@ -119,29 +119,27 @@
 
         <!-- weight -->
         <div class="form-group">
-            <label for="id_weight">5. weight </label>
-<!--             <label for="id_weight">7. height {{ form.hdl_val.label }}</label>
-          {% if form.hdl_val.errors %}
+            <label for="id_weight">5. {{ form.weight_val.label }}</label>
+          {% if form.weight_val.errors %}
           <br>
             <font color="red">required</font>
           {% endif %} 
           <div class="form-control" style="width:400px;">
-            {{ form.hdl_val}} 
-          </div> -->
+            {{ form.weight_val}} 
+          </div>
         </div>
         <br>
 
         <!-- height -->
         <div class="form-group">
-            <label for="id_height">6. height</label>
-            <!-- <label for="id_height">6. height{{ form.hdl_val.label }}</label> -->
-<!--           {% if form.hdl_val.errors %}
+            <label for="id_height">6. {{ form.height_val.label }}</label>
+          {% if form.height_val.errors %}
           <br>
             <font color="red">required</font>
           {% endif %} 
           <div class="form-control" style="width:400px;">
-            {{ form.hdl_val}} 
-          </div> -->
+            {{ form.height_val}} 
+          </div>
         </div>
         <br>
 
