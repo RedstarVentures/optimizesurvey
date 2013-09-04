@@ -432,8 +432,8 @@ def calculator(client_id):
   # branch 4 - way
   if age > 38:
 
-    list_sequence = [pre1.marital_status,
-                    pre1.new_relation,
+    list_sequence = [pre1.marital_status, #q99
+                    pre1.new_relation, 
                     pre1.cope_stress,
                     pre1.source_of_stress, # manytomany
                     preadd.sleep_val,# sleep question!!!
@@ -453,8 +453,8 @@ def calculator(client_id):
                     pre2.aspirin,
                     pre2.sunscreen,
                     pre2.floss_teeth,
-                    -1,# weight on3 weight
-                    -1,# tall on3 height
+                    preadd.weight_val,# weight on3 weight
+                    preadd.height_val,# tall on3 height
                     pre2.body_mass_index,
                     on2.many_meat,
                     on2.many_dairy, #51
@@ -520,7 +520,7 @@ def calculator(client_id):
         idx += 1
 
     else:
-      # /start/2
+      # /start/2, over 38 and female
       list_sequence += [
                       pre4.fertility,
                       pre4.child_old,
@@ -564,14 +564,14 @@ def calculator(client_id):
             pass
         idx += 1
   else:
-    list_sequence = [pre1.marital_status, # 99
-                      pre1.in_person_contact,
+    list_sequence = [pre1.marital_status, # q99
+                      pre1.in_person_contact, #q101
                       -1,# how many new relationship
-                      pre1.cope_stress,
-                      preadd.sleep_val,# sleep question!!!
-                      pre1.formal_education,
-                      pre1.work_hour,
-                      pre1.work_week,
+                      pre1.cope_stress, #q105
+                      preadd.sleep_val, #q107 sleep question!!!
+                      pre1.formal_education, #q109
+                      pre1.work_hour, #q111
+                      pre1.work_week, #q113
                       preadd.sleep_val,# optimistic !!!
                       pre2.air_pollution,
                       pre2.seatbelt,
@@ -588,8 +588,8 @@ def calculator(client_id):
                       pre2.sunscreen,# 141
                       preadd.sexdrug_val,# risky sexual behavior and illegal drug
                       pre2.floss_teeth,
-                      -1,# weight on3 weight
-                      -1,# tall on3 height
+                      preadd.weight_val,# weight on3 weight
+                      preadd.height_val,# tall on3 height
                       pre2.body_mass_index,
                       on2.many_meat,
                       on2.how_bbq,
@@ -621,7 +621,7 @@ def calculator(client_id):
                       ]
 
     if gender[0] =='M':
-      # /start/3 (99~205)
+      # /start/3 (99~205), male under 38
       idx = 0
       for x in range(99,206,2):
         if list_sequence[idx] == -1: # not decided question.
@@ -725,7 +725,7 @@ def calculator(client_id):
         idx += 1
 
     else:
-      # /start/4
+      # /start/4, female under 38
       list_sequence += [pre4.child_old]
       idx = 0
       for x in range(98, 207, 2):
