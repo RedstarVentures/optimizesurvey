@@ -18,7 +18,7 @@ EMAIL_FILE_PATH = BASE_DIR + '/emails/'
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-import dj_database_url 
+import dj_database_url
 DATABASES = {'default': dj_database_url.config(default='postgres://vinely:winedora@localhost:5432/optme')}
 
 MIDDLEWARE_CLASSES = (
@@ -52,7 +52,6 @@ INSTALLED_APPS = (
     'admin_tools.theming',
     'admin_tools.menu',
     'admin_tools.dashboard',
-    'django.contrib.admin',
 )
 
 
@@ -61,7 +60,6 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     BASE_DIR + '/templates',
-    #BASE_DIR + "/venv/lib/python2.7/site-packages/debug_toolbar/templates/"
 )
 
 
