@@ -6,14 +6,45 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from BeautifulSoup import BeautifulSoup
 
-from survey.models import Preliminary1, Preliminary2, Preliminary3, Preliminary4, Onboarding1, Onboarding2, Onboarding3, Onboarding4
-from survey.forms import Preliminary_1_Questionnaire, Preliminary_2_Questionnaire, Preliminary_3_Questionnaire, Preliminary_4_Questionnaire, Onboarding_1_Questionnaire, Onboarding_2_Questionnaire, Onboarding_3_Questionnaire, Onboarding_4_Questionnaire
+from survey.models import PreAdd, JoyModel1, Preliminary1, Preliminary2, Preliminary3, Preliminary4, Onboarding1, Onboarding2, Onboarding3, Onboarding4
+from survey.forms import PreAdd_Questionnaire, JoyForm, Preliminary_1_Questionnaire, Preliminary_2_Questionnaire, Preliminary_3_Questionnaire, Preliminary_4_Questionnaire, Onboarding_1_Questionnaire, Onboarding_2_Questionnaire, Onboarding_3_Questionnaire, Onboarding_4_Questionnaire
 from core.models import EmailUser
 from core.views import get_user_type
 from django import template
 import urllib2, urllib, mechanize, datetime, random, csv
 
 register = template.Library()
+
+def preaddq(request):
+  data = {}
+  form = PreAdd_Questionnaire(request.POST or None, instance=None)
+  
+  if form.is_valid():
+    # form save
+    form.save()
+    # sync table with user info
+    return render_to_response("survey/finish.html", data, context_instance=RequestContext(request))
+
+  data["form"] = form
+  return render_to_response("survey/preadd.html", data, context_instance=RequestContext(request))
+
+
+def joy(request):
+  data = {}
+
+  form = JoyForm(request.POST or None, instance=None)
+
+  if form.is_valid():
+    # form save
+    form.save()
+    # sync the table with user information
+    return render_to_response("survey/finish.html", data,
+                                  context_instance=RequestContext(request))
+
+  data["form"] = form
+
+  return render_to_response("survey/joy.html", data,
+                                  context_instance=RequestContext(request))
 
 
 def calculate_age(month, day, year):
@@ -469,6 +500,7 @@ def calculator(client_id):
     on2 = Onboarding2.objects.get(user=client)
     on3 = Onboarding3.objects.get(user=client)
     on4 = Onboarding4.objects.get(user=client)
+    preadd = PreAdd.objects.get(user=client)
 
   except: # some questionnaire wasn't finished.
     raise Http404
@@ -516,18 +548,18 @@ def calculator(client_id):
   # branch 4 - way
   if age > 38:
 
-    list_sequence = [pre1.marital_status,
-                    pre1.new_relation,
+    list_sequence = [pre1.marital_status, #q99
+                    pre1.new_relation, 
                     pre1.cope_stress,
                     pre1.source_of_stress, # manytomany
-                    -1,# sleep question!!!
+                    preadd.sleep_val,# sleep question!!!
                     pre1.formal_education,
                     pre1.work_week,
-                    -1,# optimistic !!!
+                    preadd.optimism_val,# optimistic !!!
                     pre1.brain_activity,
                     pre2.air_pollution,
                     pre2.coffee, #21
-                    -1,# cups of tea
+                    preadd.tea_val,# cups of tea
                     pre2.often_smoke,
                     pre2.many_smoke,
                     pre2.exposure_smoke,
@@ -537,8 +569,8 @@ def calculator(client_id):
                     pre2.aspirin,
                     pre2.sunscreen,
                     pre2.floss_teeth,
-                    -1,# weight on3 weight
-                    -1,# tall on3 height
+                    preadd.weight_val,# weight on3 weight
+                    preadd.height_val,# tall on3 height
                     pre2.body_mass_index,
                     on2.many_meat,
                     on2.many_dairy, #51
@@ -553,11 +585,11 @@ def calculator(client_id):
                     on2.leisure,
                     pre3.bowel_movement,#71
                     pre3.skin_cancer,
-                    -1,# cholesterol (good cholesterol)
-                    -1,# cholesterol (bad cholesterol)
-                    -1,# on3 : blood_pressure (Systolic) // choice is different male, female
-                    -1,# on3 : blood_pressure (Diastolic)
-                    -1,# fasting blood sugar level
+                    preadd.hdl_val,# cholesterol (good cholesterol)
+                    preadd.ldl_val,# cholesterol (bad cholesterol)
+                    preadd.sysbp_val,# on3 : blood_pressure (Systolic) // choice is different male, female
+                    preadd.diasbp_val,# on3 : blood_pressure (Diastolic)
+                    preadd.glu_val,# fasting blood sugar level
                     pre3.heart_attack,
                     pre3.doctor_appointment,
                     pre4.immediate_family,
@@ -604,7 +636,7 @@ def calculator(client_id):
         idx += 1
 
     else:
-      # /start/2
+      # /start/2, over 38 and female
       list_sequence += [
                       pre4.fertility,
                       pre4.child_old,
@@ -648,19 +680,19 @@ def calculator(client_id):
             pass
         idx += 1
   else:
-    list_sequence = [pre1.marital_status, # 99
-                      pre1.in_person_contact,
-                      -1,# how do you evaluate your current stress level
-                      pre1.cope_stress,
-                      -1,# sleep question!!!
-                      pre1.formal_education,
-                      pre1.work_hour,
-                      pre1.work_week,
-                      -1,# optimistic !!!
+    list_sequence = [pre1.marital_status, # q99
+                      pre1.in_person_contact, #q101
+                      -1,# how many new relationship
+                      pre1.cope_stress, #q105
+                      preadd.sleep_val, #q107 sleep question!!!
+                      pre1.formal_education, #q109
+                      pre1.work_hour, #q111
+                      pre1.work_week, #q113
+                      preadd.sleep_val,# optimistic !!!
                       pre2.air_pollution,
                       pre2.seatbelt,
                       pre2.coffee, # 121
-                      -1,# cups of tea
+                      preadd.tea_val,# cups of tea
                       pre2.second_smoke,
                       pre2.often_smoke,
                       pre2.many_smoke,
@@ -670,10 +702,10 @@ def calculator(client_id):
                       pre2.glass_alcohol,
                       pre2.aspirin,
                       pre2.sunscreen,# 141
-                      -1,# risky sexual behavior and illegal drug
+                      preadd.sexdrug_val,# risky sexual behavior and illegal drug
                       pre2.floss_teeth,
-                      -1,# weight on3 weight
-                      -1,# tall on3 height
+                      preadd.weight_val,# weight on3 weight
+                      preadd.height_val,# tall on3 height
                       pre2.body_mass_index,
                       on2.many_meat,
                       on2.how_bbq,
@@ -689,12 +721,12 @@ def calculator(client_id):
                       on2.leisure,
                       pre3.bowel_movement,
                       pre3.skin_cancer,
-                      -1,# cholesterol (good cholesterol)  # 181
-                      -1,# cholesterol (bad cholesterol)
-                      -1,# total cholesterol level
-                      -1,# on3 : blood_pressure (Systolic)
-                      -1,# on3 : blood_pressure (Diastolic)
-                      -1,# fasting blood sugar level
+                      preadd.hdl_val,# cholesterol (good cholesterol)  # 181
+                      preadd.ldl_val,# cholesterol (bad cholesterol)
+                      preadd.totchol_val,# total cholesterol level
+                      preadd.sysbp_val,# on3 : blood_pressure (Systolic)
+                      preadd.diasbp_val,# on3 : blood_pressure (Diastolic)
+                      preadd.glu_val,# fasting blood sugar level
                       pre3.heart_attack,
                       pre3.doctor_appointment,
                       pre4.immediate_family,
@@ -705,7 +737,7 @@ def calculator(client_id):
                       ]
 
     if gender[0] =='M':
-      # /start/3 (99~205)
+      # /start/3 (99~205), male under 38
       idx = 0
       for x in range(99,206,2):
         if list_sequence[idx] == -1: # not decided question.
@@ -809,7 +841,7 @@ def calculator(client_id):
         idx += 1
 
     else:
-      # /start/4
+      # /start/4, female under 38
       list_sequence += [pre4.child_old]
       idx = 0
       for x in range(98, 207, 2):

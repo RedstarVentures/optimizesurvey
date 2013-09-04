@@ -36,7 +36,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'personal' %}">Account Settings</a></li>
                     <li><a href="#">Schedule your next appointment</a></li>
-                    <li><a href="{% url 'survey.views.export_csv' %}">Export your client's data</a></li>
+                    <li><a href="#">Export your data</a></li>
                     <li><a href="/accounts/logout">Log out</a></li>
                 </ul>
             </li>
@@ -105,23 +105,18 @@
     <!-- sidebar -->
 <div id="sidebar-nav">
     <ul id="dashboard-menu">
-
         <li class="active">
-          <div class="pointer">
-                <div class="arrow"></div>
-                <div class="arrow_border"></div>
-            </div>
             <a href="{% url 'index' %}">
                 <i class="icon-home"></i>
                 <span>Manage</span>
             </a>
+          <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div>
             <a href="{% url 'joypage' %}">
                 <i class="icon-home"></i>
                 <span>Joy's attempt</span>
-            </a>
-            <a href="{% url 'preaddpage' %}">
-                <i class="icon-home"></i>
-                <span>Additional Living to 100</span>
             </a>
         </li>
     </ul>
@@ -138,104 +133,21 @@
 {% block main %}
 <div class="row">
   <div class="col-12">
-    <h1><p>Client Management Page for Coach</p></h1><br>
-    <h3><p>This page is only for coach !</p></h3>
+
+  <img src = "{% static 'img/test-coach.png'%}" class="img-responsive" alt="Joy">
   </div>
 </div>
 
+<div class="form-group">
+  <label for="">1. {{ form.stages.label }}</label>
+  {% if form.stages.errors %}
+    <br>
+      <font color="red">required</font>
+    {% endif %} 
+  <div class="form-control">
+    {{ form.stages}} 
+  </div>
+</div>    
 <br>
-{% if form.errors %}
-  <font color="red">Some values are missed.</font>
-{% endif %}
-<br>
-<br>
-
-
-<div class="row">
-  <div class="col-12">
-
-    <label> Your Clients list </label>
-    
-    {% for c in clients %}
-    <div class="col-4">
-      {{ c.email }}   
-    </div>
-    <div class="col-2" align="center">
-      <a href="{% url 'survey.views.preliminary' c.id %}">Preliminary</a> 
-    </div>
-    <div class="col-2" align="center">
-      <a href="{% url 'survey.views.onboarding1' c.id %}">Onboarding</a>
-    </div>
-    <div class="col-2" align="center">
-      <a href="{% url 'survey.views.unassignment' c.id %}">Unassign</a>
-    </div>
-    <div class="col-2" align="center">
-      <a href="{% url 'survey.views.get_expected_age' c.id %}">Expected Life Span</a>
-    </div>
-     
-    {% endfor %}
-    
-  </div>
-</div>
-
-<br><br>
-
-<div class="row">
-  <div class="col-12">
-
-    <label> Unassigned Clients (not matched yet) </label>
-    
-    {% for c in not_clients %}
-    <div class="col-4">
-      {{ c.email }}  
-    
-    </div>
-    <div class="col-8">
-      <a href="{% url 'survey.views.assignment' c.id %}">Assign to me</a>
-    </div>
-     
-    {% endfor %}
-    
-  </div>
-</div>
-<br><br>
-
-<div class="row">
-  <div class="col-12">
-
-    <label> All clients </label>
-    
-    {% for c in all_clients %}
-        {% ifequal c.user_type 1 %}
-        <div class="col-3">
-          {{ c.email }}
-          
-        </div>
-        <div class="col-3">
-          {% if c.first_name %}
-            {{ c.first_name }}
-          {% else %}
-            -
-          {% endif %}
-        </div>
-        <div class="col-3">
-          {% if c.last_name %}
-            {{ c.last_name }}
-          {% else %}
-            -
-          {% endif %}
-        </div>
-        <div class="col-3">
-          {% if c.date_joined %}
-            {{ c.date_joined }}
-          {% else %}
-            -
-          {% endif %}
-        </div>
-        {% endifequal %}
-    {% endfor %}
-    
-  </div>
-</div>
 
 {% endblock %}

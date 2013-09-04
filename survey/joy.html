@@ -36,7 +36,7 @@
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'personal' %}">Account Settings</a></li>
                     <li><a href="#">Schedule your next appointment</a></li>
-                    <li><a href="{% url 'survey.views.export_csv' %}">Export your client's data</a></li>
+                    <li><a href="#">Export your data</a></li>
                     <li><a href="/accounts/logout">Log out</a></li>
                 </ul>
             </li>
@@ -105,23 +105,18 @@
     <!-- sidebar -->
 <div id="sidebar-nav">
     <ul id="dashboard-menu">
-
+            <a href="{% url 'index' %}">
+                <i class="icon-home"></i>
+                <span>Manage</span>
+            </a>
         <li class="active">
           <div class="pointer">
                 <div class="arrow"></div>
                 <div class="arrow_border"></div>
             </div>
-            <a href="{% url 'index' %}">
-                <i class="icon-home"></i>
-                <span>Manage</span>
-            </a>
             <a href="{% url 'joypage' %}">
                 <i class="icon-home"></i>
                 <span>Joy's attempt</span>
-            </a>
-            <a href="{% url 'preaddpage' %}">
-                <i class="icon-home"></i>
-                <span>Additional Living to 100</span>
             </a>
         </li>
     </ul>
@@ -138,8 +133,7 @@
 {% block main %}
 <div class="row">
   <div class="col-12">
-    <h1><p>Client Management Page for Coach</p></h1><br>
-    <h3><p>This page is only for coach !</p></h3>
+  <img src = "{% static, 'img/test-coach.png'%}" class="img-responsive" alt="Joy">
   </div>
 </div>
 
@@ -157,7 +151,7 @@
     <label> Your Clients list </label>
     
     {% for c in clients %}
-    <div class="col-4">
+    <div class="col-2">
       {{ c.email }}   
     </div>
     <div class="col-2" align="center">
@@ -165,6 +159,9 @@
     </div>
     <div class="col-2" align="center">
       <a href="{% url 'survey.views.onboarding1' c.id %}">Onboarding</a>
+    </div>
+    <div class="col-2" align="center">
+      <a href="{% url 'survey.views.preliminary' c.id %}">Export data</a> 
     </div>
     <div class="col-2" align="center">
       <a href="{% url 'survey.views.unassignment' c.id %}">Unassign</a>

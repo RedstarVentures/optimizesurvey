@@ -1,1 +1,110 @@
-1,"Excessive worrying (what if I have a car accident and die, what if my house burns down, what if my daughter fails school)",02,Crime or victim-related,03,Illness or death of a family member or loved one,04,"A loved one currently in harm's way (e.g. war, fighting crime etc)",05,Death or illness of a pet,06,Marital Stress,07,Loneliness,08,"Community or global social concerns (e.g. poverty, war, environment, religion etc)",09,Feeling underpaid/undervalued,010,Getting laid off or fired from a job,011,Legal troubles,012,"New Responsibilities (baby, job-related, caring for someone etc)",013,Health problems,014,Living conditions,015,"Regular conflict(s) with family or others (e.g colleagues, neighbors)",016,Running late,017,Job,018,Traffic jams,019,Financial insecurity,020,Hormonal fluxes,021,Erectile Dysfunction,022,Other sources that we missed but you find significant,023,Illness,024,Anemia,125,Anorexia,126,Arthritis,127,Asthma,128,Cancer,129,Eating Problems,130,Depression,131,Diabetes,132,Heart Disease,133,High or Low Blood Pressure,134,Menupause,135,Working,236,Daily chores,237,Moderate exercise,238,Vigorous exercise,239,Fruit,340,Yogurt,341,Veggies,342,Sweets,343,Bagels / Chips,344,Crackers,345,"Healthy drinks (e.g. fruit based, teas, etc.)",346,Unhealthy drinks (e.g. popular sodas),3
+1,"Excessive worrying (what if I have a car accident and die, what if my house burns down, what if my daughter fails school)",0
+2,Crime or victim-related,0
+3,Illness or death of a family member or loved one,0
+4,"A loved one currently in harm's way (e.g. war, fighting crime etc)",0
+5,Death or illness of a pet,0
+6,Marital Stress,0
+7,Loneliness,0
+8,"Community or global social concerns (e.g. poverty, war, environment, religion etc)",0
+9,Feeling underpaid/undervalued,0
+10,Getting laid off or fired from a job,0
+11,Legal troubles,0
+12,"New Responsibilities (baby, job-related, caring for someone etc)",0
+13,Health problems,0
+14,Living conditions,0
+15,"Regular conflict(s) with family or others (e.g colleagues, neighbors)",0
+16,Running late,0
+17,Job,0
+18,Traffic jams,0
+19,Financial insecurity,0
+20,Hormonal fluxes,0
+21,Erectile Dysfunction,0
+22,Other sources that we missed but you find significant,0
+23,Illness,0
+24,Anemia,1
+25,Anorexia,1
+26,Arthritis,1
+27,Asthma,1
+28,Cancer,1
+29,Eating Problems,1
+30,Depression,1
+31,Diabetes,1
+32,Heart Disease,1
+33,High or Low Blood Pressure,1
+34,Menupause,1
+35,Working,2
+36,Daily chores,2
+37,Moderate exercise,2
+38,Vigorous exercise,2
+39,Fruit,3
+40,Yogurt,3
+41,Veggies,3
+42,Sweets,3
+43,Bagels / Chips,3
+44,Crackers,3
+45,"Healthy drinks (e.g. fruit based, teas, etc.)",3
+46,Unhealthy drinks (e.g. popular sodas),3
+47,Under 75 lb -- 34 kg,4
+48,75lb--34kg 80lb--36kg,4
+49,85lb--38kg 90lb--40kg,4
+50,95 lb -- 43 kg 100 lb -- 45 kg,4
+51,105 lb -- 47 kg 110 lb -- 49 kg,4
+52,115 lb -- 52 kg 120 lb -- 54 kg,4
+53,125 lb -- 56 kg 130 lb -- 59 kg,4
+54,135 lb -- 61 kg 140 lb -- 63 kg,4
+55,145 lb -- 65 kg 150 lb -- 68 kg,4
+56,155 lb -- 70 kg 160 lb -- 72 kg,4
+57,165 lb -- 75 kg 170 lb -- 77 kg,4
+58,175 lb -- 79 kg 180 lb -- 81 kg,4
+59,185 lb -- 84 kg 190 lb -- 86 kg,4
+60,195 lb -- 88 kg 200 lb -- 90 kg,4
+61,205 lb -- 93 kg 210 lb -- 95 kg,4
+62,215 lb -- 97 kg 220 lb -- 99 kg,4
+63,225 lb -- 102 kg 230 lb -- 104 kg,4
+64,235 lb -- 106 kg 240 lb -- 109 kg,4
+65,245 lb -- 111 kg 250 lb -- 113 kg,4
+66,255 lb -- 115 kg 260 lb -- 118 kg,4
+67,265 lb -- 120 kg 270 lb -- 122 kg,4
+68,275 lb -- 124 kg 280 lb -- 127 kg,4
+69,285 lb -- 129 kg 290 lb -- 131 kg,4
+70,295 lb -- 134 kg 300 lb -- 136 kg,4
+71,Over 300 lb -- 136 kg,4
+72,Under 4 ft -- 1.20 m,5
+73,"4' 0"" -- 1.22 m",5
+74,"4' 1"" -- 1.24 m",5
+75,"4' 2"" -- 1.27 m",5
+76,"4' 3"" -- 1.30 m",5
+77,"4' 4"" -- 1.32 m",5
+78,"4' 5"" -- 1.35 m",5
+79,"4' 6"" -- 1.37 m",5
+80,"4' 7"" -- 1.40 m",5
+81,"4' 8"" -- 1.42 m",5
+82,"4' 9"" -- 1.45 m",5
+83,"4'10"" -- 1.47 m",5
+84,"4'11"" -- 1.50 m",5
+85,"5' 0"" -- 1.52 m",5
+86,"5' 1"" -- 1.55 m",5
+87,"5' 2"" -- 1.57 m",5
+88,"5' 3"" -- 1.60 m",5
+89,"5' 4"" -- 1.63 m",5
+90,"5' 5"" -- 1.65 m",5
+91,"5' 6"" -- 1.68 m",5
+92,"5' 7"" -- 1.70 m",5
+93,"5' 8"" -- 1.73 m",5
+94,"5' 9"" -- 1.75 m",5
+95,"5'10"" -- 1.78 m",5
+96,"5'11"" -- 1.80 m",5
+97,"6' 0"" -- 1.83 m",5
+98,"6' 1"" -- 1.85 m",5
+99,"6' 2"" -- 1.88 m",5
+100,"6' 3"" -- 1.91 m",5
+101,"6' 4"" -- 1.93 m",5
+102,"6' 5"" -- 1.96 m",5
+103,"6' 6"" -- 1.98 m",5
+104,"6' 7"" -- 2.01 m",5
+105,"6' 8"" -- 2.03 m",5
+106,"6' 9"" -- 2.06 m",5
+107,"6'10"" -- 2.08 m",5
+108,"6'11"" -- 2.11 m",5
+109,"7' 0"" -- 2.13 m",5
+110,Over 7 ft -- 2.15 m,5

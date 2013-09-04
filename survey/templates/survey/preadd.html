@@ -1,0 +1,225 @@
+{% extends "core/base_coach.html" %}
+{% load staticfiles %}
+
+{% block title %}
+<title>Additional Living to 100 Questions</title>
+{% endblock %}
+
+
+{% block headscript %}
+
+{% endblock %}
+
+{% block upperstat %}
+<br>
+{% endblock %}
+
+{% block sidebar %}
+<!-- sidebar -->
+<div id="sidebar-nav">
+    <ul id="dashboard-menu">
+        <li class="active">
+            <a href="{% url 'index' %}">
+                <i class="icon-home"></i>
+                <span>Manage</span>
+            </a>
+            <a href="{% url 'joypage' %}">
+                <i class="icon-home"></i>
+                <span>Joy's attempt</span>
+            </a>
+            <div class="pointer">
+                <div class="arrow"></div>
+                <div class="arrow_border"></div>
+            </div>
+            <a href="{% url 'preaddpage' %}">
+                <i class="icon-home"></i>
+                <span>Additional Living to 100</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- end sidebar -->
+{% endblock %}
+
+{% block main %}
+
+  <div class="row">
+    <div class="col-12">
+      <h1><p>Addition Living to 100 Questions</p></h1><br>
+<!--       <h3><p>[1/4] Demographic and Lifestyle</p></h3> -->
+    </div>
+  </div>
+  
+  <br>
+  {% if form.errors %}
+    <font color="red">Some values are missed.</font>
+  {% endif %}
+  <br>
+  <br>
+
+  <section id="preadd-questions">
+  <div class="row">
+    <div class="col-12">
+
+      <form action="{{ app_path }}" method="POST">
+        {% csrf_token %}
+        {{ form.user }}
+
+        <!-- Sleep question -->
+        <div class="form-group">
+            <label for="id_sleep">1. {{ form.sleep_val.label }}</label>
+          {% if form.sleep_val.errors %}
+            <font color="red">required</font>
+          {% endif %}            
+          <div class="form-control" style="width:700px;">
+            {{ form.sleep_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- Optimism about aging -->
+        <div class="form-group">
+            <label for="id_optimism">2. {{ form.optimism_val.label }}</label>
+          {% if form.optimism_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:700px;">
+            {{ form.optimism_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- tea -->
+        <div class="form-group">
+            <label for="id_tea">3. {{ form.tea_val.label }}</label>
+          {% if form.tea_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:700px;">
+            {{ form.tea_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- sex drug -->
+        <div class="form-group">
+            <label for="id_sexdrug">4. {{ form.sexdrug_val.label }}</label>
+          {% if form.sexdrug_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:700px;">
+            {{ form.sexdrug_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- weight -->
+        <div class="form-group">
+            <label for="id_weight">5. {{ form.weight_val.label }}</label>
+          {% if form.weight_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:400px;">
+            {{ form.weight_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- height -->
+        <div class="form-group">
+            <label for="id_height">6. {{ form.height_val.label }}</label>
+          {% if form.height_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:400px;">
+            {{ form.height_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- hdl -->
+        <div class="form-group">
+            <label for="id_hdl">7. {{ form.hdl_val.label }}</label>
+          {% if form.hdl_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:700px;">
+            {{ form.hdl_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- ldl -->
+        <div class="form-group">
+            <label for="id_ldl">8. {{ form.ldl_val.label }}</label>
+          {% if form.ldl_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:700px;">
+            {{ form.ldl_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- total cholesterol -->
+        <div class="form-group">
+            <label for="id_totchol">9. {{ form.totchol_val.label }}</label>
+          {% if form.totchol_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:700px;">
+            {{ form.totchol_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- systolic BP -->
+        <div class="form-group">
+            <label for="id_sysbp">9. {{ form.sysbp_val.label }}</label>
+          {% if form.sysbp_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:700px;">
+            {{ form.sysbp_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- diastolic BP -->
+        <div class="form-group">
+            <label for="id_diasbp">9. {{ form.diasbp_val.label }}</label>
+          {% if form.diasbp_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:700px;">
+            {{ form.diasbp_val}} 
+          </div>
+        </div>
+        <br>
+
+        <!-- glucose -->
+        <div class="form-group">
+            <label for="id_glu">9. {{ form.glu_val.label }}</label>
+          {% if form.glu_val.errors %}
+          <br>
+            <font color="red">required</font>
+          {% endif %} 
+          <div class="form-control" style="width:700px;">
+            {{ form.glu_val}} 
+          </div>
+        </div>
+        <br>                
+  </section>
+
+{% endblock %}

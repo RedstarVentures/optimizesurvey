@@ -1,6 +1,198 @@
 from django.db import models
 from optme import settings
 
+class PreAdd(models.Model):
+  """
+  Coach input after diagnostic visit for living to 100 form
+  """
+### Page 1: Living-to-100 ###
+  # question 1 (2 of LV2-100 list)
+  # RELATIONSHIP_CHOICES = (
+  #   (1, '7 or more'),
+  #   (2, '4-6'),
+  #   (3, '1-3'),
+  #   (4, '0')
+  #   )
+  # relationship_val = models.IntegerField(choices=RELATIONSHIP_CHOICES, verbose_name='How many new relationships/friendships have you developed over the last 12 months? (Relationship defined as contact with someone regularly- a minimum of once a week)')
+
+  # question 2 (5 of LV2-100 list)
+
+  SLEEP_CHOICES = (
+    (1, 'Very good! I get enough sleep.'),
+    (2, 'It varies. Once in awhile I do not get enough sleep.'),
+    (3, 'It could be better. I frequently do not feel well rested.'),
+    (4, 'Very bad! Every night I have problems falling asleep or staying asleep.')
+    )
+  sleep_val = models.IntegerField(choices=SLEEP_CHOICES, verbose_name='How would you characterize your sleep habits?')
+
+  # question 3
+  OPTIMISM_CHOICES = (
+    (1, 'I feel I am aging well and that my older years will be fulfilling ones'),
+    (2, ' I am dreading my older years'),
+    (3, 'Something in between the above two options')
+    )
+  optimism_val = models.IntegerField(choices=OPTIMISM_CHOICES, verbose_name='Are you optimistic about your aging, or, pessimistic?')
+
+### Page 2: Living-to-100 ###
+  # question 4 (12 in LV-2-100 list)
+  TEA_CHOICES = (
+      (1, 'None'),
+      (2, '1 - 2 cups per day'),
+      (3, '3 - 5 cups per day'),
+      (4, '6 - 10 cups per day'),
+      (5, 'Greater than 10 cups per day')
+    )
+  tea_val = models.IntegerField(choices=TEA_CHOICES, verbose_name='How many cups of tea do you drink per day?')
+
+  # question 5 (22 in LV-2-100 list)
+#question 5 (conditional on age (male < 38))
+  SEXDRUG_CHOICES = (
+      (1, 'Never'),
+      (2, 'Rarely (once a year or less)'),
+      (3, 'Sometimes (few times a year)'),
+      (4, 'Often (every few months)'),
+      (5, 'Very often (once or more a month)')
+    )
+  sexdrug_val = models.IntegerField(choices=SEXDRUG_CHOICES, verbose_name='Do you engage in risky sexual (unprotected) behavior and/or do you inject illegal drugs?')
+
+### Page 3: Nutrition ###
+  # question 6 
+  WEIGHT_CHOICES = (
+      (1, 'Under 75 lb -- 34 kg'),
+      (2, '75lb--34kg 80lb--36kg'),
+      (3, '85lb--38kg 90lb--40kg'),
+      (4, '95 lb -- 43 kg 100 lb -- 45 kg'),
+      (5, '105 lb -- 47 kg 110 lb -- 49 kg'),
+      (6, '115 lb -- 52 kg 120 lb -- 54 kg'),
+      (7, '125 lb -- 56 kg 130 lb -- 59 kg'),
+      (8, '135 lb -- 61 kg 140 lb -- 63 kg'),
+      (9, '145 lb -- 65 kg 150 lb -- 68 kg'),
+      (10,'155 lb -- 70 kg 160 lb -- 72 kg'),
+      (11,'165 lb -- 75 kg 170 lb -- 77 kg'),
+      (12,'175 lb -- 79 kg 180 lb -- 81 kg'),
+      (13,'185 lb -- 84 kg 190 lb -- 86 kg'),
+      (14,'195 lb -- 88 kg 200 lb -- 90 kg'),
+      (15,'205 lb -- 93 kg 210 lb -- 95 kg'),
+      (16,'215 lb -- 97 kg 220 lb -- 99 kg'),
+      (17,'225 lb -- 102 kg 230 lb -- 104 kg'),
+      (18,'235 lb -- 106 kg 240 lb -- 109 kg'),
+      (19,'245 lb -- 111 kg 250 lb -- 113 kg'),
+      (20,'255 lb -- 115 kg 260 lb -- 118 kg'),
+      (21,'265 lb -- 120 kg 270 lb -- 122 kg'),
+      (22,'275 lb -- 124 kg 280 lb -- 127 kg'),
+      (23,'285 lb -- 129 kg 290 lb -- 131 kg'),
+      (24,'295 lb -- 134 kg 300 lb -- 136 kg'),
+      (25,'Over 300 lb -- 136 kg')
+  )
+  weight_val = models.IntegerField(choices=WEIGHT_CHOICES, default=0, verbose_name='What is your weight?')
+
+#question 7 (height)
+  HEIGHT_CHOICES = (
+      (1, 'Under 4 ft -- 1.20 m'),  (2, '4\' 0" -- 1.22 m'),
+      (3, '4\' 1" -- 1.24 m'),      (4, '4\' 2" -- 1.27 m'),
+      (5, '4\' 3" -- 1.30 m'),      (6, '4\' 4" -- 1.32 m'),
+      (7, '4\' 5" -- 1.35 m'),      (8, '4\' 6" -- 1.37 m'),
+      (9, '4\' 7" -- 1.40 m'),      (10,'4\' 8" -- 1.42 m'),
+      (11,'4\' 9" -- 1.45 m'),      (12,'4\'10" -- 1.47 m'),
+      (13,'4\'11" -- 1.50 m'),      (14,'5\' 0" -- 1.52 m'),
+      (15,'5\' 1" -- 1.55 m'),      (16,'5\' 2" -- 1.57 m'),
+      (17,'5\' 3" -- 1.60 m'),      (18,'5\' 4" -- 1.63 m'),
+      (19,'5\' 5" -- 1.65 m'),      (20,'5\' 6" -- 1.68 m'),
+      (21,'5\' 7" -- 1.70 m'),      (22,'5\' 8" -- 1.73 m'),
+      (23,'5\' 9" -- 1.75 m'),      (24,'5\'10" -- 1.78 m'),
+      (25,'5\'11" -- 1.80 m'),      (26,'6\' 0" -- 1.83 m'),
+      (27,'6\' 1" -- 1.85 m'),      (28,'6\' 2" -- 1.88 m'),
+      (29,'6\' 3" -- 1.91 m'),      (30,'6\' 4" -- 1.93 m'),
+      (31,'6\' 5" -- 1.96 m'),      (32,'6\' 6" -- 1.98 m'),
+      (33,'6\' 7" -- 2.01 m'),      (34,'6\' 8" -- 2.03 m'),
+      (35,'6\' 9" -- 2.06 m'),      (36,'6\'10" -- 2.08 m'),
+      (37,'6\'11" -- 2.11 m'),      (38,'7\' 0" -- 2.13 m'),
+      (39,'Over 7 ft -- 2.15 m')
+)
+
+  height_val = models.IntegerField(choices=HEIGHT_CHOICES, default=0, verbose_name='What is your height?')
+
+### Page 4: Medical ###
+#question 8 (41 on LV-2-100 list)
+  HDL_CHOICES = (
+      (1, 'Lower than 40 mg/dl (1.0 mmol/L)'),
+      (2, 'Higher than 40 mg/dl (1.0 mmol/L)'),
+      (3, 'I haven\'t checked it in the last 3 years'),
+      (4, 'I have had the test done within the past 3 years but don\'t remember the results')
+    )
+  hdl_val = models.IntegerField(choices=HDL_CHOICES, verbose_name='What is your HDL cholesterol (good cholesterol):')
+
+#question 9 (42 on LV-2-100 list)
+  LDL_CHOICES = (
+      (1, 'Lower than 100 mg/dl (3.4 mmol/L)'),
+      (2, 'Higher than 100 mg/dl (3.4 mmol/L)'),
+      (3, 'I haven\'t checked it in the last 3 years'),
+      (4, 'I have had the test done within the past 3 years but don\'t remember the results')
+    )
+  ldl_val = models.IntegerField(choices=LDL_CHOICES, verbose_name='What is your LDL cholesterol (bad cholesterol):')
+
+#question 10 (43 on LV-2-100 list)
+  TOTCHOL_CHOICES = (
+      (1, 'Lower than 180 mg/dl (5 mmol/L)'),
+      (2, 'Higher than 180 mg/dl (5 mmol/L)'),
+      (3, 'I haven\'t checked it in the last 3 years'),
+      (4, 'I have had the test done within the past 3 years but don\'t remember the results')
+    )
+  totchol_val = models.IntegerField(choices=TOTCHOL_CHOICES, verbose_name='What is your total cholesterol level:')
+
+#question 11 (44 on LV-2-100 list)
+  SYSBP_CHOICES = (
+      (1, 'Lower than 85'),
+      (2, '86-100'),
+      (3, '101-119'),
+      (4, '120-129'),
+      (5, '130-139'),
+      (6, '140-189'),
+      (7, 'Higher than 230'),
+      (8, 'I don\'t remember or haven\'t had it checked in the past year'),
+      (9, '211-230')
+    )
+  sysbp_val = models.IntegerField(choices=SYSBP_CHOICES, verbose_name='What is your systolic blood pressure (the number stated first and the higher value):')
+
+#question 12 (45 on LV-2-100 list)
+  DIASBP_CHOICES = (
+      (1, 'Lower than 80'),
+      (2, '80-89'),
+      (3, '90-105'),
+      (4, '106-115'),
+      (5, 'Higher than 116'),
+      (6, 'I don\'t remember or haven\'t had it checked in the past year')
+    )
+  diasbp_val = models.IntegerField(choices=DIASBP_CHOICES, verbose_name='What is your diastolic blood pressure (the number stated second and the lower value):')
+
+#question 13 (46 on LV-2-100 list)
+  GLU_CHOICES = (
+      (1, 'I have not had it checked in the past 3 years'),
+      (2, 'No diabetes (<120)'),
+      (3, '120-200'),
+      (4, '>200'),
+      (5, 'Higher than 116'),
+      (6, 'I don\'t remember or haven\'t had it checked in the past year')
+    )
+  glu_val = models.IntegerField(choices=GLU_CHOICES, verbose_name='Do you know whether you have diabetes? What is your fasting blood sugar level?')
+
+  def __unicode__(self):
+    pass
+  def meta(self):
+    return self._meta
+
+class JoyModel1(models.Model):
+  STAGES_CHOICES = (
+    (0, 'Preboarding'), 
+    (1, 'Diagnostic Visit'), 
+    (2, 'Follow-up Meeting1'), 
+    (3, 'Follow-up Meeting2')
+    );
+  stages = models.IntegerField(choices=STAGES_CHOICES, default=STAGES_CHOICES[0][0], verbose_name="Stages question")
+  def __unicode__(self):
+    pass
+
+
 class MultipleSelect(models.Model):
 
   name = models.CharField(max_length=150)

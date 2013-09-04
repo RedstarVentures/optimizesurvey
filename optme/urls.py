@@ -43,6 +43,8 @@ urlpatterns = patterns('',
     # coach view
     url(r'^main/assignment/(?P<client_id>\d+)$','survey.views.assignment', name='assignment'),
     url(r'^main/unassignment/(?P<client_id>\d+)$','survey.views.unassignment', name='unassignment'),
+    url(r'^main/joy/$','survey.views.joy', name='joypage'),
+    url(r'^main/preadd/$','survey.views.preaddq', name='preaddpage'),
 
     url(r'^main/(?P<client_id>\d+)/onboarding1/$','survey.views.onboarding1', name='onboarding1'),
     url(r'^main/(?P<client_id>\d+)/onboarding2/$','survey.views.onboarding2'),
