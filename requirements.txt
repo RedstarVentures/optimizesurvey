@@ -1,5 +1,5 @@
 BeautifulSoup==3.2.1
-https://github.com/django/django/archive/1.6b1.zip#egg=Django==1.6b1
+https://github.com/django/django/archive/1.6b2.zip#egg=Django==1.6b2
 South==0.8.1
 boto==2.9.9
 distribute==0.6.34

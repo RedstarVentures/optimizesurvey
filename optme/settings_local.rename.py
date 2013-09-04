@@ -19,7 +19,8 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 import dj_database_url
-DATABASES = {'default': dj_database_url.config(default='postgres://vinely:winedora@localhost:5432/optme')}
+#DATABASES = {'default': dj_database_url.config(default='postgres://vinely:winedora@localhost:5432/optme')}
+DATABASES = {'default': dj_database_url.config(default='sqlite:///./optme.sqlite')}
 
 MIDDLEWARE_CLASSES = (
     # 'johnny.middleware.LocalStoreClearMiddleware',
@@ -42,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django.contrib.admin',
     'survey',
     's3_folder_storage',
     'core',
